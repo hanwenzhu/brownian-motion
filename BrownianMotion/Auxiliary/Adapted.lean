@@ -1,3 +1,4 @@
+import Architect
 import Mathlib.Probability.Process.Adapted
 import Mathlib.Data.Setoid.Partition
 import BrownianMotion.StochasticIntegral.Cadlag
@@ -54,6 +55,43 @@ variable [TopologicalSpace ι] [LinearOrder ι] [OrderTopology ι] [SecondCounta
   [MeasurableSpace ι] [OpensMeasurableSpace ι] [PseudoMetrizableSpace β] {X : ι → Ω → β}
   {τ : Ω → WithTop ι} {n : ι}
 
+attribute [blueprint
+  "def:adapted"
+  (statement := /-- A process $X : T \to \Omega \to E$ is said to be adapted with respect to a
+    filtration $\mathcal{F}$ if for all $t \in T$, $X_t$ is $\mathcal{F}_t$-measurable. -/)]
+  MeasureTheory.Adapted
+
+attribute [blueprint
+  "def:ProgMeasurable"
+  (title := "Progressively measurable")
+  (statement := /-- A stochastic process $X$ is said to be progressively measurable with respect to
+    a filtration $\mathcal{F}$ if at each point in time $i$, $X$ restricted to $(-\infty, i] \times
+    \Omega$ is measurable with respect to the product $\sigma$-algebra where the $\sigma$-algebra
+    used for $\Omega$ is $\mathcal{F}_i$. -/)]
+  MeasureTheory.ProgMeasurable
+
+@[blueprint
+  "lem:Adapted.progMeasurable_of_rightContinuous"
+  (statement := /-- Suppose $T$ is a linearly ordered set equipped with the order topology. If $T$
+    is second countable and a stochastic process $(X_t)_{t \in T}$ is right continuous and adapted,
+    then it is progressively measurable. -/)
+  (proof := /-- Fixing $t \in T$, let $S$ be a union of a dense set of $(-\infty,t]$ and the set of
+    points isolated from right in $(-\infty,t]$.
+    As $T$ is second countable, $S$ can be chosen so that it is countable, which means that there
+    exists a surjective function $u: \mathbb{N} \rightarrow S$.
+    We need to show that $X$ restricted to $(-\infty, t] \times \Omega$ is measurable with respect
+    to $\mathcal{B}((-\infty, t]) \otimes \mathcal{F}_t$.
+    To this end, we rearrange the image of the first $n$ numbers under the map $u$ in nondecreasing
+    order, denoted by $v_0\le v_1\le \cdots\le v_n$,
+    and define a left continuous discrete approximation of $X$ on $(-\infty, t]$ by
+    $$X^n_s = \begin{cases}
+      X_{v_0} & \text{if } s \le v_0 \\
+      X_{v_i} & \text{if } s \in (- v_{i-1}, v_i]
+    \end{cases}$$
+    As $X$ is right continuous, it is easy to see that $X^n \to X$ pointwise as $n \to \infty$.
+    Thus, as each $X^n$ is measurable, it follows that $X$ is also measurable (by using
+    \verb|stronglyMeasurable_of_tendsto|). -/)
+  (latexEnv := "lemma")]
 lemma Adapted.progMeasurable_of_rightContinuous {𝓕 : Filtration ι mΩ}
     (h : Adapted 𝓕 X) (hu_cont : ∀ ω, RightContinuous (X · ω)) :
     ProgMeasurable 𝓕 X := by

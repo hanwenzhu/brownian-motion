@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Continuity.KolmogorovChentsov
 import BrownianMotion.Gaussian.GaussianProcess
 import BrownianMotion.Gaussian.Moment
@@ -107,6 +108,12 @@ section Increments
 
 /-- A process `X : T → Ω → E` has independent increments if for any `n ≥ 1` and `t₁ ≤ ... ≤ tₙ`,
 the random variables `X t₂ - X t₁, ..., X tₙ - X tₙ₋₁` are independent. -/
+@[blueprint
+  "def:HasIndepIncrements"
+  (statement := /-- We say that a stochastic process $X : T \to \Omega \to E$ has independent
+    increments if for all $t_1, \ldots, t_n \in T$ with $t_1 \le t_2 \le \cdots \le t_n$, the random
+    variables $X_{t_2} - X_{t_1}, X_{t_3} - X_{t_2}, \ldots, X_{t_n} - X_{t_{n-1}}$ are independent.
+    -/)]
 def HasIndepIncrements [Preorder T] [Sub E] [MeasurableSpace E] (X : T → Ω → E)
     (P : Measure Ω := by volume_tac) :
     Prop :=
@@ -670,6 +677,14 @@ lemma IsBrownian.indep_zero [h : IsBrownian X P] (hX : ∀ t, Measurable (X t))
 
 end IsBrownian
 
+@[blueprint
+  "def:preBrownian"
+  (title := "pre-Brownian process")
+  (statement := /-- Let $\Omega = \mathbb{R}^{\mathbb{R}_+}$ and consider the probability space
+    $(\Omega, P_B)$ (where $P_B$ is the measure defined in Definition~\ref{def:gaussianLimit}).
+    The identity on that space is a function $\Omega \to \mathbb{R}_+ \to \mathbb{R}$.
+    We reorder the arguments to define a stochastic process $X : \mathbb{R}_+ \to \Omega \to
+    \mathbb{R}$, which we call the pre-Brownian process. -/)]
 def preBrownian : ℝ≥0 → (ℝ≥0 → ℝ) → ℝ := fun t ω ↦ ω t
 
 @[fun_prop]
@@ -685,6 +700,13 @@ instance isPreBrownian_preBrownian : IsPreBrownian preBrownian gaussianLimit :=
   hasLaw_preBrownian.isPreBrownian
 
 -- for blueprint
+@[blueprint
+  "lem:isGaussianProcess_preBrownian"
+  (statement := /-- The pre-Brownian process $X$ of Definition~\ref{def:preBrownian} is a Gaussian
+    process. -/)
+  (proof := /-- For any $t_1, \ldots, t_n \in \mathbb{R}_+$, the distribution of $(X_{t_1}, \ldots,
+    X_{t_n})$ is given by a finite-dimensional distribution of $P_B$, and therefore is Gaussian. -/)
+  (latexEnv := "lemma")]
 instance isGaussianProcess_preBrownian : IsGaussianProcess preBrownian gaussianLimit :=
   inferInstance
 
@@ -696,10 +718,48 @@ lemma hasLaw_preBrownian_eval (t : ℝ≥0) :
     HasLaw (preBrownian t) (gaussianReal 0 t) gaussianLimit :=
   IsPreBrownian.hasLaw_eval t
 
+@[blueprint
+  "lem:hasLaw_preBrownian_sub"
+  (statement := /-- Let $X$ be the pre-Brownian process of Definition~\ref{def:preBrownian}.
+    Then, for all $s, t \in \mathbb{R}_+$, the random variable $X_t - X_s$ is a Gaussian random
+    variable with mean $0$ and variance $|t - s|$. -/)
+  (proof := /-- The map
+    \begin{align*}
+      L : \mathbb{R}^2 &\to \mathbb{R} \\
+      (x_1, x_2) &\mapsto x_2 - x_1
+    \end{align*}
+    is a continuous linear map, and $(X_s, X_t)$ is Gaussian by
+    Lemma~\ref{lem:isGaussianProcess_preBrownian}, therefore $X_t - X_s$ is Gaussian by
+    Lemma~\ref{lem:isGaussian_map}. By definition of $P_B$, we have
+    $$\mathbb{E}[X_t - X_s] = \mathbb{E}[X_t] - \mathbb{E}[X_s] = 0 - 0 = 0,$$
+    and
+    $$\mathrm{Var}(X_t - X_s) = \mathrm{Var}(X_t) - 2\mathrm{Cov}(X_t, X_s) + \mathrm{Var}(X_s) = t
+    - 2(t \land s) + s = t \lor s - t \land s = |t - s|.$$
+    Therefore $X_t - X_s$ is Gaussian with mean $0$ and variance $|t - s|$. -/)
+  (latexEnv := "lemma")]
 lemma hasLaw_preBrownian_sub (s t : ℝ≥0) :
     HasLaw (preBrownian s - preBrownian t) (gaussianReal 0 (max (s - t) (t - s))) gaussianLimit :=
   IsPreBrownian.hasLaw_sub s t
 
+@[blueprint
+  "lem:isKolmogorovProcess_preBrownian"
+  (statement := /-- The pre-Brownian process $X$ of Definition~\ref{def:preBrownian} satisfies the
+    Kolmogorov condition for exponents $(2n,n)$ with constant $(2n - 1)!!$ for all $n \in
+    \mathbb{N}$.
+    That is, for all $s, t \in \mathbb{R}_+$, we have
+    \begin{align*}
+      \mathbb{E} \left[ |X_t - X_s|^{2n} \right] \le (2n - 1)!! |t - s|^n
+      \: .
+    \end{align*} -/)
+  (proof := /-- $X_t - X_s$ is a Gaussian random variable with mean $0$ and variance $|t - s|$
+    (Lemma~\ref{lem:hasLaw_preBrownian_sub}).
+    Thus, by Lemma~\ref{lem:centralMoment_two_mul_gaussianReal}, we have
+    \begin{align*}
+      \mathbb{E} \left[ |X_t - X_s|^{2n} \right]
+      = (2n - 1)!! |t - s|^n
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma isKolmogorovProcess_preBrownian {n : ℕ} (hn : 0 < n) :
     IsKolmogorovProcess preBrownian gaussianLimit (2 * n) n
       (Nat.doubleFactorial (2 * n - 1)) := by
@@ -730,6 +790,13 @@ lemma isKolmogorovProcess_preBrownian {n : ℕ} (hn : 0 < n) :
     exact IsGaussian.memLp_id _ _ (ENNReal.natCast_ne_top (2 * n))
   · exact ae_of_all _ fun _ ↦ by positivity
 
+@[blueprint
+  "def:brownian"
+  (title := "Brownian motion")
+  (statement := /-- By Theorem~\ref{thm:localized_holder_modification_sup}, there exists a
+    modification $B$ of the pre-Brownian process such that all the paths of $B$ are Hölder
+    continuous of all orders $\gamma \in (0, 1/2)$.
+    We call $B$ the \emph{Brownian motion} on $\mathbb{R}_+$. -/)]
 noncomputable
 def brownian : ℝ≥0 → (ℝ≥0 → ℝ) → ℝ := isPreBrownian_preBrownian.mk
 
@@ -741,11 +808,33 @@ lemma brownian_ae_eq_preBrownian (t : ℝ≥0) :
     brownian t =ᵐ[gaussianLimit] preBrownian t :=
   IsPreBrownian.mk_ae_eq t
 
+@[blueprint
+  "lem:isHolderWith_brownian"
+  (statement := /-- The paths of the Brownian motion are locally Hölder continuous of all orders
+    $\gamma \in (0, 1/2)$. -/)
+  (proof := /-- Consider the cover of $\mathbb{R}_+$ given by $T_n := [0, n + 1)$. By
+    Lemma~\ref{lem:hasBoundedCoveringNumberCover_nnreal}, this cover has bounded covering numbers
+    with exponent $1$. Moreover, by Lemma~\ref{lem:isKolmogorovProcess_preBrownian}, the
+    pre-Brownian process satisfies the Kolmogorov condition with exponents $(2n + 4, n + 2)$ for all
+    $n \in \mathbb{N}$.
+    In particular, for all $n \in \mathbb{N}$, $2n + 4 > 1$. Applying
+    Theorem~\ref{thm:localized_holder_modification_sup} we deduce that the modification used in
+    Definition~\ref{def:brownian} has locally Hölder continuous paths for all orders $\gamma \in (0,
+    \sup_n (n + 1) / (2n + 4))$.
+    Clearly for all $n \in \mathbb{N}$ we have $(n + 1) / (2n + 4) \leqslant 2$, and this quantity
+    tends to $2$ as $n$ goes to infinity. Therefore the Brownian motion has Hölder continuous paths
+    of order $\gamma$ for all $\gamma \in (0, 1 / 2)$. -/)
+  (latexEnv := "lemma")]
 lemma memHolder_brownian (ω : ℝ≥0 → ℝ) (t : ℝ≥0) (β : ℝ≥0) (hβ_pos : 0 < β) (hβ_lt : β < 2⁻¹) :
     ∃ U ∈ 𝓝 t, ∃ C, HolderOnWith C β (brownian · ω) U :=
   IsPreBrownian.memHolder_mk ω t β hβ_pos hβ_lt
 
-@[fun_prop]
+@[fun_prop, blueprint
+  "lem:continuous_brownian"
+  (statement := /-- The paths of the Brownian motion are continuous. -/)
+  (proof := /-- The paths are $1/4$-Hölder continuous by Lemma~\ref{lem:isHolderWith_brownian}
+    because $0 < 1/4 < 1/2$, therefore they are continuous. -/)
+  (latexEnv := "lemma")]
 lemma continuous_brownian (ω : ℝ≥0 → ℝ) : Continuous (brownian · ω) :=
   IsPreBrownian.continuous_mk ω
 
@@ -753,6 +842,16 @@ instance IsBrownian_brownian : IsBrownian brownian gaussianLimit :=
   IsPreBrownian.isBrownian_mk
 
 -- for blueprint
+@[blueprint
+  "lem:isGaussianProcess_brownian"
+  (statement := /-- The Brownian motion is a Gaussian process. -/)
+  (proof := /-- The pre-Brownian process is a Gaussian process by
+    Lemma~\ref{lem:isGaussianProcess_preBrownian}.
+    The Brownian motion is a modification of the pre-Brownian process by
+    Definition~\ref{def:brownian}.
+    Thus, the Brownian motion is a Gaussian process as well by
+    Lemma~\ref{lem:isGaussianProcess_of_modification}. -/)
+  (latexEnv := "lemma")]
 instance isGaussianProcess_brownian : IsGaussianProcess brownian gaussianLimit :=
   inferInstance
 
@@ -764,10 +863,26 @@ lemma hasLaw_brownian : HasLaw (fun ω ↦ (brownian · ω)) gaussianLimit gauss
   IsPreBrownian.hasLaw_gaussianLimit
     (measurable_pi_lambda _ fun t ↦ measurable_brownian t).aemeasurable
 
+@[blueprint
+  "lem:hasLaw_brownian_eval"
+  (statement := /-- For $t \in \mathbb{R}_+$, the law of $B_t$ (the Brownian motion at time $t$) is
+    the real Gaussian measure $\mathcal{N}(0,t)$. -/)
+  (proof := /-- The Brownian motion $B$ is a modification of the pre-Brownian process, and therefore
+    has same finite dimensional distributions. By Definition~\ref{def:gaussianLimit}, $B_t$ has law
+    $\mathcal{N}(0,t)$. -/)
+  (latexEnv := "lemma")]
 lemma hasLaw_brownian_eval {t : ℝ≥0} :
     HasLaw (brownian t) (gaussianReal 0 t) gaussianLimit :=
   IsPreBrownian.hasLaw_eval t
 
+@[blueprint
+  "lem:hasLaw_brownian_sub"
+  (statement := /-- For $s, t \in \mathbb{R}_+$, the law of $B_t - B_s$ is the real Gaussian measure
+    $\mathcal{N}(0,\vert t - s \vert)$. -/)
+  (proof := /-- The Brownian motion $B$ is a modification of the pre-Brownian process, and therefore
+    has same finite dimensional distributions. By Lemma~\ref{lem:hasLaw_preBrownian_sub}, $B_t -
+    B_s$ has law $\mathcal{N}(0,\vert t - s \vert)$. -/)
+  (latexEnv := "lemma")]
 lemma hasLaw_brownian_sub {s t : ℝ≥0} :
     HasLaw (brownian s - brownian t) (gaussianReal 0 (max (s - t) (t - s))) gaussianLimit :=
   IsPreBrownian.hasLaw_sub s t
@@ -787,11 +902,27 @@ lemma isKolmogorovProcess_brownian {n : ℕ} (hn : 0 < n) :
 lemma covariance_brownian (s t : ℝ≥0) : cov[brownian s, brownian t; gaussianLimit] = min s t :=
     IsPreBrownian.covariance_eval s t
 
+@[blueprint
+  "lem:hasIndepIncrements_brownian"
+  (statement := /-- The Brownian motion has independent increments. -/)
+  (proof := /-- Let $t_1 \le t_2 \le \ldots \le t_n$ be $n$ times in $\mathbb{R}_+$.
+    Then $(B_{t_2} - B_{t_1}, B_{t_3} - B_{t_2}, \ldots, B_{t_n} - B_{t_{n-1}})$ is a linear
+    transformation of $(B_{t_1}, \ldots, B_{t_n})$, hence it is Gaussian.
+    We can compute its mean (which is $0$) and its covariance matrix.
+    The covariance matrix is diagonal, which means the the random variables are uncorrelated.
+    Because they are jointly Gaussian, this implies that they are independent. -/)
+  (latexEnv := "lemma")]
 lemma hasIndepIncrements_brownian : HasIndepIncrements brownian gaussianLimit :=
   IsPreBrownian.hasIndepIncrements
 
 section Measure
 
+@[blueprint
+  "def:wienerMeasureAux"
+  (title := "Auxiliary Wiener measure")
+  (statement := /-- The pushforward of the measure $P_B$ of Definition~\ref{def:gaussianLimit} by
+    the Brownian motion $B$ is a measure on the continuous functions on $\mathbb{R}^{\mathbb{R}_+}$,
+    with the sigma-algebra induced by the product sigma-algebra on $\mathbb{R}^{\mathbb{R}_+}$. -/)]
 noncomputable
 def wienerMeasureAux : Measure {f : ℝ≥0 → ℝ // Continuous f} :=
   gaussianLimit.map (fun ω ↦ (⟨fun t ↦ brownian t ω, continuous_brownian ω⟩))
@@ -810,6 +941,69 @@ lemma isClosed_sUnion_of_finite {X : Type*} [TopologicalSpace X] {s : Set (Set X
   exact h1.isClosed_biUnion h2
 
 open TopologicalSpace in
+@[blueprint
+  "thm:ContinuousMap.borel_eq_iSup_comap_eval"
+  (statement := /-- The Borel sigma-algebra on $C(\mathbb{R}_+, \mathbb{R})$ coming from the
+    compact-open topology is equal to the smallest sigma-algebra for which the evaluation maps $f
+    \mapsto f(t)$ are measurable for every $t \in \mathbb{R}_+$. -/)
+  (proof := /-- We prove that this holds for $C(X, Y)$ as long as $X$ and $Y$ are second-countable
+    topological spaces endowed with their Borel sigma-algebra, $X$ is locally compact (i.e.\ each
+    point of $X$ has a basis of compact neighbourhoods), and $Y$ is regular (i.e.\ for any $C
+    \subseteq Y$ closed and $y \notin C$, there exist disjoint open subsets $U, V \subseteq Y$ such
+    that $C \subseteq U$ and $y \in V$). The proof is taken from
+    \href{https://math.stackexchange.com/questions/4789531/when-does-the-borel-sigma-algebra-of-compact-convergence-coincide-with-the-pr}{this
+    stackexchange question}.
+    
+    We denote by $\mathcal{T}_1$ and $\mathcal{T}_2$ the two sigma-algebras.
+    
+    First of all, the evaluation maps are continuous for the compact-open topology, and therefore
+    measurable for $\mathcal{T}_1$. We deduce that $\mathcal{T}_2 \subseteq \mathcal{T}_1$.
+    
+    Let us turn to the converse direction. For any $A \subseteq X$ and $B \subseteq Y$, denote
+    $$M(A, B) := \{f \in C(X, Y), f(A) \subset B\}.$$
+    The compact-open topology is generated by the sets of the form $M(K, U)$, for $K$ compact and
+    $U$ open. Because $X$ and $Y$ are second-countable and $X$ is locally compact, $C(X, Y)$ is
+    second-countable. Therefore it is enough to show that for any $K$ compact and $U$ open, $M(K, U)
+    \in \mathcal{T}_2$. We now fix $K$ and $U$.
+    
+    Consider $(V_n)_{n \in \mathbb{N}}$ a countable family of subsets of $Y$ which generates the
+    topology (it exists by second-countability assumption). Clearly we have that
+    $$\bigcup_{\overline{V_n} \subseteq U} V_n \subseteq U.$$
+    Conversely, consider $y \in U$. Because $Y$ is regular, the set of $\overline{V_n}$ such that $y
+    \in V_n$ is a basis of neighbourhoods of $y$. Indeed, consider $A$ an open neighbourhood of $y$.
+    Then $A^c$ is a closed set which does not contain $y$. Therefore there exist disjoint open sets
+    $B$ and $C$ such that $y \in B$ and $A^c \subseteq C$. There exists $n \in \mathbb{N}$ such that
+    $x \in V_n \subseteq B$. Therefore $V_n \subseteq C^c$, so $\overline{V_n} \subseteq C^c
+    \subseteq A$, and we are done. This proves that we have in fact
+    $$U = \bigcup_{\overline{V_n} \subseteq U} V_n = \bigcup_{\overline{V_n} \subseteq U}
+    \overline{V_n}.$$
+    Consider now $f \in M(K, U)$. We then have
+    $$f(K) \subseteq \bigcup_{\overline{V_n} \subseteq U} V_n.$$
+    Because $K$ is compact and $f$ is continuous, $f(K)$ is compact. But each $V_n$ is open, so
+    there exists a finite set $\hat{f}$ of natural integers such that for any $n \in \hat{f}$,
+    $\overline{V_n} \subseteq U$, and
+    $$f(K) \subseteq \bigcup_{n \in \hat{f}} V_n \subseteq \bigcup_{n \in \hat{f}} \overline{V_n}.$$
+    Conversely, if there exists a finite set $\hat{f}$ such that for any $n \in \hat{f}$,
+    $\overline{V_n} \subseteq U$, and
+    $$f(K) \subseteq \bigcup_{n \in \hat{f}} \overline{V_n},$$
+    then $f(K) \subseteq U$. We can therefore write that
+    $$M(K, U) = \bigcup_{\substack{I \subseteq \mathbb{N} \\ I \text{ finite} \\ \forall n \in I,
+    \overline{V_n} \subseteq U}} M\left(K, \bigcup_{i \in I} \overline{V_i}\right).$$
+    This is a countable union, so we just have to prove that each term is measurable.
+    
+    We now fix a finite set $I$ as in the union above. Because $X$ is second countable, there exists
+    $Q$ a countable dense subset of $K$. For any $f$ continuous, because $Q$ is dense and
+    $\bigcup_{i \in I} \overline{V_i}$ is closed, we have
+    $$f(K) \subset \bigcup_{i \in I} \overline{V_i} \Longleftrightarrow f(Q) \subset \bigcup_{i \in
+    I} \overline{V_i}.$$
+    In other words, $M\left(K, \bigcup_{i \in I} \overline{V_i}\right) = M\left(Q, \bigcup_{i \in I}
+    \overline{V_i}\right)$. We can write
+    $$M\left(Q, \bigcup_{i \in I} \overline{V_i}\right) = \bigcap_{q \in Q} (f \mapsto f(q))^{-1}
+    \bigcup_{i \in I} \overline{V_i},$$
+    and it is enough to show that each term in the intersection is measurable. Because $\bigcup_{i
+    \in I} \overline{V_i}$ is closed, it is measurable. It therefore remains to prove that $f
+    \mapsto f(q)$ is measurable for all $q \in Q$, but this is obvious from the definition of
+    $\mathcal{T}_2$. This concludes the proof. -/)]
 lemma ContinuousMap.borel_eq_iSup_comap_eval [SecondCountableTopology X] [SecondCountableTopology Y]
     [LocallyCompactSpace X] [RegularSpace Y] [MeasurableSpace Y] [BorelSpace Y] :
     borel C(X, Y) = ⨆ a : X, (borel Y).comap fun b ↦ b a := by
@@ -948,6 +1142,16 @@ lemma ContinuousMap.measurable_iff_eval {α : Type*} [MeasurableSpace α]
 
 end ContinuousMap.MeasurableSpace
 
+@[blueprint
+  "def:MeasurableEquiv.continuousMap"
+  (statement := /-- The identity is a measurable equivalence between the continuous functions of
+    $\mathbb{R}^{\mathbb{R}_+}$ with the subset sigma-algebra obtained from the product
+    sigma-algebra, and $C(\mathbb{R}_+, \mathbb{R})$ with the Borel sigma-algebra coming from the
+    compact-open topology.
+    
+    Mathematically this says nothing more than the equality of sigma-algebras of
+    Theorem~\ref{thm:ContinuousMap.borel_eq_iSup_comap_eval} but in Lean we have two different types
+    so we need an equivalence. -/)]
 def MeasurableEquiv.continuousMap : {f : ℝ≥0 → ℝ // Continuous f} ≃ᵐ C(ℝ≥0, ℝ) where
   toFun := fun f ↦ ContinuousMap.mk f.1 f.2
   invFun := fun f ↦ ⟨f, f.continuous⟩
@@ -967,6 +1171,12 @@ def MeasurableEquiv.continuousMap : {f : ℝ≥0 → ℝ // Continuous f} ≃ᵐ
     rw [measurable_pi_iff]
     exact fun _ ↦ Continuous.measurable (by fun_prop)
 
+@[blueprint
+  "def:wienerMeasure"
+  (title := "Wiener measure")
+  (statement := /-- The Wiener measure on $C(\mathbb{R}_+, \mathbb{R})$ with the Borel sigma-algebra
+    is the map of the auxiliary Wiener measure by the measurable equivalence of
+    definition~\ref{def:MeasurableEquiv.continuousMap}. -/)]
 noncomputable
 def wienerMeasure : Measure C(ℝ≥0, ℝ) := wienerMeasureAux.map MeasurableEquiv.continuousMap
 

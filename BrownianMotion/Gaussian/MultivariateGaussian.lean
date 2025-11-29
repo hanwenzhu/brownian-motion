@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Gaussian.Gaussian
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Analysis.CStarAlgebra.Classes
@@ -31,6 +32,13 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDim
 
 variable (E) in
 /-- Standard Gaussian distribution on `E`. -/
+@[blueprint
+  "def:stdGaussian"
+  (title := "Standard Gaussian measure")
+  (statement := /-- Let $(e_1, \ldots, e_d)$ be an orthonormal basis of $E$ and let $\mu$ be the
+    standard Gaussian measure on $\mathbb{R}$.
+    The standard Gaussian measure on $E$ is the pushforward measure of the product measure $\mu
+    \times \ldots \times \mu$ by the map $x \mapsto \sum_{i=1}^d x_i \cdot e_i$. -/)]
 noncomputable
 def stdGaussian : Measure E :=
   (Measure.pi (fun _ : Fin (Module.finrank ℝ E) ↦ gaussianReal 0 1)).map
@@ -38,10 +46,17 @@ def stdGaussian : Measure E :=
 
 variable [BorelSpace E]
 
+@[blueprint
+  "lem:isProbabilityMeasure_stdGaussian"
+  (statement := /-- The standard Gaussian measure is a probability measure. -/)
+  (latexEnv := "lemma")]
 instance isProbabilityMeasure_stdGaussian : IsProbabilityMeasure (stdGaussian E) :=
     Measure.isProbabilityMeasure_map (Measurable.aemeasurable (by fun_prop))
 
-@[simp]
+@[simp, blueprint
+  "lem:integral_id_stdGaussian"
+  (statement := /-- The mean of the standard Gaussian measure is $0$. -/)
+  (latexEnv := "lemma")]
 lemma integral_id_stdGaussian : ∫ x, x ∂(stdGaussian E) = 0 := by
   rw [stdGaussian, integral_map _ (by fun_prop)]
   swap; · exact (Finset.measurable_sum _ (by fun_prop)).aemeasurable -- todo: add fun_prop tag
@@ -59,6 +74,27 @@ lemma integral_id_stdGaussian : ∫ x, x ∂(stdGaussian E) = 0 := by
     all_goals infer_instance
   simp [integral_smul_const, this]
 
+attribute [blueprint
+  "lem:integral_eval_pi"
+  (statement := /-- For $\mu_1, \ldots, \mu_d$ probability measures on $\mathbb{R}$ and $f :
+    \mathbb{R} \to \mathbb{R}$ integrable with respect to $\mu_i$, we have
+    \begin{align*}
+      \int_x f(x_i) \, d(\mu_1 \times \ldots \times \mu_d)(x)
+      = \int_x f(x) \, d\mu_i
+      \: .
+    \end{align*} -/)
+  (proof := /-- As $f$ is integrable, we can use Fubini theorem to obtain that
+    $$\int f(x_i) \, d(\mu_1 \times \ldots \times \mu_d)(x) = \int f(x) \, d\mu_i(x) \times \prod_{j
+    \ne i} \int 1 \, d\mu_j(x) = \int f(x) \, d\mu_i(x)$$
+    because the $\mu_j$s are probability measures. -/)
+  (latexEnv := "lemma")]
+  MeasureTheory.integral_comp_eval
+
+@[blueprint
+  "lem:isCentered_stdGaussian"
+  (statement := /-- The standard Gaussian measure on $E$ is centered, i.e., $\mu[L] = 0$ for every
+    $L \in E^*$. -/)
+  (latexEnv := "lemma")]
 lemma isCentered_stdGaussian : ∀ L : StrongDual ℝ E, (stdGaussian E)[L] = 0 := by
   intro L
   rw [L.integral_comp_id_comm, integral_id_stdGaussian, map_zero]
@@ -82,6 +118,33 @@ lemma variance_dual_stdGaussian (L : StrongDual ℝ E) : Var[L; stdGaussian E] =
   · exact L.continuous.aemeasurable
   · exact Measurable.aemeasurable (by fun_prop)
 
+attribute [blueprint
+  "lem:charFun_gaussianReal"
+  (statement := /-- The characteristic function of a real Gaussian measure with mean $\mu$ and
+    variance $\sigma^2$ is given by
+    $x \mapsto \exp\left(i \mu x - \frac{\sigma^2 x^2}{2}\right)$. -/)
+  (latexEnv := "lemma")]
+  ProbabilityTheory.charFun_gaussianReal
+
+@[blueprint
+  "lem:charFun_stdGaussian"
+  (statement := /-- The characteristic function of the standard Gaussian measure on $E$ is given by
+    \begin{align*}
+      \hat{\mu}(t) = \exp\left(-\frac{1}{2} \Vert t \Vert^2 \right) \: .
+    \end{align*} -/)
+  (proof := /-- Denote by $\nu$ the standard Gaussian measure on $\mathbb{R}$. This is a
+    straightforward computation:
+    \begin{align*}
+      \hat{\mu}(t) = \int \exp\left(i\langle t, \sum_{j=1}^d x_j \cdot e_j \rangle\right) d(\nu
+      \times \ldots \times \nu)(dx) &= \int \exp\left(\sum_{j=1}^d ix_j\langle t, e_j \rangle\right)
+      d(\nu \times \ldots \times \nu)(dx) \\
+      &= \int \prod_{j=1}^d \exp\left(ix_j\langle t, e_j \rangle\right) d(\nu \times \ldots \times
+      \nu)(dx) \\
+      &= \prod_{j=1}^d \int \exp\left(ix\langle t, e_j \rangle\right) d\nu(x) \\
+      &= \prod_{j=1}^d \exp\left(-\frac{\langle t, e_j \rangle^2}{2}\right) \\
+      &= \exp\left(-\frac{1}{2} \Vert t \Vert^2 \right).
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma charFun_stdGaussian (t : E) : charFun (stdGaussian E) t = Complex.exp (- ‖t‖ ^ 2 / 2) := by
   rw [charFun_apply, stdGaussian, integral_map]
   · simp_rw [sum_inner, Complex.ofReal_sum, Finset.sum_mul, Complex.exp_sum,
@@ -96,6 +159,15 @@ lemma charFun_stdGaussian (t : E) : charFun (stdGaussian E) t = Complex.exp (- �
   · exact Measurable.aemeasurable (by fun_prop)
   · exact Measurable.aestronglyMeasurable (by fun_prop)
 
+@[blueprint
+  "lem:isGaussian_stdGaussian"
+  (statement := /-- The standard Gaussian measure on $E$ is a Gaussian measure. -/)
+  (proof := /-- Since the standard Gaussian is a probability measure (hence finite), we can apply
+    Lemma~\ref{lem:isGaussian_iff_gaussian_charFun} that states that it suffices to show that the
+    characteristic function has a particular form.
+    That form is given by Lemma~\ref{lem:charFun_stdGaussian}, taking $m=0$ and $C = \langle\cdot,
+    \cdot\rangle$. -/)
+  (latexEnv := "lemma")]
 instance isGaussian_stdGaussian : IsGaussian (stdGaussian E) := by
   refine isGaussian_iff_gaussian_charFun.2 ?_
   use 0, ContinuousBilinForm.inner E, ContinuousBilinForm.isPosSemidef_inner
@@ -112,6 +184,16 @@ lemma covInnerBilin_stdGaussian :
   refine gaussian_charFun_congr 0 _ ContinuousBilinForm.isPosSemidef_inner (fun t ↦ ?_) |>.2.symm
   simp [charFun_stdGaussian, neg_div]
 
+@[blueprint
+  "lem:covMatrix_stdGaussian"
+  (statement := /-- The covariance matrix of the standard Gaussian measure is the identity matrix.
+    -/)
+  (proof := /-- From Lemma~\ref{lem:charFun_stdGaussian}, we know that for all $t \in \mathbb{R}$,
+    $$\hat{\mu}(t) = \exp\left(-\frac{\|t\|^2}{2}\right) = \exp\left(-\frac{\langle t,
+    \mathrm{I}t\rangle}{2}\right).$$
+    As the identity is positive semidefinite, we deduce from
+    Lemma~\ref{lem:isGaussian_iff_gaussian_charFun} that $\Sigma_\mu$ is the identity matrix. -/)
+  (latexEnv := "lemma")]
 lemma covMatrix_stdGaussian : covMatrix (stdGaussian E) = 1 := by
   rw [covMatrix, covInnerBilin_stdGaussian, ContinuousBilinForm.inner_toMatrix_eq_one]
 
@@ -149,6 +231,14 @@ variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
 /-- Multivariate Gaussian measure on `EuclideanSpace ℝ ι` with mean `μ` and covariance
 matrix `S`. -/
+@[blueprint
+  "def:multivariateGaussian"
+  (title := "Multivariate Gaussian")
+  (statement := /-- The multivariate Gaussian measure on $\mathbb{R}^d$ with mean $m \in
+    \mathbb{R}^d$ and covariance matrix $\Sigma \in \mathbb{R}^{d \times d}$, with $\Sigma$ positive
+    semidefinite, is the pushforward measure of the standard Gaussian measure on $\mathbb{R}^d$ by
+    the map $x \mapsto m + \Sigma^{1/2} x$.
+    We denote this measure by $\mathcal{N}(m, \Sigma)$. -/)]
 noncomputable
 def multivariateGaussian (μ : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) :
     Measure (EuclideanSpace ℝ ι) :=
@@ -156,6 +246,21 @@ def multivariateGaussian (μ : EuclideanSpace ℝ ι) (S : Matrix ι ι ℝ) :
 
 variable {μ : EuclideanSpace ℝ ι} {S : Matrix ι ι ℝ} {hS : S.PosSemidef}
 
+attribute [blueprint
+  "lem:isGaussian_map"
+  (statement := /-- Let $F, G$ be two Banach spaces, let $\mu$ be a Gaussian measure on $F$ and let
+    $T : F \to G$ be a continuous linear map.
+    Then $T_*\mu$ is a Gaussian measure on $G$. -/)
+  (latexEnv := "lemma")]
+  ProbabilityTheory.isGaussian_map
+
+@[blueprint
+  "lem:isGaussian_multivariateGaussian"
+  (statement := /-- A multivariate Gaussian measure is a Gaussian measure. -/)
+  (proof := /-- The multivariate Gaussian measure is the pushforward of the standard Gaussian
+    measure by an affine map, and is thus Gaussian by Lemma~\ref{lem:isGaussian_add_const} and
+    Lemma~\ref{lem:isGaussian_map}. -/)
+  (latexEnv := "lemma")]
 instance isGaussian_multivariateGaussian : IsGaussian (multivariateGaussian μ S) := by
   have h : (fun x ↦ μ + x) ∘ ((toEuclideanCLM (𝕜 := ℝ) (CFC.sqrt S))) =
     (fun x ↦ μ + (toEuclideanCLM (𝕜 := ℝ) (CFC.sqrt S)) x) := rfl
@@ -163,7 +268,11 @@ instance isGaussian_multivariateGaussian : IsGaussian (multivariateGaussian μ S
   rw [← h, ← Measure.map_map (measurable_const_add μ) (by measurability)]
   infer_instance
 
-@[simp]
+@[simp, blueprint
+  "lem:integral_id_multivariateGaussian"
+  (statement := /-- The mean of the multivariate Gaussian measure $\mathcal{N}(m, \Sigma)$ is $m$.
+    -/)
+  (latexEnv := "lemma")]
 lemma integral_id_multivariateGaussian : ∫ x, x ∂(multivariateGaussian μ S) = μ := by
   rw [multivariateGaussian, integral_map (by fun_prop) (by fun_prop),
     integral_add (integrable_const _), integral_const]
@@ -186,6 +295,11 @@ lemma inner_toEuclideanCLM (x y : EuclideanSpace ℝ ι) :
   rw [mul_comm, ← WithLp.linearEquiv_apply 2 ℝ]
   simp [-EuclideanSpace.ofLp_single, Finset.sum_apply]
 
+@[blueprint
+  "lem:covMatrix_multivariateGaussian"
+  (statement := /-- The covariance matrix of the multivariate Gaussian measure $\mathcal{N}(m,
+    \Sigma)$ is $\Sigma$. -/)
+  (latexEnv := "lemma")]
 lemma covInnerBilin_multivariateGaussian (hS : S.PosSemidef) :
     covInnerBilin (multivariateGaussian μ S)
       = ContinuousBilinForm.ofMatrix S (EuclideanSpace.basisFun ι ℝ).toBasis := by
@@ -240,6 +354,21 @@ lemma hasLaw_eval_multivariateGaussian (hS : S.PosSemidef) {i : ι} :
       EuclideanSpace.proj_apply, EuclideanSpace.coe_proj, variance_eval_multivariateGaussian hS]
     exact IsGaussian.integrable_id
 
+@[blueprint
+  "thm:charFun_multivariateGaussian"
+  (statement := /-- The characteristic function of a multivariate Gaussian measure $\mathcal{N}(m,
+    \Sigma)$ is given by
+    \begin{align*}
+      \hat{\mu}(t) = \exp\left(i \langle m, t \rangle - \frac{1}{2} \langle t, \Sigma t
+      \rangle\right)
+      \: .
+    \end{align*} -/)
+  (proof := /-- Since the multivariate Gaussian measure is a Gaussian measure, we can apply
+    Lemma~\ref{lem:IsGaussian.charFun_eq} to it.
+    It suffices then to show that the mean and the covariance matrix of the multivariate Gaussian
+    measure are equal to $m$ and $\Sigma$, respectively.
+    This is given by Lemma~\ref{lem:integral_id_multivariateGaussian} and
+    Lemma~\ref{lem:covMatrix_multivariateGaussian}. -/)]
 lemma charFun_multivariateGaussian (hS : S.PosSemidef) (x : EuclideanSpace ℝ ι) :
     charFun (multivariateGaussian μ S) x =
       Complex.exp (⟪x, μ⟫ * Complex.I

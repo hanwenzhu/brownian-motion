@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Auxiliary.Analysis
 import BrownianMotion.Auxiliary.ENNReal
 import Mathlib.MeasureTheory.Function.ConditionalExpectation.Indicator
@@ -22,6 +23,20 @@ variable {Ω E : Type*} [NormedAddCommGroup E] [NormedSpace ℝ E] [CompleteSpac
   {s : Set E} {f : Ω → E} {φ : E → ℝ}
 
 -- Proved in Mathlib PR #27953 for finite measures. Here written for σ-finite measures.
+@[blueprint
+  "lem:conditional_jensen"
+  (title := "Jensen's inequality for the conditional expectation")
+  (statement := /-- Let $X : \Omega \to E$ be an integrable random variable with values in a normed
+    space $E$ and let $\phi : E \to \mathbb{R}$ be a convex function such that $\phi \circ X$ is
+    integrable.
+    Then, for any sub-$\sigma$-algebra $\mathcal{G}$, we have
+    \begin{align*}
+      \phi\left( \mathbb{E}[X \mid \mathcal{G}] \right)
+      &\le \mathbb{E}[\phi(X) \mid \mathcal{G}] \quad \text{a.s.}
+    \end{align*} -/)
+  (proof := /-- Done in a Mathlib PR for finite measures:
+    \href{https://github.com/leanprover-community/mathlib4/pull/27953}{\#27953}. -/)
+  (latexEnv := "lemma")]
 theorem conditional_jensen [SigmaFinite μ] (hm : m ≤ mΩ)
     (hφ_cvx : ConvexOn ℝ Set.univ φ) (hφ_cont : LowerSemicontinuous φ)
     (hf_int : Integrable f μ) (hφ_int : Integrable (φ ∘ f) μ) :
@@ -30,6 +45,16 @@ theorem conditional_jensen [SigmaFinite μ] (hm : m ≤ mΩ)
 
 variable [IsFiniteMeasure μ]
 
+@[blueprint
+  "cor:norm_condExp_le"
+  (statement := /-- Let $X : \Omega \to E$ be an integrable random variable with values in a normed
+    space $E$.
+    Then, for any sub-$\sigma$-algebra $\mathcal{G}$, we have
+    \begin{align*}
+      \Vert \mathbb{E}[X \mid \mathcal{G}] \Vert
+      &\le \mathbb{E}[\Vert X \Vert \mid \mathcal{G}] \quad \text{a.s.}
+    \end{align*} -/)
+  (latexEnv := "corollary")]
 theorem norm_condExp_le (f : Ω → E) :
     ∀ᵐ ω ∂μ, ‖μ[f|m] ω‖ ≤ μ[fun ω ↦ ‖f ω‖|m] ω := by
   by_cases hm : m ≤ mΩ

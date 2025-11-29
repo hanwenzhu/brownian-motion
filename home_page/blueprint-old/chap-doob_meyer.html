@@ -1,0 +1,2471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Doob-Meyer Theorem</title>
+<link rel="next" href="sect0007.html" title="Stochastic integral" />
+<link rel="prev" href="sect0006.html" title="Modifications with cadlag paths" />
+<link rel="up" href="sect0003.html" title="Stochastic integral" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of a Brownian motion and of stochastic integrals in Lean</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Characteristic function and covariance</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#sec:characteristic_function"><span class="toc_ref">1.1</span> <span class="toc_entry">Characteristic functions</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#sec:covariance"><span class="toc_ref">1.2</span> <span class="toc_entry">Covariance</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-process.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html"><span class="toc_ref">3</span> <span class="toc_entry">Gaussian distributions</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-gaussian.html#sec:gaussian_measures"><span class="toc_ref">3.1</span> <span class="toc_entry">Gaussian measures</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html#sec:gaussian_processes"><span class="toc_ref">3.2</span> <span class="toc_entry">Gaussian processes</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html"><span class="toc_ref">4</span> <span class="toc_entry">Projective family of the Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-projective_family.html#a0000000029"><span class="toc_ref">4.1</span> <span class="toc_entry">Kolmogorov extension theorem</span></a>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html#a0000000030"><span class="toc_ref">4.2</span> <span class="toc_entry">Projective family of Gaussian measures</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html"><span class="toc_ref">5</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000031"><span class="toc_ref">5.1</span> <span class="toc_entry">Covers and covering numbers</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000032"><span class="toc_ref">5.2</span> <span class="toc_entry">Chaining</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000033"><span class="toc_ref">5.3</span> <span class="toc_entry">Chaining for stochastic processes under Kolmogorov conditions</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000034"><span class="toc_ref">5.4</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-brownian.html"><span class="toc_ref">6</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-brownian.html#a0000000035"><span class="toc_ref">6.1</span> <span class="toc_entry">Stochastic process with continuous paths</span></a>
+ </li>
+<li class="">
+  <a href="chap-brownian.html#a0000000036"><span class="toc_ref">6.2</span> <span class="toc_entry">Wiener measure on the continuous functions</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="sect0003.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="chap-filtration_martingale.html"><span class="toc_ref">7</span> <span class="toc_entry">Filtrations, processes and martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-filtration_martingale.html#a0000000037"><span class="toc_ref">7.1</span> <span class="toc_entry">Basic definitions</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000038"><span class="toc_ref">7.2</span> <span class="toc_entry">Right-continuous filtrations</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000039"><span class="toc_ref">7.3</span> <span class="toc_entry">Predictable processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000040"><span class="toc_ref">7.4</span> <span class="toc_entry">Uniformly integrable</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000041"><span class="toc_ref">7.5</span> <span class="toc_entry">Optional sampling</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000042"><span class="toc_ref">7.6</span> <span class="toc_entry">Martingale convergence</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000043"><span class="toc_ref">7.7</span> <span class="toc_entry">Doob’s Lp inequality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-debut_theorem.html"><span class="toc_ref">8</span> <span class="toc_entry">Debut Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-debut_theorem.html#a0000000044"><span class="toc_ref">8.1</span> <span class="toc_entry">Corollaries</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">9</span> <span class="toc_entry">Local martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000045"><span class="toc_ref">9.1</span> <span class="toc_entry">Local properties</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000046"><span class="toc_ref">9.2</span> <span class="toc_entry">Locally Cadlag</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000047"><span class="toc_ref">9.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000048"><span class="toc_ref">9.4</span> <span class="toc_entry">Doob-Meyer class</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">10</span> <span class="toc_entry">Simple processes and elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">11</span> <span class="toc_entry">Modifications with cadlag paths</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000049"><span class="toc_ref">11.1</span> <span class="toc_entry">Preliminaries</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000050"><span class="toc_ref">11.2</span> <span class="toc_entry">Cadlag modifications of martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000051"><span class="toc_ref">11.3</span> <span class="toc_entry">Cadlag modifications of (local) martingales</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="chap-doob_meyer.html"><span class="toc_ref">12</span> <span class="toc_entry">Doob-Meyer Theorem</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-2 active">
+     <li class="">
+  <a href="chap-doob_meyer.html#a0000000052"><span class="toc_ref">12.1</span> <span class="toc_entry">Doob decomposition in discrete time</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000053"><span class="toc_ref">12.2</span> <span class="toc_entry">Komlòs Lemma</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000054"><span class="toc_ref">12.3</span> <span class="toc_entry">Doob-Meyer decomposition</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000055"><span class="toc_ref">12.4</span> <span class="toc_entry">Local version of the Doob-Meyer decomposition</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">13</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0007.html#a0000000056"><span class="toc_ref">13.1</span> <span class="toc_entry">Total variation and Lebesgue-Stieltjes integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000057"><span class="toc_ref">13.2</span> <span class="toc_entry">Square integrable martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000058"><span class="toc_ref">13.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000059"><span class="toc_ref">13.4</span> <span class="toc_entry">Stochastic integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000060"><span class="toc_ref">13.5</span> <span class="toc_entry">Itô formula</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">14</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="chap:doob_meyer">12 Doob-Meyer Theorem</h1>
+
+<p>This chapter starts with a short review of the properties of the Doob decomposition of an adapted process indexed on a discrete set, and then follows <span class="cite">
+	[
+</span> which gives an elementary and short proof of the Doob-Meyer theorem. </p>
+<h1 id="a0000000052">12.1 Doob decomposition in discrete time</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:predictablePart">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.1</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#def:predictablePart">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:filtration">Definition 7.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.predictablePart" class="lean_decl">MeasureTheory.predictablePart</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Let \(X : \mathbb {N} \to \Omega \to E\) be a process indexed by \(\mathbb {N}\), for \(E\) a Banach space. Let \((\mathcal{F}_n)_{n\in \mathbb {N}}\) be a filtration on \(\Omega \). The predictable part of \(X\) is the process \(A : \mathbb {N} \to \Omega \to E\) defined for \(n \ge 0\) by </p>
+<div class="displaymath" id="a0000000540">
+  \[ A_n = \sum _{k=0}^{n-1} \mathbb {E}[X_{k+1}-X_k \mid \mathcal{F}_k]. \]
+</div>
+
+  </div>
+</div>
+<p>In what follows, we fix a process \(X : \mathbb {N} \to \Omega \to E\) and a filtration \((\mathcal{F}_n)_{n \in \mathbb {N}}\), and denote by \(A\) the predictable part of \(X\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:predictablePart_zero">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.2</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:predictablePart_zero">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000541"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:predictablePart">Definition 12.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.predictablePart_zero" class="lean_decl">MeasureTheory.predictablePart_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   We have \(A_0 = 0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000541">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:predictablePart_add_one">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.3</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:predictablePart_add_one">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000542"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:predictablePart">Definition 12.1</a></li>
+          
+          <li><a href="chap-doob_meyer.html#def:predictablePart">Definition 12.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.predictablePart_add_one" class="lean_decl">MeasureTheory.predictablePart_add_one</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For any integer \(n \ge 0\), \(A_{n+1} = A_n + \mathbb {E}[X_{n+1} - X_n \mid \mathcal{F}_n]\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000542">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(n \in \mathbb {N}\). Then </p>
+<div class="displaymath" id="a0000000543">
+  \begin{align*}  A_{n+1} &  = \sum _{k=0}^n \mathbb {E}[X_{k+1}-X_k \mid \mathcal{F}_k] \\ &  = \sum _{k=0}^{n-1} \mathbb {E}[X_{k+1}-X_k \mid \mathcal{F}_k] + \mathbb {E}[X_{n+1}-X_n \mid \mathcal{F}_n] \\ &  = A_n + \mathbb {E}[X_{n+1} - X_n \mid \mathcal{F}_n], \end{align*}
+</div>
+<p> which concludes the proof. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:adapted_predictablePart">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.4</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:adapted_predictablePart">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000544"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:predictablePart">Definition 12.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.adapted_predictablePart" class="lean_decl">MeasureTheory.adapted_predictablePart</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The predictable part \(A\) is adapted to the filtration \((\mathcal{F}_{n+1})_{n \in \mathbb {N}}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000544">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:martingalePart">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.5</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#def:martingalePart">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:predictablePart">Definition 12.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.martingalePart" class="lean_decl">MeasureTheory.martingalePart</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Let \(X : \mathbb {N} \to \Omega \to E\) be a process indexed by \(\mathbb {N}\), for \(E\) a Banach space. Let \((\mathcal{F}_n)_{n\in \mathbb {N}}\) be a filtration on \(\Omega \) and let \(A\) be the predictable part of \(X\) for that filtration. The martingale part of \(X\) is the process \(M : \mathbb {N} \to \Omega \to E\) defined by \(M_n = X_n - A_n\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:predictable_predictablePart">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.6</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:predictable_predictablePart">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000545"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:predictablePart">Definition 12.1</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:predictable">Definition 7.43</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:predictable_nat_iff">Lemma 7.46</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:predictablePart_zero">Lemma 12.2</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:adapted_predictablePart">Lemma 12.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.isPredictable_predictablePart" class="lean_decl">MeasureTheory.isPredictable_predictablePart</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The predictable part of a process is predictable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000545">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By Lemma&#160;<a href="chap-filtration_martingale.html#lem:predictable_nat_iff">7.46</a>, the process \(A\) is predictable if \(A_0\) is \(\mathcal{F}_0\)-measurable and for all integer \(n\), \(A_{n+1}\) is \(\mathcal{F}_n\)-measurable. As \(A_0 = 0\) from Lemma&#160;<a href="chap-doob_meyer.html#lem:predictablePart_zero">12.2</a>, it is \(\mathcal{F}_0\)-measurable. Lemma&#160;<a href="chap-doob_meyer.html#lem:adapted_predictablePart">12.4</a> allows to conclude the proof. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:martingale_martingalePart">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.7</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:martingale_martingalePart">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000546"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:martingalePart">Definition 12.5</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.martingale_martingalePart" class="lean_decl">MeasureTheory.martingale_martingalePart</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Suppose that the filtration is sigma-finite. Then the martingale part of an adapted process \(X\) such that \(X_n\) is integrable for all \(n\) is a martingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000546">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:nondecreasing_predictablePart_of_submartingale">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.8</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:nondecreasing_predictablePart_of_submartingale">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000547"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:predictablePart">Definition 12.1</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:condExp_sub_nonneg">Lemma 7.7</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:predictablePart_add_one">Lemma 12.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.Submartingale.monotone_predictablePart" class="lean_decl">MeasureTheory.Submartingale.monotone_predictablePart</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The predictable part of a real-valued submartingale is an almost surely nondecreasing process. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000547">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(X\) be a submartingale and let \(A\) be its predictable part. Then for all \(n \geq 0\), from Lemma&#160;<a href="chap-filtration_martingale.html#lem:condExp_sub_nonneg">7.7</a> we have that almost surely </p>
+<div class="displaymath" id="a0000000548">
+  \begin{align*}  A_{n+1} & = A_n + \mathbb {E}\left[ X_{n+1} - X_n | \mathcal{F}_n \right] \\ & \ge A_n \:  . \end{align*}
+</div>
+<p> The first equality comes from Lemma&#160;<a href="chap-doob_meyer.html#lem:predictablePart_add_one">12.3</a>. As \(\mathbb {N}\) is countable, we deduce that almost surely, for all \(n \in \mathbb {N}\), \(A_{n+1} \ge A_n\). Thus, \((A_n)_{n \in \mathbb {N}}\) is almost surely nondecreasing. </p>
+
+  </div>
+</div>
+<h1 id="a0000000053">12.2 Komlòs Lemma</h1>
+<p>Firstly we will need Komlos’ Lemma. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:komlos_convex">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.9</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:komlos_convex">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000549"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/komlos_convex" class="lean_decl">komlos_convex</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \((f_n)_{n\in \mathbb {N}}\) be a sequence in a vector space \(E\) and \(\phi : E \to \mathbb {R}_+\) be a function such that \(\phi (f_n)\) is a bounded sequence. For \(\delta {\gt} 0\), let \(S_\delta = \{ (f, g) \mid \phi (f)/2 + \phi (g)/2 - \phi ((f+g)/2) \ge \delta \} \). Then there exist \(g_n\in convex(f_n,f_{n+1},\cdots )\) such that for all \(\delta {\gt} 0\), for \(N\) large enough and \(n, m \ge N\), \((g_n, g_m) \notin S_\delta \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000549">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(B\) be the bound of \((\phi (f_n))_{n\in \mathbb {N}}\). Then for all \(n\in \mathbb {N}\) and \(g\in convex(f_n,f_{n+1},\cdots )\) we have \(\phi (g)\le B\) by convexity of \(\phi \). Let \(r_n = \inf (\phi (g) \mid g\in convex(f_n, f_{n+1},\ldots ))\). By construction \((r_n)_{n\in \mathbb {N}}\) is nondecreasing. Let \(A = \sup _{n \ge 1} r_n\), which is finite (as \(A \le B\)) and for each \(n\) we may pick some \(g_n\in convex(f_n, f_{n+1},\ldots )\) such that \(\phi (g_n) \le A+1/n\) by \(\inf \) and \(\sup \) definitions. </p>
+<p>Let \(\varepsilon \in (0, \delta /4)\). By properties of \(\sup \) there exists \(\bar{n}\) such that \(r_{\bar{n}} \ge A-\varepsilon \) and such that \(\frac{1}{\bar{n}} \le \varepsilon \). Let \(m \ge k \ge \bar{n}\). We have \((g_k+g_m)/2 \in convex(f_k,f_{k+1},\ldots )\) and it follows since \((r_n)_{n\in \mathbb {N}}\) is nondecreasing that \(\phi ((g_k+g_m)/2) \ge A - \varepsilon \). Hence due to the ordering of \(m,k,\bar{n}\), </p>
+<div class="displaymath" id="a0000000550">
+  \begin{align*}  \phi (g_k)/2 + \phi (g_m)/2 - \phi ((g_k+g_m)/2) & \le 2(A + \frac{1}{\bar{n}}) - 2(A - \varepsilon ) \\ & \le 4 \varepsilon \\ & {\lt} \delta \:  . \end{align*}
+</div>
+<p> Thus, for \(n, m \ge \bar{n}\), \((g_n, g_m) \notin S_\delta \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:komlos_aux">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.10</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:komlos_aux">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000551"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/komlos_norm" class="lean_decl">komlos_norm</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(H\) be a Hilbert space and \((f_n)_{n\in \mathbb {N}}\) a bounded sequence in \(H\). Then there exist functions \(g_n\in convex(f_n,f_{n+1},\cdots )\) such that \((g_n)_{n\in \mathbb {N}}\) converges in \(H\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000551">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Consider \(\phi : H \to \mathbb {R}_+\) defined by \(\phi (f) = \| f\| _2^2\), which is convex. Then Lemma <a href="chap-doob_meyer.html#lem:komlos_convex">12.9</a> applied to \((f_n)_{n\in \mathbb {N}}\) and \(\phi \) gives us functions \(g_n\in convex(f_n,f_{n+1},\cdots )\) such that for every \(\delta {\gt}0\) there exists \(N\) such that for \(n,m\geq N\), \((g_n,g_m)\notin S_\delta \). Thus for every \(\delta {\gt}0\) there exists \(N\) such that for \(n,m\geq N\), </p>
+<div class="displaymath" id="a0000000552">
+  \begin{align*}  \| g_n\| _2^2/2 + \| g_m\| _2^2/2 - \| (g_n+g_m)/2\| _2^2 & {\lt} \delta \:  . \end{align*}
+</div>
+<p> But the left-hand side is equal to \(\| g_n - g_m\| _2^2/4\) by the parallelogram identity, hence \((g_n)_{n\in \mathbb {N}}\) is a Cauchy sequence in \(H\) and thus converges in \(H\) by completeness. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:convex_of_converg_seq_is_converg">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.11</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:convex_of_converg_seq_is_converg">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000553"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(X\) be a normed vector space (over \(\mathbb {R}\)). Let \((x_n)_{n\in \mathbb {N}}\) be a sequence in \(X\) converging to \(x\) w.r.t. the topology of \(X\). Let \((N_n)_{n\in \mathbb {N}}\) be a sequence in \(\mathbb {N}\) such that \(n\leq N_n\) for every \(n\in \mathbb {N}\) (maybe here we could have \(N_n\) increasing WLOG). Let \((a_{n,m})_{n\in \mathbb {N},m\in \left\lbrace n,\cdots ,N_n\right\rbrace }\) be a triangular array in \(\mathbb {R}\) such that \(0\leq a_{n,m}\leq 1\) and \(\sum _{m=n}^{N_n}a_{n,m}=1\). Then \((\sum _{m=n}^{N_n}a_{n,m}x_m)_{n\in \mathbb {N}}\) converges to \(x\) uniformly w.r.t. the triangular array. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000553">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(\epsilon {\gt}0\). By convergence of \(x_n\) we have \(\exists \bar{n}\) such that \(\forall n\geq \bar{n}\) \(|x_n-x|\leq \epsilon \). By triangular inequality it follows that </p>
+<div class="displaymath" id="a0000000554">
+  \[  |\sum _{m=n}^{N_n}a_{n,m}x_m - x|\leq \sum _{m=n}^{N_n}a_{n,m}|x_m-x|\leq \epsilon .  \]
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:komlos_convex_aux">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.12</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:komlos_convex_aux">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000555"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For \(i,n\in \mathbb {N}\) set \(f_{n}^{(i)}:=f_n \mathbb {1}_{(|f_n|\leq i)}\) such that \(f_{n}^{(i)}\in L^2\). There exists the sequence of convex weights \(\lambda _n^{n}, \ldots , \lambda _{N_n}^{n}\) such that the functions \( (\lambda _n^{n} f_n^{(i)} + \ldots +\lambda _{N_n}^{n} f_{N_n}^{(i)})_{n\in \mathbb {N}}\) converge in \(L^2\) for every \(i\in \mathbb {N}\) uniformly. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000555">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Firstly by lemma <a href="chap-doob_meyer.html#lem:komlos_aux">12.10</a> over \((f_n^{(1)})_{n\in \mathbb {N}}\) there exist convex weights \(\prescript {1}{}{\lambda }^n_n,\cdots ,\prescript {1}{}{\lambda }^n_{N^1_n}\) such that \(g^1_n=\sum _{m=n}^{N^1_n}\prescript {1}{}{\lambda }^n_mf_m^{(1)}\) converges to some \(g^1\). Secondly apply the lemma to \((\tilde{g}^2_n=\sum _{m=n}^{N^1_n}\prescript {1}{}{\lambda }^n_mf^{(2)}_m)_{n\in \mathbb {N}}\), there exists convex weights \(\tilde{\lambda }^n_n,\cdots ,\tilde{\lambda }^n_{\tilde{N}_n}\) such that \(g^2_n=\sum _{m=n}^{\tilde{N}_n}\tilde{\lambda }^n_m\tilde{g}_m^{(2)}=\sum _{m=n}^{N^2_n}\prescript {2}{}{\lambda }^n_mf_m^{(2)}\) converges to some \(g^2\). Notice that \(\sum _{m=n}^{N^2_n}\prescript {2}{}{\lambda }^n_mf_m^{(1)}=\sum _{m=n}^{\tilde{N}_n}\tilde{\lambda }^n_m\tilde{g}_m^{(1)}\) and thus this sequence by lemma <a href="chap-doob_meyer.html#lem:convex_of_converg_seq_is_converg">12.11</a> converges still to \(g^1\). By iteration we may define \(\prescript {i}{}{\lambda }^n_n,\cdots ,\prescript {i}{}{\lambda }^n_{N^i_n}\) convex weights such that if used on \((f^j_n)_{n\in \mathbb {N}}\) they make the sequence convergent if \(1\leq j\leq i\). At this point consider \(\lambda ^n_m=\prescript {n}{}{\lambda }^n_m\). Since \(\forall m\geq i\) \(\sum _{j=n}^{N^m_n}\prescript {m}{}{\lambda }^n_j f^{(i)}_j\rightarrow g^i\) and even better \(\forall \epsilon {\gt}0\) \(\exists \bar{n}\), \(\forall n\geq \bar{n}\), \(\forall m\geq i\) \(|\sum _{j=n}^{N^m_n}\prescript {m}{}{\lambda }^n_j f^{(i)}_j - g^i|\leq \epsilon \) (this works by lemma <a href="chap-doob_meyer.html#lem:convex_of_converg_seq_is_converg">12.11</a> uniformity of convergence w.r.t. triangular array) this concludes. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:komlos">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.13</span>
+    <span class="lemma_thmtitle">Komlòs Lemma</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:komlos">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000556"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(( f_n)_{n\in \mathbb {N}}\) be a uniformly integrable sequence of functions on a probability space \((\Omega , \mathcal{F} , P)\). Then there exist functions \(g_n \in convex( f_n, f_{n+1}, \cdots )\) such that \((g_n)_{n\in \mathbb {N}}\) converges in \(L^1 (\Omega )\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000556">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> For \(i,n\in \mathbb {N}\) set \(f_{n}^{(i)}:=f_n \mathbb {1}_{(|f_n|\leq i)}\) such that \(f_{n}^{(i)}\in L^2\). Using <a href="chap-doob_meyer.html#lem:komlos_convex_aux">12.12</a> there exist for every \(n\) convex weights \(\lambda _n^{n}, \ldots , \lambda _{N_n}^{n}\) such that the functions \( \lambda _n^{n} f_n^{(i)} + \ldots +\lambda _{N_n}^{n} f_{N_n}^{(i)}\) converge in \(L^2\) for every \(i\in \mathbb {N}\). By uniform integrability, \(\lim _{i\to \infty }\|  f^{(i)}_n- f_n\| _1=0\), uniformly with respect to \(n\). Hence, once again, uniformly with respect to \(n\), </p>
+<div class="displaymath" id="a0000000557">
+  \[  \textstyle \lim _{i\to \infty }\|  (\lambda _n^{n} f_n^{(i)} + \ldots +\lambda _{N_n}^{n} f_{N_n}^{(i)})-(\lambda _n^{n} f_n + \ldots +\lambda _{N_n}^{n} f_{N_n})\| _1= 0. \]
+</div>
+<p> Thus \((\lambda _n^{n} f_n + \ldots +\lambda _{N_n}^{n} f_{N_n})_{n\geq 1}\) is a Cauchy sequence in \(L^1\). </p>
+
+  </div>
+</div>
+<h4 id="a0000000558">Komlòs lemma for nonnegative random variables</h4>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:komlos_ennreal">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.14</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:komlos_ennreal">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000559"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/komlos_ennreal" class="lean_decl">komlos_ennreal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \((f_n)_{n\in \mathbb {N}}\) be a sequence of random variables with values in \([0, \infty ]\). Then there exist random variables \(g_n \in convex( f_n, f_{n+1}, \cdots )\) such that \((g_n)_{n\in \mathbb {N}}\) converges almost surely to a random variable \(g\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000559">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(\phi : (\Omega \to [0, \infty ]) \to [0, \infty ]\) be defined by \(\phi (X) = \mathbb {E}[e^{-X}]\). Then \(\phi \) is convex and \(\phi (f_n) \le 1\) for all \(n\). By Lemma&#160;<a href="chap-doob_meyer.html#lem:komlos_convex">12.9</a>, there exist \(g_n \in convex( f_n, f_{n+1}, \cdots )\) such that for all \(\delta {\gt}0\), for \(N\) large enough and \(n, m \ge N\), </p>
+<div class="displaymath" id="a0000000560">
+  \begin{align*}  \mathbb {E}[e^{-g_n}]/2 + \mathbb {E}[e^{-g_m}]/2 - \mathbb {E}[e^{-(g_n + g_m)/2}] {\lt} \delta \:  . \end{align*}
+</div>
+<p>For \(\varepsilon {\gt} 0\), let \(B_\varepsilon = \{ (x, y) \in [0, \infty ]^2 \mid \vert x - y \vert \ge \varepsilon \text{ and } \min \{ x, y\}  \le 1/\varepsilon \} \). Then for all \(x, y\), </p>
+<div class="displaymath" id="a0000000561">
+  \begin{align*}  \left\vert e^{-x} - e^{-y} \right\vert & \le \varepsilon + 2 e^{-1/\varepsilon } + 2 \mathbb {1}_{B_\varepsilon }(x, y) \:  . \end{align*}
+</div>
+<p> Hence for any pair of random variables \((X, Y)\) with values in \([0, \infty ]\), </p>
+<div class="displaymath" id="a0000000562">
+  \begin{align*}  \mathbb {E}\left[\left\vert e^{-X} - e^{-Y} \right\vert \right] & \le \varepsilon + 2 e^{-1/\varepsilon } + 2 P((X, Y) \in B_\varepsilon ) \:  . \end{align*}
+</div>
+<p> On the other hand, for \((x, y) \in B_\varepsilon \), there exists \(\delta _\varepsilon {\gt} 0\) such that </p>
+<div class="displaymath" id="a0000000563">
+  \begin{align*}  e^{-x}/2 + e^{-y}/2 - e^{-(x + y)/2} \ge \delta _\varepsilon \:  . \end{align*}
+</div>
+<p> Thus, </p>
+<div class="displaymath" id="a0000000564">
+  \begin{align*}  P((X, Y) \in B_\varepsilon ) & \le \frac{1}{\delta _\varepsilon } \mathbb {E}\left[ e^{-X}/2 + e^{-Y}/2 - e^{-(X + Y)/2} \right] \:  . \end{align*}
+</div>
+<p> For \(n, m \ge N\) large enough so that we can apply the first inequality of this proof with \(\delta = \varepsilon \delta _\varepsilon \), we deduce that </p>
+<div class="displaymath" id="a0000000565">
+  \begin{align*}  \mathbb {E}\left[\left\vert e^{-g_n} - e^{-g_m} \right\vert \right] & \le \varepsilon + 2 e^{-1/\varepsilon } + \frac{2}{\delta _\varepsilon } \mathbb {E}\left[ e^{-g_n}/2 + e^{-g_m}/2 - e^{-(g_n + g_m)/2} \right] \\ & \le \varepsilon + 2 e^{-1/\varepsilon } + 2 \varepsilon \:  . \end{align*}
+</div>
+<p> As \(\varepsilon \) is arbitrary, we deduce that \((e^{-g_n})_{n\in \mathbb {N}}\) is a Cauchy sequence in \(L^1\) and thus converges in \(L^1\) to some random variable \(h\). Therefore, it has a subsequence \((e^{-g_{n_k}})_{k\in \mathbb {N}}\) converging almost surely to \(h\). Finally, the subsequence of \(g_n\) converges almost surely to \(g = -\log (h)\). </p>
+
+  </div>
+</div>
+<h1 id="a0000000054">12.3 Doob-Meyer decomposition</h1>
+<p>For uniqueness of Doob-Meyer Decomposition we will need theorem <a href="sect0004.html#thm:IsLocalMartingale.eq_zero_of_finiteVariation">9.29</a>. </p>
+<p>We now start the construction for the existence part. Let \(T{\gt}0\) and recall that \(\mathcal{D}_n^T=\left\lbrace \frac{k}{2^n}T \mid k=0,\cdots 2^n\right\rbrace \). </p>
+<p>TODO: everywhere below, \(S\) is a cadlag submartingale of class D on \([0,T]\)? </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:A">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.15</span>
+    <span class="definition_thmtitle">A</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#def:A">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0006.html#def:dyadics">Definition 11.7</a></li>
+          
+          <li><a href="chap-doob_meyer.html#def:predictablePart">Definition 12.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Define \(A_0=0\) and for \(t\in \mathcal{D}_n^T\) positive, </p>
+<div class="displaymath" id="a0000000566">
+  \begin{align*}  A^n_t & =A^n_{t-T2^{-n}} + \mathbb {E}\left[ S_t-S_{t-T2^{-n}}|\mathcal{F}_{t-T2^{-n}}\right] \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:M">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.16</span>
+    <span class="definition_thmtitle">M</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#def:M">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:A">Definition 12.15</a></li>
+          
+          <li><a href="chap-doob_meyer.html#def:martingalePart">Definition 12.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  For \(t\in \mathcal{D}_n^T\), define \(M^n_t = S_t-A^n_t\)&#160;. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Doob_Meyer_Finite_Predictable">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.17</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:Doob_Meyer_Finite_Predictable">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000567"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:A">Definition 12.15</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:predictable">Definition 7.43</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:predictable_nat_iff">Lemma 7.46</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:predictable_predictablePart">Lemma 12.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  \((A^n_t)_{t\in \mathcal{D}_n^T}\) is a predictable process. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000567">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Trivial </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Doob_Meyer_Finite_Martingale">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.18</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:Doob_Meyer_Finite_Martingale">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000568"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:M">Definition 12.16</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:martingale_martingalePart">Lemma 12.7</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  \((M^n_t)_{t\in \mathcal{D}_n^T}\) is a martingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000568">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Trivial </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Predict_Part_Increasing">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.19</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:Predict_Part_Increasing">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000569"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:A">Definition 12.15</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:nondecreasing_predictablePart_of_submartingale">Lemma 12.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  \((A^n_t)_{t\in \mathcal{D}_n^T}\) is an increasing process. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000569">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(S\) is a submartingale: </p>
+<div class="displaymath" id="a0000000570">
+  \begin{align*}  A^n_{t+T2^{-n}} - A^n_t & = \mathbb {E}\left[ S_{t+T2^{-n}}-S_t|\mathcal{F}_t\right] \ge 0 \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:hittingAGT">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">12.20</span>
+    <span class="definition_thmtitle">Hitting time for \(A\)</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#def:hittingAGT">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:A">Definition 12.15</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Let \(c{\gt}0\). Define the hitting time on \(\mathcal{D}^T_n\) </p>
+<div class="displaymath" id="a0000000571">
+  \begin{align*}  \tau _n(c) & = \inf \{ t \in \mathcal{D}^T_n \mid A^n_{t + 2^{-n}T} {\gt} c\}  \wedge T \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsStoppingTime_hittingAGT">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.21</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:IsStoppingTime_hittingAGT">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000572"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:IsStoppingTime">Definition 7.16</a></li>
+          
+          <li><a href="chap-doob_meyer.html#def:hittingAGT">Definition 12.20</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  \(\tau _n(c)\) is a stopping time. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000572">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Since \(A^n_{t}\) is predictable, \(A^n_{t + 2^{-n}T}\) is adapted. The hitting time of an adapted process is a stopping time (we use the discrete time version of that result here, not the full Début theorem). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:A_hittingAGT_le">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.22</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:A_hittingAGT_le">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:hittingAGT">Definition 12.20</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  \(A^n_{\tau _n(c)} \le c\) and if \(\tau _n(c) {\lt} T\) then \(A^n_{\tau _n(c)+T2^{-n}} {\gt} c\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000573">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:A_hittingAGT_sub_ge">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.23</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:A_hittingAGT_sub_ge">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000574"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:hittingAGT">Definition 12.20</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:A_hittingAGT_le">Lemma 12.22</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(a, b {\gt} 0\) with \(a \le b\). If \(\tau _n(b) {\lt} T\) then \(A^n_{\tau _n(b)+T2^{-n}} - A^n_{\tau _n(a)} \ge b - a\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000574">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:A_uniform_integrable">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.24</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:A_uniform_integrable">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000575"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-doob_meyer.html#def:A">Definition 12.15</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:Doob_Meyer_Finite_Predictable">Lemma 12.17</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:Predict_Part_Increasing">Lemma 12.19</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:Doob_Meyer_Finite_Martingale">Lemma 12.18</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:IsStoppingTime_hittingAGT">Lemma 12.21</a></li>
+          
+          <li><a href="chap-doob_meyer.html#lem:A_hittingAGT_sub_ge">Lemma 12.23</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  The sequence \((A^n_T)_{n\in \mathbb {N}}\) is uniformly integrable (bounded in \(L^1\) norm). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000575">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> WLOG \(S_T=0\) and \(S_t\leq 0\) (else consider \(S_t-\mathbb {E}\left[S_T\vert \mathcal{F}_{t}\right]\)). </p>
+<p>We have that \(0=S_T=M^n_T+A^n_T\). Thus </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x109260650>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{equation_DM_e1} M^n_T=-A^n_T. \end{equation}
+  </div>
+  <span class="equation_label">1</span>
+</p>
+</div>
+<p> Since \(M^n\) is a martingale it follows by optional sampling that for any \((\mathcal{F}_t)_{t\in \mathcal{D}_n}\) stopping time \(\tau \) </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x109260bf0>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{equation_DM_e2} S_\tau =M^n_\tau +A^n_\tau = \mathbb {E}[M^n_T\vert \mathcal{F}_\tau ]+A^n_\tau \stackrel{\eqref{equation_DM_e1}}{=} -\mathbb {E}[A^n_T\vert \mathcal{F}_\tau ]+A^n_\tau . \end{equation}
+  </div>
+  <span class="equation_label">2</span>
+</p>
+</div>
+<p> Let \(c{\gt}0\). By Lemma&#160;<a href="chap-doob_meyer.html#lem:IsStoppingTime_hittingAGT">12.21</a>, \(\tau _n(c)\) (Definition&#160;<a href="chap-doob_meyer.html#def:hittingAGT">12.20</a>) is a stopping time. By construction \(A^n_{\tau _n(c)}\leq c\). It follows that </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x1092606b0>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{equation_DM_e3} S_{\tau _n(c)}\stackrel{\eqref{equation_DM_e2}}{=}-\mathbb {E}[A^n_T\vert \mathcal{F}_{\tau _n(c)}]+A^n_{\tau _n(c)}\leq -\mathbb {E}[A^n_T\vert \mathcal{F}_{\tau _n(c)}]+c. \end{equation}
+  </div>
+  <span class="equation_label">3</span>
+</p>
+</div>
+<p> Since \((A^n_T{\gt}c)=(\tau _n(c){\lt}T)\) we have </p>
+<div class="displaymath" id="a0000000576">
+  \begin{align} \nonumber \int _{(A^n_T{\gt}c)}A^n_TdP& =\int _{(\tau _n(c){\lt}T)}A^n_TdP\stackrel{\mathrm{Tower}}{=}\int _{(\tau _n(c){\lt}T)}\mathbb {E}[A^n_T\vert \mathcal{F}_{\tau _n(c)}]dP\\ & \stackrel{\eqref{equation_DM_e3}}{\leq } cP(\tau _n(c){\lt}T)-\int _{\tau _n(c){\lt}T}S_{\tau _n(c)}dP.\label{equation_DM_e4} \end{align}
+</div>
+<p> Now we notice that \((\tau _n(c){\lt}T)\subseteq (\tau _n(c/2){\lt}T)\), thus </p>
+<div class="displaymath" id="a0000000577">
+  \begin{align} \nonumber \int _{\tau _n(c/2){\lt}T}-S_{\tau _n(c/2)}dP & \stackrel{\eqref{equation_DM_e2}}{=}\int _{(\tau _n(c/2)){\lt}T}\mathbb {E}[A^n_T\vert \mathcal{F}_{\tau _n(c/2)}]-A^n_{\tau _n(c/2)}dP \nonumber \\ & \stackrel{\mathrm{Tower}}{=}\int _{(\tau _n(c/2){\lt}T)}A^n_t-A^n_{\tau _n(c/2)}dP\nonumber \\ & \geq \int _{(\tau _n(c){\lt}T)}A^n_t-A^n_{\tau _n(c/2)}dP\nonumber \\ \intertext {(over the event $(\tau _n(c){\lt}T)$ $A^n_T\geq c$ and $A^n_{\tau _n(c/2)}\leq c/2$, thus $A^n_T-A^n_{\tau _n(c/2)}\geq c/2$)} & \geq \frac{c}{2}P(\tau _n(c){\lt}T).\label{equation_DM_e5} \end{align}
+</div>
+<p> It follows </p>
+<div class="displaymath" id="a0000000578">
+  \[  \int _{(A^n_T{\gt}c)}A^n_TdP\stackrel{\eqref{equation_DM_e4}}{\leq }cP(\tau _n(c){\lt}T)-\int _{\tau _n(c){\lt}T}S_{\tau _n(c)}dP\stackrel{\eqref{equation_DM_e5}}{\leq }-2\int _{\tau _n(c/2){\lt}T}S_{\tau _n(c/2)}dP-\int _{\tau _n(c){\lt}T}S_{\tau _n(c)}dP.  \]
+</div>
+<p> We may notice that </p>
+<div class="displaymath" id="a0000000579">
+  \[  P(\tau _n(c){\lt}T)=P(A^n_T{\gt}c)\stackrel{Markov}{\leq }\frac{\mathbb {E}[A^n_T]}{c}=-\frac{\mathbb {E}[M^n_T]}{c}\stackrel{mg}{=}-\frac{\mathbb {E}[S_0]}{c}  \]
+</div>
+<p> which goes to \(0\) uniformly in \(n\) as \(c\) goes to infinity. This implies that \(\int _{(A^n_T{\gt}c)}A^n_TdP\) is uniformly bounded in \(n\) due to the fact that \(S\) is of class \(D\). And so also the \(L^1\) norm is uniformly bounded. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:M_uniform_integrable">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.25</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:M_uniform_integrable">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000580"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> The sequence \((M^n_T)_{n\in \mathbb {N}}\) is uniformly integrable (bounded in \(L^1\) norm). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000580">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(M^n_T=S_T-A^n_T\), also \(S\) is of class \(D\) and \(A^n_T\) is uniformly integrable. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:incr_fun_lim_right_cont_limsup_ineq">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.26</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:incr_fun_lim_right_cont_limsup_ineq">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000581"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If \(f_n, f : [0, 1] \rightarrow \mathbb {R}\) are increasing functions such that \(f\) is right continuous and \(\lim _n f_n(t) = f (t)\) for \(t \in \mathcal{D}^T\), then \(\limsup _n f_n(t) \leq f (t)\) for all \(t \in [0, T]\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000581">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(t\in [0,T]\) and \(s\in \mathcal{D}^T\) such that \(t{\lt}s\). We have </p>
+<div class="displaymath" id="a0000000582">
+  \[  \limsup _n f_n(t)\leq \limsup _n f_n(s)=f(s).  \]
+</div>
+<p> Since the above is true uniformly in \(s\) in particular since \(f\) is right-continuous </p>
+<div class="displaymath" id="a0000000583">
+  \[  \limsup _n f_n(t)\leq \lim _{\stackrel{s\rightarrow t^+}{s\in \mathcal{D}^T}}f(s)=f(t).  \]
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:incr_fun_lim_right_cont_lim_eq">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.27</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:incr_fun_lim_right_cont_lim_eq">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000584"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> If \(f_n, f : [0, 1] \rightarrow \mathbb {R}\) are increasing functions such that \(f\) is right continuous and \(\lim _n f_n(t) = f (t)\) for \(t \in \mathcal{D^T}\), if \(f\) is continuous in \(t\in [0,T]\) then \(\lim _n f_n(t) = f (t)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000584">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By lemma <a href="chap-doob_meyer.html#lem:incr_fun_lim_right_cont_limsup_ineq">12.26</a> it is enough to show that \(\liminf _n f_n(t)\geq f(t)\). Let \(s\in \mathcal{D}^T\) such that \(t{\gt}s\). We have </p>
+<div class="displaymath" id="a0000000585">
+  \[  \liminf _n f_n(t)\geq \liminf _n f_n(s)=f(s).  \]
+</div>
+<p> Since the above is true uniformly in \(s\) in particular since \(f\) is continuous in \(t\) </p>
+<div class="displaymath" id="a0000000586">
+  \[  \liminf _n f_n(t)\geq \lim _{\stackrel{s\rightarrow t^-}{s\in \mathcal{D}^T}}f(s)=f(t).  \]
+</div>
+
+  </div>
+</div>
+<p>Define \(M^n_t\) on \([0,T]\) using \(M^n_t=\mathbb {E}[M^n_T\vert \mathcal{F}_t]\). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:M_n_cadlag_mg">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.28</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:M_n_cadlag_mg">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000587"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> \(M^n_t\) admits a modification which is a cadlag martingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000587">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By theorem <a href="sect0006.html#lem:mg_is_cadlag">11.10</a> </p>
+
+  </div>
+</div>
+<p>From this point onwards \(M^n_t\) will be redefined as the modification from lemma <a href="chap-doob_meyer.html#lem:M_n_cadlag_mg">12.28</a>. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:M_cal_converges_L1">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.29</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:M_cal_converges_L1">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000588"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> There are convex weights \(\lambda ^n_n,\cdots ,\lambda ^n_{N_n}\) such that \(\mathcal{M}^n_T\stackrel{L^1}{\rightarrow }M\), where \(\mathcal{M}^n:=\lambda ^n_nM^n+\cdots +\lambda ^n_{N_n}M^{N_n}.\) </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000588">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By lemma <a href="chap-doob_meyer.html#lem:M_uniform_integrable">12.25</a> \((M^n_T)_{n\in \mathbb {N}}\) is uniformly bounded in \(L^1\), thus by lemma <a href="chap-doob_meyer.html#lem:komlos">12.13</a> there are convex weights \(\lambda ^n_n,\cdots ,\lambda ^n_{N_n}\) such that \(\mathcal{M}^n_T\stackrel{L^1}{\rightarrow }M\), where \(\mathcal{M}^n:=\lambda ^n_nM^n+\cdots +\lambda ^n_{N_n}M^{N_n}.\) </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:M_cal_cadlag">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.30</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:M_cal_cadlag">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000589"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> \(\mathcal{M}^n\) is cadlag. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000589">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By construction and <a href="chap-doob_meyer.html#lem:M_n_cadlag_mg">12.28</a> </p>
+
+  </div>
+</div>
+<p>Let </p>
+<div class="equation" id="<plasTeX.TeXFragment object at 0x1092f06b0>">
+<p>
+  <div class="equation_content">
+    \begin{equation} \label{equation_DM_e6} M_t = \mathbb {E}[M\vert \mathcal{F}_t].\end{equation}
+  </div>
+  <span class="equation_label">5</span>
+</p>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:M_cadlag_mg">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.31</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:M_cadlag_mg">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000590"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> \(M_t\) admits a martingale cadlag modification. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000590">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By construction \(M_t\) is a martingale and thus by theorem <a href="sect0006.html#lem:mg_is_cadlag">11.10</a> admits a cadlag martingale modification (\(M_t\) is a version of \(\mathbb {E}[M\vert \mathcal{F}_t]\) and thus passing to modification does not pose any problem). </p>
+
+  </div>
+</div>
+<p>From this point onwards \(M^n_t\) will be redefined as the modification from lemma <a href="chap-doob_meyer.html#lem:M_cadlag_mg">12.31</a>. Define </p>
+<ul class="itemize">
+  <li><p>Extend now \(A^n\) as a left continuous process \(A^n_s:=\sum _{t\in \mathcal{D}^T_n}A^n_t\mathbb {1}_{]t-2^{-n},t]}(s)\) </p>
+</li>
+  <li><p>\(\mathcal{A}^n=\lambda ^n_nA^n+\cdots +\lambda ^n_{N_n}A^{N_n}\) </p>
+</li>
+  <li><p>\(A_t=S_t-M_t\) </p>
+</li>
+</ul>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:M1_komlos">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.32</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:M1_komlos">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000591"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> For every \(t\in [0,T]\) we have \(\mathcal{M}^n_t\stackrel{L^1}{\rightarrow }M_t\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000591">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> We may notice that by Jensen’s inequality, the tower lemma and lemma <a href="chap-doob_meyer.html#lem:M_cal_converges_L1">12.29</a> </p>
+<div class="displaymath" id="a0000000592">
+  \begin{gather} \nonumber \mathbb {E}[|\mathcal{M}^n_t-M_t|]=\mathbb {E}[|\mathbb {E}[\mathcal{M}^n_T-M\vert \mathcal{F}_t]|]\leq \mathbb {E}[|\mathcal{M}^n_T-M|]\rightarrow 0,\\ \Rightarrow \mathcal{M}^n_t\stackrel{L^1}{\rightarrow } M_t,\quad \forall t\in [0,T].\label{equation_DM_e7} \end{gather}
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:A_cal_conv_A_on_D_T">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.33</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:A_cal_conv_A_on_D_T">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000593"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> There exists a set \(E\subseteq \Omega \), \(P(E)=0\) and a subsequence \(k_n\) such that \(\lim _n\mathcal{A}^{k_n}_t(\omega )=A_t(\omega )\) for every \(t\in \mathcal{D}^T,\omega \in \Omega \setminus E\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000593">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By Lemma <a href="chap-doob_meyer.html#lem:M1_komlos">12.32</a> </p>
+<div class="displaymath" id="a0000000594">
+  \[  \mathcal{A}^n_t=S_t-\mathcal{M}^n_t\stackrel{L^1}{\rightarrow }S_t-M_t=A_t,\quad \forall t\in \mathcal{D}^T.  \]
+</div>
+<p> \(\mathcal{D}^T\) is countable we can arrange the elements as \((t_n)_{n\in \mathbb {N}}\). Given \(t_0\in \mathcal{D}^T\) there exists a subsequence \(k^{0}_n\) for which \(\mathcal{A}^{k^{0}_n}_{t_0}\) converges to \(A_{t_0}\) over the set \(\Omega \setminus E_{0}\) where \(P(E_{0})=0\). Suppose we have a sequence \(k^m_n\) for which \(\mathcal{A}^{k^j_n}_{t_j}\) converges to \(A_{t_j}\) over the set \(\Omega \setminus E_{m}\) where \(P(E_{m})=0\) for each \(j=0,\cdots ,m\). From this subsequence we may extract a new subsequence \(k^{m+1}_n\) for which \(\mathcal{A}^{k^{m+1}_n}_{t_{m+1}}\) converges to \(A_{t_{m+1}}\) over the set \(\Omega \setminus E_{m+1}\) where \(P(E_{m+1})=0\). By construction over this subsequence the convergence for \(t_0,\cdots ,t_m\) still applies. With a diagonal argument we obtain the final result with \(E=\bigcup _n E_n\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:A_increasing">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.34</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:A_increasing">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000595"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> \((A_t)_{t\in [0,T]}\) is an increasing process. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000595">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Since \(\mathcal{A}^n_t\) is increasing on \(\mathcal{D}^T\) by lemma <a href="chap-doob_meyer.html#lem:A_cal_conv_A_on_D_T">12.33</a> also \(A\) is almost surely increasing on \(\mathcal{D}^T\). Since \(S,M\) are cadlag also \(A\) is cadlag (thus right-continuous). It follows that \(A\) must be increasing on \([0,T]\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:lim_Exp_A_n_tau_is_Exp_A_tau">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.35</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:lim_Exp_A_n_tau_is_Exp_A_tau">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000596"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(\tau \) be an \((\mathcal{F}_t)_{t\in [0,T]}\) stopping time. We have \(\lim _n\mathbb {E}[A^n_\tau ]=\mathbb {E}[A_\tau ]\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000596">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(\sigma _n:=\inf \left(t\in \mathcal{D}^T_n\vert t{\gt}\tau \right)\). By construction of \(A^n\) we have \(A^n_\tau =A^n_{\sigma _n}\). Also \(\sigma _n\searrow \tau \). Since \(S\) is of class \(D\) and cadlag we have </p>
+<div class="displaymath" id="a0000000597">
+  \begin{align*}  \mathbb {E}[A^n_\tau ]& =\mathbb {E}[A^n_{\sigma _n}]=\mathbb {E}[S_{\sigma _n}]-\mathbb {E}[M^n_{\sigma _n}]=\mathbb {E}[S_{\sigma _n}]-\mathbb {E}[M^n_0]=\\ & =\mathbb {E}[S_{\sigma _n}]-\mathbb {E}[S_0]\rightarrow \mathbb {E}[S_\tau ]-\mathbb {E}[M_0]=\mathbb {E}[S_\tau ]-\mathbb {E}[M_\tau ]=\mathbb {E}[A_\tau ]. \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:limsup_A_n_tau_is_A_tau_ae">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">12.36</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#lem:limsup_A_n_tau_is_A_tau_ae">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000598"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p> Let \(\tau \) be an \((\mathcal{F}_t)_{t\in [0,T]}\) stopping time. We have \(\limsup _n \mathcal{A}_\tau ^n = A_\tau \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000598">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Firstly we notice that \(\liminf _n \mathbb {E}[A_\tau ^n] \leq \limsup _n \mathbb {E} [\mathcal{A}_\tau ^n ] \leq \mathbb {E}[\limsup _n \mathcal{A}_\tau ^n ] \leq \mathbb {E}[ A_\tau ]\), where the first inequality is justified by the definition of limsup and liminf and the fact that </p>
+<div class="displaymath" id="a0000000599">
+  \[  \sup _{k\geq n}\mathbb {E}[\mathcal{A}^k_\tau ]\geq \sum _{m=k}^{N_k}\lambda ^k_m\mathbb {E}[A^m_\tau ]\geq \sum _{m=k}^{N_k}\lambda ^k_m\inf _{j\geq n}\mathbb {E}[A^j_\tau ]=\inf _{k\geq n}\mathbb {E}[A^k_\tau ]  \]
+</div>
+<p> the third inequality by <a href="chap-doob_meyer.html#lem:incr_fun_lim_right_cont_limsup_ineq">12.26</a>. Let’s prove the second inequality: observe that </p>
+<div class="displaymath" id="a0000000600">
+  \[  \mathcal{A}^n_\tau = A_1+\mathcal{A}^n_\tau -A_1\leq A_1+(\mathcal{A}^n_\tau -A_1)_+,  \]
+</div>
+<p> thus it follows that \(\mathcal{A}^n_\tau - (\mathcal{A}^n_\tau -A_1)_+\leq A_1\); since \(A_1\) is an integrable guardian the inverse Fatou Lemma may be applied to show together with limsup properties that </p>
+<div class="displaymath" id="a0000000601">
+  \begin{align*}  \limsup _n\mathbb {E}[\mathcal{A}^n_\tau ]+0 & = \limsup _n\mathbb {E}[\mathcal{A}^n_\tau ]+\liminf _n-\mathbb {E}[(\mathcal{A}^n_\tau -A_1)_+] \leq \limsup _n\mathbb {E}[\mathcal{A}^n_\tau -(\mathcal{A}^n_\tau -A_1)_+]\leq \\ & \leq \mathbb {E}[\limsup _n\mathcal{A}^n_\tau -(\mathcal{A}^n_\tau -A_1)_+]\leq \mathbb {E}[\limsup _n\mathcal{A}^n_\tau ]-\mathbb {E}[\liminf _n(\mathcal{A}^n_\tau -A_1)_+]\leq \mathbb {E}[\limsup _n\mathcal{A}^n_\tau ], \end{align*}
+</div>
+<p> where the first equality is justified by the fact that \(\mathcal{A}^n_\tau \leq \mathcal{A}^n_1\rightarrow A_1\) almost surely. Due to lemma <a href="chap-doob_meyer.html#lem:lim_Exp_A_n_tau_is_Exp_A_tau">12.35</a> and <a href="chap-doob_meyer.html#lem:incr_fun_lim_right_cont_limsup_ineq">12.26</a> the first sequence of inequalities is a sequence of equalities, thus we know that \(A_\tau - \limsup _n \mathcal{A}_\tau ^n \) is an a.s. nonnegative function with null expected value, and thus it must be almost everywhere null. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Doob_Meyer">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">12.37</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#thm:Doob_Meyer">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000602"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p> Let \(S = (S_t )_{0\leq t\leq T}\) be a cadlag submartingale of class \(D\). Then, \(S\) can be written in a unique way in the form \(S = M + A\) where \(M\) is a cadlag martingale and \(A\) is a predictable increasing process starting at \(0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000602">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By construction \(M\) is a cadlag martingale and \(A_0=0\) and by lemma <a href="chap-doob_meyer.html#lem:A_increasing">12.34</a> \(A\) is increasing. It suffices to show that \(A\) is predictable. \(A^n,\mathcal{A}^n\) are left continuous and adapted, and thus they are predictable (measurable wrt the predictable sigma algebra (the one generated by left-cont adapted processes)). It is enough to show that \(\omega -a.e.\), \(\forall t\in [0,T]\), \(\limsup _n\mathcal{A}^n_t(\omega )=A_t(\omega )\). </p>
+<p>By lemma <a href="chap-doob_meyer.html#lem:incr_fun_lim_right_cont_lim_eq">12.27</a> that is true for any continuity point of \(A\). Since \(A\) is increasing it can only have a finite amount of jumps larger than \(1/k\) for any \(k\in \mathbb {N}\). Consider now \(\tau _{q,k}\) the family of stopping times equal to the \(q\)-th time that the process \(A_t\) has a jump higher than \(1/k\). This is a countable family. Given a time \(t\) and a trajectory \(\omega \) there are only two possibilities: either \(A\) is continuous or not at time \(t\) along \(\omega \). If \(A\) is continuous at time \(t\) we have \(\limsup _n\mathcal{A}^n_t(\omega )=A_t(\omega )\), if it jumps there exists \(q(\omega ),k(\omega )\) such that \(t=\tau _{q(\omega ),k(\omega )}(\omega )\). Due to lemma <a href="chap-doob_meyer.html#lem:limsup_A_n_tau_is_A_tau_ae">12.36</a> we know that \(\limsup _n A^n_{\tau _{q,k}} = A_{\tau _{q,k}}\) for each \(q,k\) almost surely. Thus, since it is an intersection of a countable amount of almost sure events \(\forall \omega \in \Omega '\) with \(P(\Omega ')=1\), for each \(q,k\) \(\limsup _n A^n_{\tau _{q,k}}(\omega ) = A_{\tau _{q,k}}(\omega )\) (\(\omega \) does not depend upon \(q,k\)). Consequently, \(\forall \omega \in \Omega '\) we have \(\limsup _n\mathcal{A}^n_t(\omega )=\limsup _n\mathcal{A}^n_{\tau _{q(\omega ),k(\omega )}}(\omega )=A_{\tau _{q(\omega ),k(\omega )}}(\omega )=A_t(\omega )\) </p>
+
+  </div>
+</div>
+<h1 id="a0000000055">12.4 Local version of the Doob-Meyer decomposition</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:local_doobMeyer">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">12.38</span>
+    <span class="theorem_thmtitle">Doob-Meyer decomposition</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-doob_meyer.html#thm:local_doobMeyer">#</a>
+    
+    <a class="icon proof" href="chap-doob_meyer.html#a0000000603"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalSubmartingale">Definition 9.25</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:predictable">Definition 7.43</a></li>
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+          <li><a href="sect0004.html#lem:IsLocalSubmartingale.locally_classD">Lemma 9.54</a></li>
+          
+          <li><a href="chap-doob_meyer.html#thm:Doob_Meyer">Theorem 12.37</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsLocalSubmartingale.doob_meyer" class="lean_decl">ProbabilityTheory.IsLocalSubmartingale.doob_meyer</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   An adapted process \(X\) is a cadlag local submartingale iff \(X = M + A\) where \(M\) is a cadlag local martingale and \(A\) is a predictable, cadlag, locally integrable and increasing process starting at \(0\). The processes \(M\) and \(A\) are uniquely determined by \(X\) a.s. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000603">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0006.html" title="Modifications with cadlag paths"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0003.html" title="Stochastic integral"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0007.html" title="Stochastic integral"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Auxiliary.NNReal
 import BrownianMotion.Gaussian.MultivariateGaussian
 import KolmogorovExtension4.KolmogorovExtension
@@ -44,6 +45,33 @@ lemma brownianCovMatrix_submatrix {I J : Finset ℝ≥0} (hJI : J ⊆ I) :
     (brownianCovMatrix I).submatrix (fun i : J ↦ ⟨i.1, hJI i.2⟩) (fun i : J ↦ ⟨i.1, hJI i.2⟩) =
     brownianCovMatrix J := rfl
 
+attribute [blueprint
+  "lem:posSemidef_gramMatrix"
+  (statement := /-- A gram matrix is positive semidefinite. -/)
+  (proof := /-- Symmetry is obvious from the definition.
+    Let $x \in E$. Then
+    \begin{align*}
+      \langle x, G x \rangle
+      &= \sum_{i,j} x_i x_j \langle v_i, v_j \rangle
+      \\
+      &= \langle \sum_i x_i v_i, \sum_j x_j v_j \rangle
+      \\
+      &= \left\Vert \sum_i x_i v_i \right\Vert^2
+      \\
+      &\ge 0
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
+  Matrix.posSemidef_gram
+
+@[blueprint
+  "lem:posSemidef_brownianCov"
+  (statement := /-- For $I = \{t_1, \ldots, t_n\}$ a finite subset of $\mathbb{R}_+$, let $C \in
+    \mathbb{R}^{n \times n}$ be the matrix $C_{ij} = \min(t_i, t_j)$ for $1 \leq i,j \leq n$.
+    Then $C$ is positive semidefinite. -/)
+  (proof := /-- $C$ is a Gram matrix by Lemma~\ref{lem:C_eq_gramMatrix}.
+    By Lemma~\ref{lem:posSemidef_gramMatrix}, it is positive semidefinite. -/)
+  (latexEnv := "lemma")]
 lemma posSemidef_brownianCovMatrix (I : Finset ℝ≥0) :
     (brownianCovMatrix I).PosSemidef := by
   have h : brownianCovMatrix I =
@@ -56,6 +84,13 @@ lemma posSemidef_brownianCovMatrix (I : Finset ℝ≥0) :
 
 variable [DecidableEq ι]
 
+@[blueprint
+  "def:gaussianProjectiveFamily"
+  (title := "Projective family of the Brownian motion")
+  (statement := /-- For $I = \{t_1, \ldots, t_n\}$ a finite subset of $\mathbb{R}_+$, let $P^B_I$ be
+    the multivariate Gaussian measure on $\mathbb{R}^n$ with mean $0$ and covariance matrix $C_{ij}
+    = \min(t_i, t_j)$ for $1 \leq i,j \leq n$.
+    We call the family of measures $P^B_I$ the \emph{projective family of the Brownian motion}. -/)]
 noncomputable
 def gaussianProjectiveFamily (I : Finset ℝ≥0) : Measure (I → ℝ) :=
   multivariateGaussian 0 (brownianCovMatrix I) |>.map (MeasurableEquiv.toLp 2 (I → ℝ)).symm
@@ -145,6 +180,31 @@ lemma hasLaw_eval_sub_eval_gaussianProjectiveFamily (I : Finset ℝ≥0) (s t : 
       · exact IsGaussian.integrable_id
     any_goals exact HasGaussianLaw.memLp_two
 
+@[blueprint
+  "lem:isProjectiveMeasureFamily_gaussianProjectiveFamily"
+  (statement := /-- The projective family of the Brownian motion is a projective family of measures.
+    -/)
+  (proof := /-- Let $J \subseteq I$ be finite subsets of $\mathbb{R}_+$.
+    We need to show that the restriction from $\mathbb{R}^I$ to $\mathbb{R}^J$ (denote it by
+    $\pi_{IJ}$) maps $P^B_I$ to $P^B_J$.
+    
+    The restriction is a continuous linear map from $\mathbb{R}^I$ to $\mathbb{R}^J$.
+    The map of a Gaussian measure by a continuous linear map is Gaussian
+    (Lemma~\ref{lem:isGaussian_map}).
+    It thus suffices to show that the mean and covariance matrix of the map are equal to the ones of
+    $P^B_J$ by Lemma~\ref{lem:IsGaussian.ext_iff}.
+    
+    The mean of the map is $0$, since the mean of $P^B_I$ is $0$ and the map is linear.
+    
+    Let us turn to the covariance matrix. For any $i \in J$, the map $x : \mathbb{R}^I \mapsto
+    \pi_{IJ}(x) i$ is equal to $x : \mathbb{R}^I \mapsto x i$. Let $i, j \in J$. The covariance of
+    $x : \mathbb{R}^J \mapsto x i$ and $x : \mathbb{R}^J \mapsto x j$ with respect to
+    ${\pi_{IJ}}_*P^B_J$ is equal to the covariance of $x : \mathbb{R}^I \mapsto \pi_{IJ}(x) i$ and
+    $x : \mathbb{R}^I \mapsto \pi_{IJ}(x) j$ with respect to $P^B_I$, which is equal to the
+    covariance of $x : \mathbb{R}^I \mapsto x i$ and $x : \mathbb{R}^I \mapsto x i$ with respect to
+    $P^B_I$, which is equal to $t_i \land t_j$. But this is also the covariance of $x : \mathbb{R}^J
+    \mapsto x i$ and $x : \mathbb{R}^J \mapsto x j$ with respect to $P^B_J$, so we are done. -/)
+  (latexEnv := "lemma")]
 lemma isProjectiveMeasureFamily_gaussianProjectiveFamily :
     IsProjectiveMeasureFamily (α := fun _ ↦ ℝ) gaussianProjectiveFamily := by
   intro I J hJI
@@ -165,6 +225,86 @@ lemma measurePreserving_restrict_gaussianProjectiveFamily {I J : Finset ℝ≥0}
   measurable := Finset.measurable_restrict₂ _
   map_eq := isProjectiveMeasureFamily_gaussianProjectiveFamily J I hIJ |>.symm
 
+attribute [blueprint
+  "def:IsProjectiveMeasureFamily"
+  (title := "Projective family")
+  (statement := /-- A family of measures $P$ indexed by finite sets of $T$ is projective if, for
+    finite sets $J \subseteq I$, the projection from $E^I$ to $E^J$ maps $P_I$ to $P_J$. -/)]
+  MeasureTheory.IsProjectiveMeasureFamily
+
+attribute [blueprint
+  "def:IsProjectiveLimit"
+  (title := "Projective limit")
+  (statement := /-- A measure $\mu$ on $E^T$ is the projective limit of a projective family of
+    measures $P$ indexed by finite sets of $T$ if, for every finite set $I \subseteq T$, the
+    projection from $E^T$ to $E^I$ maps $\mu$ to $P_I$. -/)]
+  MeasureTheory.IsProjectiveLimit
+
+attribute [blueprint
+  "thm:kolmogorovExtension"
+  (title := "Kolmogorov extension theorem")
+  (statement := /-- Let $\mathcal{X}$ be a Polish space, equipped with the Borel $\sigma$-algebra,
+    and let $T$ be an index set.
+    Let $P$ be a projective family of finite measures on $\mathcal{X}$.
+    Then the projective limit $\mu$ of $P$ exists, is unique, and is a finite measure on
+    $\mathcal{X}^T$.
+    Moreover, if $P_I$ is a probability measure for every finite set $I \subseteq T$, then $\mu$ is
+    a probability measure. -/)]
+  MeasureTheory.projectiveLimit
+
+attribute [blueprint
+  "thm:kolmogorovExtension"
+  (title := "Kolmogorov extension theorem")
+  (statement := /-- Let $\mathcal{X}$ be a Polish space, equipped with the Borel $\sigma$-algebra,
+    and let $T$ be an index set.
+    Let $P$ be a projective family of finite measures on $\mathcal{X}$.
+    Then the projective limit $\mu$ of $P$ exists, is unique, and is a finite measure on
+    $\mathcal{X}^T$.
+    Moreover, if $P_I$ is a probability measure for every finite set $I \subseteq T$, then $\mu$ is
+    a probability measure. -/)]
+  MeasureTheory.IsProjectiveLimit.unique
+
+attribute [blueprint
+  "thm:kolmogorovExtension"
+  (title := "Kolmogorov extension theorem")
+  (statement := /-- Let $\mathcal{X}$ be a Polish space, equipped with the Borel $\sigma$-algebra,
+    and let $T$ be an index set.
+    Let $P$ be a projective family of finite measures on $\mathcal{X}$.
+    Then the projective limit $\mu$ of $P$ exists, is unique, and is a finite measure on
+    $\mathcal{X}^T$.
+    Moreover, if $P_I$ is a probability measure for every finite set $I \subseteq T$, then $\mu$ is
+    a probability measure. -/)]
+  MeasureTheory.isProjectiveLimit_projectiveLimit
+
+attribute [blueprint
+  "thm:kolmogorovExtension"
+  (title := "Kolmogorov extension theorem")
+  (statement := /-- Let $\mathcal{X}$ be a Polish space, equipped with the Borel $\sigma$-algebra,
+    and let $T$ be an index set.
+    Let $P$ be a projective family of finite measures on $\mathcal{X}$.
+    Then the projective limit $\mu$ of $P$ exists, is unique, and is a finite measure on
+    $\mathcal{X}^T$.
+    Moreover, if $P_I$ is a probability measure for every finite set $I \subseteq T$, then $\mu$ is
+    a probability measure. -/)]
+  MeasureTheory.isFiniteMeasure_projectiveLimit
+
+attribute [blueprint
+  "thm:kolmogorovExtension"
+  (title := "Kolmogorov extension theorem")
+  (statement := /-- Let $\mathcal{X}$ be a Polish space, equipped with the Borel $\sigma$-algebra,
+    and let $T$ be an index set.
+    Let $P$ be a projective family of finite measures on $\mathcal{X}$.
+    Then the projective limit $\mu$ of $P$ exists, is unique, and is a finite measure on
+    $\mathcal{X}^T$.
+    Moreover, if $P_I$ is a probability measure for every finite set $I \subseteq T$, then $\mu$ is
+    a probability measure. -/)]
+  MeasureTheory.isProbabilityMeasure_projectiveLimit
+
+@[blueprint
+  "def:gaussianLimit"
+  (statement := /-- We denote by $P_B$ the projective limit of the projective family of the Brownian
+    motion given by Theorem~\ref{thm:kolmogorovExtension}.
+    This is a probability measure on $\mathbb{R}^{\mathbb{R}_+}$. -/)]
 noncomputable
 def gaussianLimit : Measure (ℝ≥0 → ℝ) :=
   projectiveLimit gaussianProjectiveFamily isProjectiveMeasureFamily_gaussianProjectiveFamily

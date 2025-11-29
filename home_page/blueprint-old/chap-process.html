@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stochastic processes</title>
+<link rel="next" href="chap-gaussian.html" title="Gaussian distributions" />
+<link rel="prev" href="sect0002.html" title="Characteristic function and covariance" />
+<link rel="up" href="sect0001.html" title="Brownian motion" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of a Brownian motion and of stochastic integrals in Lean</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Characteristic function and covariance</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#sec:characteristic_function"><span class="toc_ref">1.1</span> <span class="toc_entry">Characteristic functions</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#sec:covariance"><span class="toc_ref">1.2</span> <span class="toc_entry">Covariance</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="chap-process.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html"><span class="toc_ref">3</span> <span class="toc_entry">Gaussian distributions</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-gaussian.html#sec:gaussian_measures"><span class="toc_ref">3.1</span> <span class="toc_entry">Gaussian measures</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html#sec:gaussian_processes"><span class="toc_ref">3.2</span> <span class="toc_entry">Gaussian processes</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html"><span class="toc_ref">4</span> <span class="toc_entry">Projective family of the Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-projective_family.html#a0000000029"><span class="toc_ref">4.1</span> <span class="toc_entry">Kolmogorov extension theorem</span></a>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html#a0000000030"><span class="toc_ref">4.2</span> <span class="toc_entry">Projective family of Gaussian measures</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html"><span class="toc_ref">5</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000031"><span class="toc_ref">5.1</span> <span class="toc_entry">Covers and covering numbers</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000032"><span class="toc_ref">5.2</span> <span class="toc_entry">Chaining</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000033"><span class="toc_ref">5.3</span> <span class="toc_entry">Chaining for stochastic processes under Kolmogorov conditions</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000034"><span class="toc_ref">5.4</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-brownian.html"><span class="toc_ref">6</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-brownian.html#a0000000035"><span class="toc_ref">6.1</span> <span class="toc_entry">Stochastic process with continuous paths</span></a>
+ </li>
+<li class="">
+  <a href="chap-brownian.html#a0000000036"><span class="toc_ref">6.2</span> <span class="toc_entry">Wiener measure on the continuous functions</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="chap-filtration_martingale.html"><span class="toc_ref">7</span> <span class="toc_entry">Filtrations, processes and martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-filtration_martingale.html#a0000000037"><span class="toc_ref">7.1</span> <span class="toc_entry">Basic definitions</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000038"><span class="toc_ref">7.2</span> <span class="toc_entry">Right-continuous filtrations</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000039"><span class="toc_ref">7.3</span> <span class="toc_entry">Predictable processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000040"><span class="toc_ref">7.4</span> <span class="toc_entry">Uniformly integrable</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000041"><span class="toc_ref">7.5</span> <span class="toc_entry">Optional sampling</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000042"><span class="toc_ref">7.6</span> <span class="toc_entry">Martingale convergence</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000043"><span class="toc_ref">7.7</span> <span class="toc_entry">Doob’s Lp inequality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-debut_theorem.html"><span class="toc_ref">8</span> <span class="toc_entry">Debut Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-debut_theorem.html#a0000000044"><span class="toc_ref">8.1</span> <span class="toc_entry">Corollaries</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">9</span> <span class="toc_entry">Local martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000045"><span class="toc_ref">9.1</span> <span class="toc_entry">Local properties</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000046"><span class="toc_ref">9.2</span> <span class="toc_entry">Locally Cadlag</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000047"><span class="toc_ref">9.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000048"><span class="toc_ref">9.4</span> <span class="toc_entry">Doob-Meyer class</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">10</span> <span class="toc_entry">Simple processes and elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">11</span> <span class="toc_entry">Modifications with cadlag paths</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000049"><span class="toc_ref">11.1</span> <span class="toc_entry">Preliminaries</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000050"><span class="toc_ref">11.2</span> <span class="toc_entry">Cadlag modifications of martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000051"><span class="toc_ref">11.3</span> <span class="toc_entry">Cadlag modifications of (local) martingales</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html"><span class="toc_ref">12</span> <span class="toc_entry">Doob-Meyer Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-doob_meyer.html#a0000000052"><span class="toc_ref">12.1</span> <span class="toc_entry">Doob decomposition in discrete time</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000053"><span class="toc_ref">12.2</span> <span class="toc_entry">Komlòs Lemma</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000054"><span class="toc_ref">12.3</span> <span class="toc_entry">Doob-Meyer decomposition</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000055"><span class="toc_ref">12.4</span> <span class="toc_entry">Local version of the Doob-Meyer decomposition</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">13</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0007.html#a0000000056"><span class="toc_ref">13.1</span> <span class="toc_entry">Total variation and Lebesgue-Stieltjes integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000057"><span class="toc_ref">13.2</span> <span class="toc_entry">Square integrable martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000058"><span class="toc_ref">13.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000059"><span class="toc_ref">13.4</span> <span class="toc_entry">Stochastic integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000060"><span class="toc_ref">13.5</span> <span class="toc_entry">Itô formula</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">14</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="chap:process">2 Stochastic processes</h1>
+
+<p>Let \(T\) be an index set and \(\Omega \) a measurable space, with measure \(\mathbb {P}\). A stochastic process is a function \(X : T \to \Omega \to E\), where \(E\) is another measurable space, such that for all \(t \in T\), \(X_t : \Omega \to E\) is \(\mathbb {P}\)-a.e. measurable. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:processLaw">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.1</span>
+    <span class="definition_thmtitle">Law of a stochastic process</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-process.html#def:processLaw">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> The law of a stochastic process \(X\) is the measure on the measurable space \(E^T\) obtained by pushing forward the measure \(\mathbb {P}\) by the map \(\omega \mapsto X(\cdot , \omega )\). </p>
+
+  </div>
+</div>
+<p><b class="bfseries">Lean remark</b>: we don’t use a Lean definition for the law, but write the map in full. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:modification">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.2</span>
+    <span class="definition_thmtitle">Modification</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-process.html#def:modification">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> We say that a stochastic process \(Y\) is a <em>modification</em> of another stochastic process \(X\) if for all \(t \in T\), \(Y_t =_{\mathbb {P}\text{-a.e.}} X_t\). </p>
+
+  </div>
+</div>
+<p><b class="bfseries">Lean remark</b>: we don’t use a Lean definition for being a modification, but write explicitly the condition \(\forall t \in T,\  Y_t =_{\mathbb {P}\text{-a.e.}} X_t\)&#160;. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:indistinguishable">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">2.3</span>
+    <span class="definition_thmtitle">Indistinguishable</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-process.html#def:indistinguishable">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> We say that a stochastic processes \(Y\) is a <em>indistinguishable</em> from \(X\) if \(\mathbb {P}\)-a.e., for all \(t \in T\), \(X_t = Y_t\). </p>
+
+  </div>
+</div>
+<p>A summary of the next few lemmas is this: </p>
+<ul class="itemize">
+  <li><p>indistinguishable \(\implies \) modification \(\implies \) same law, </p>
+</li>
+  <li><p>modification and continuous with \(T\) separable \(\implies \) indistinguishable. </p>
+</li>
+</ul>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Indistinguishable.Modification">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.4</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-process.html#lem:Indistinguishable.Modification">#</a>
+    
+    <a class="icon proof" href="chap-process.html#a0000000061"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-process.html#def:indistinguishable">Definition 2.3</a></li>
+          
+          <li><a href="chap-process.html#def:modification">Definition 2.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/modification_of_indistinguishable" class="lean_decl">modification_of_indistinguishable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(Y\) is indistinguishable from \(X\), then \(Y\) is a modification of \(X\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000061">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Obvious. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:map_eq_of_modification">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.5</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-process.html#lem:map_eq_of_modification">#</a>
+    
+    <a class="icon proof" href="chap-process.html#a0000000062"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-process.html#def:modification">Definition 2.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.map_eq_of_forall_ae_eq" class="lean_decl">ProbabilityTheory.map_eq_of_forall_ae_eq</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(X, Y : T \to \Omega \to E\) be two stochastic processes that are modifications of each other. Then for all \(t_1, \ldots , t_n \in T\), the random vector \((X_{t_1}, \ldots , X_{t_n})\) has the same distribution as the random vector \((Y_{t_1}, \ldots , Y_{t_n})\). That is, \(X\) and \(Y\) have same finite-dimensional distributions. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000062">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>By the modification property, almost surely \(X_{t_i} = Y_{t_i}\) for all \(i \in [n]\). Thus the function \(\omega \mapsto (X_{t_1}(\omega ), \ldots , X_{t_n}(\omega ))\) is equal to \(\omega \mapsto (Y_{t_1}(\omega ), \ldots , Y_{t_n}(\omega ))\) almost surely, hence the maps of \(\mathbb {P}\) by these two functions are equal. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:map_eq_iff">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.6</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-process.html#lem:map_eq_iff">#</a>
+    
+    <a class="icon proof" href="chap-process.html#a0000000063"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-process.html#def:processLaw">Definition 2.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.map_eq_iff_forall_finset_map_restrict_eq" class="lean_decl">ProbabilityTheory.map_eq_iff_forall_finset_map_restrict_eq</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(X, Y : T \to \Omega \to E\) be two stochastic processes. Then \(X\) and \(Y\) have same finite-dimensional distributions if and only if they have the same law. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000063">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>TODO: consider the \(\pi \)-system of cylinder sets. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:indistinguishable_of_modification_of_continuous">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">2.7</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-process.html#lem:indistinguishable_of_modification_of_continuous">#</a>
+    
+    <a class="icon proof" href="chap-process.html#a0000000064"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-process.html#def:modification">Definition 2.2</a></li>
+          
+          <li><a href="chap-process.html#def:indistinguishable">Definition 2.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/indistinguishable_of_modification" class="lean_decl">indistinguishable_of_modification</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(T\) and \(E\) be topological spaces and suppose that \(T\) is separable Hausdorff. Let \(X, Y : T \to \Omega \to E\) be two stochastic processes that are modifications of each other and are almost surely continuous. Then \(X\) and \(Y\) are indistinguishable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000064">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Since \(T\) is separable, it has a countable dense subset \(D\). Since \(D\) is countable, </p>
+<div class="displaymath" id="a0000000065">
+  \begin{align*}  (\forall t \in D, \mathbb {P}\text{-a.e.}, X_t = Y_t) \iff (\mathbb {P}\text{-a.e.}, \forall t \in D, X_t = Y_t) \end{align*}
+</div>
+<p> Hence by the modification property we have that almost surely, for all \(t \in D\), \(X_t = Y_t\). Then almost surely \(X\) and \(Y\) are continuous functions which are equal on a dense subset of \(T\): those two functions are equal everywhere. </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0002.html" title="Characteristic function and covariance"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="Brownian motion"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="chap-gaussian.html" title="Gaussian distributions"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

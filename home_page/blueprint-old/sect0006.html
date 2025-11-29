@@ -1,0 +1,1002 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Modifications with cadlag paths</title>
+<link rel="next" href="chap-doob_meyer.html" title="Doob-Meyer Theorem" />
+<link rel="prev" href="sect0005.html" title="Simple processes and elementary integrals" />
+<link rel="up" href="sect0003.html" title="Stochastic integral" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of a Brownian motion and of stochastic integrals in Lean</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Characteristic function and covariance</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#sec:characteristic_function"><span class="toc_ref">1.1</span> <span class="toc_entry">Characteristic functions</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#sec:covariance"><span class="toc_ref">1.2</span> <span class="toc_entry">Covariance</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-process.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html"><span class="toc_ref">3</span> <span class="toc_entry">Gaussian distributions</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-gaussian.html#sec:gaussian_measures"><span class="toc_ref">3.1</span> <span class="toc_entry">Gaussian measures</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html#sec:gaussian_processes"><span class="toc_ref">3.2</span> <span class="toc_entry">Gaussian processes</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html"><span class="toc_ref">4</span> <span class="toc_entry">Projective family of the Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-projective_family.html#a0000000029"><span class="toc_ref">4.1</span> <span class="toc_entry">Kolmogorov extension theorem</span></a>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html#a0000000030"><span class="toc_ref">4.2</span> <span class="toc_entry">Projective family of Gaussian measures</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html"><span class="toc_ref">5</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000031"><span class="toc_ref">5.1</span> <span class="toc_entry">Covers and covering numbers</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000032"><span class="toc_ref">5.2</span> <span class="toc_entry">Chaining</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000033"><span class="toc_ref">5.3</span> <span class="toc_entry">Chaining for stochastic processes under Kolmogorov conditions</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000034"><span class="toc_ref">5.4</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-brownian.html"><span class="toc_ref">6</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-brownian.html#a0000000035"><span class="toc_ref">6.1</span> <span class="toc_entry">Stochastic process with continuous paths</span></a>
+ </li>
+<li class="">
+  <a href="chap-brownian.html#a0000000036"><span class="toc_ref">6.2</span> <span class="toc_entry">Wiener measure on the continuous functions</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="sect0003.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="chap-filtration_martingale.html"><span class="toc_ref">7</span> <span class="toc_entry">Filtrations, processes and martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-filtration_martingale.html#a0000000037"><span class="toc_ref">7.1</span> <span class="toc_entry">Basic definitions</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000038"><span class="toc_ref">7.2</span> <span class="toc_entry">Right-continuous filtrations</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000039"><span class="toc_ref">7.3</span> <span class="toc_entry">Predictable processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000040"><span class="toc_ref">7.4</span> <span class="toc_entry">Uniformly integrable</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000041"><span class="toc_ref">7.5</span> <span class="toc_entry">Optional sampling</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000042"><span class="toc_ref">7.6</span> <span class="toc_entry">Martingale convergence</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000043"><span class="toc_ref">7.7</span> <span class="toc_entry">Doob’s Lp inequality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-debut_theorem.html"><span class="toc_ref">8</span> <span class="toc_entry">Debut Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-debut_theorem.html#a0000000044"><span class="toc_ref">8.1</span> <span class="toc_entry">Corollaries</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">9</span> <span class="toc_entry">Local martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000045"><span class="toc_ref">9.1</span> <span class="toc_entry">Local properties</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000046"><span class="toc_ref">9.2</span> <span class="toc_entry">Locally Cadlag</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000047"><span class="toc_ref">9.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000048"><span class="toc_ref">9.4</span> <span class="toc_entry">Doob-Meyer class</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">10</span> <span class="toc_entry">Simple processes and elementary integrals</span></a>
+ </li>
+<li class=" active current">
+  <a href="sect0006.html"><span class="toc_ref">11</span> <span class="toc_entry">Modifications with cadlag paths</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-2 active">
+     <li class="">
+  <a href="sect0006.html#a0000000049"><span class="toc_ref">11.1</span> <span class="toc_entry">Preliminaries</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000050"><span class="toc_ref">11.2</span> <span class="toc_entry">Cadlag modifications of martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000051"><span class="toc_ref">11.3</span> <span class="toc_entry">Cadlag modifications of (local) martingales</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html"><span class="toc_ref">12</span> <span class="toc_entry">Doob-Meyer Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-doob_meyer.html#a0000000052"><span class="toc_ref">12.1</span> <span class="toc_entry">Doob decomposition in discrete time</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000053"><span class="toc_ref">12.2</span> <span class="toc_entry">Komlòs Lemma</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000054"><span class="toc_ref">12.3</span> <span class="toc_entry">Doob-Meyer decomposition</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000055"><span class="toc_ref">12.4</span> <span class="toc_entry">Local version of the Doob-Meyer decomposition</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">13</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0007.html#a0000000056"><span class="toc_ref">13.1</span> <span class="toc_entry">Total variation and Lebesgue-Stieltjes integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000057"><span class="toc_ref">13.2</span> <span class="toc_entry">Square integrable martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000058"><span class="toc_ref">13.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000059"><span class="toc_ref">13.4</span> <span class="toc_entry">Stochastic integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000060"><span class="toc_ref">13.5</span> <span class="toc_entry">Itô formula</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">14</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000007">11 Modifications with cadlag paths</h1>
+<h1 id="a0000000049">11.1 Preliminaries</h1>
+<p>TODO: define cadlag. </p>
+<h1 id="a0000000050">11.2 Cadlag modifications of martingales</h1>
+<h2 id="a0000000523">11.2.1 Upcrossings</h2>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:upcrossing_simpleProcess_le">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11.1</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:upcrossing_simpleProcess_le">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000524"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="sect0005.html#def:simpleProcess">Definition 10.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X : T \to \Omega \to \mathbb {R}\) be a stochastic process on a finite time domain \(T\). Then for all \(a {\lt} b\) in \(\mathbb {R}\) and \(t \in T\), there exists an elementary predictable set \(A\) such that the number of upcrossings \(U_t[a, b]\) of the interval \([a, b]\) before time \(t\) satisfies </p>
+<div class="displaymath" id="a0000000525">
+  \begin{align*}  (b - a) U_t[a, b] \le (\mathbb {1}_A \bullet X)_t + \max \{ a - X_t, 0\}  \: . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000524">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>See <a href ="https://almostsuremath.com/2009/12/06/upcrossings-downcrossings-and-martingale-convergence/">this chapter</a> of <span class="cite">
+	[
+</span>. </p>
+<p>In the proof, note that \(A\) can be written as a finite disjoint union of sets of the form \(\{ (t, \omega ) \mid \sigma (\omega ) {\lt} t \le \tau (\omega )\} \) for stopping times \(\sigma , \tau \). To see that each is an elementary predictable set, note that if \(T = \{ t_0, \ldots , t_n\} \) where \(t_0 {\lt} \cdots {\lt} t_n\), then it can be written as a finite disjoint union of sets </p>
+<div class="displaymath" id="a0000000526">
+  \begin{align*}  \{ \sigma (\omega ) {\lt} t \le \tau (\omega )\}  & = \bigcup _{k=1}^{n} {t_k} \times \{ \sigma {\lt} t_k \le \tau \}  \\ & = \bigcup _{k=1}^{n} (t_{k-1}, t_k] \times \{ \sigma \le t_{k-1} {\lt} \tau \}  \end{align*}
+</div>
+<p> where \(\{ \sigma \le t_{k-1} {\lt} \tau \}  \in \mathcal{F}_{t_{k-1}}\). Therefore \(A\) is an elementary predictable set. </p>
+
+  </div>
+</div>
+<h2 id="a0000000527">11.2.2 Cadlag modifications</h2>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_rightContinuous_modification_of_bounded_elemStochIntegral">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">11.2</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#thm:exists_rightContinuous_modification_of_bounded_elemStochIntegral">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000528"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-process.html#def:modification">Definition 2.2</a></li>
+          
+          <li><a href="sect0006.html#lem:upcrossing_simpleProcess_le">Lemma 11.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>  Let \(X : T \to \Omega \to \mathbb {R}\) be an adapted stochastic process such that one of the two following conditions hold: </p>
+<ol class="enumerate">
+  <li><p>\(X\) is integrable and for every \(t \in T\) the set \(\{ \mathbb {E}[(\mathbb {1}_A \bullet X)_t] \mid A \text{ elementary predictable}\} \) is bounded. </p>
+</li>
+  <li><p>For every \(t \in T\) the set \(\{ (\mathbb {1}_A \bullet X)_t \mid A \text{ elementary predictable}\} \) is bounded in probability. </p>
+</li>
+</ol>
+<p> Then \(X\) has a modification \(Y\) which has left and right limits everywhere and such that there is a countable set \(S \subseteq T\) for which \(Y\) is right-continuous on \(T \setminus S\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000528">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="corollary_thmwrapper theorem-style-plain" id="cor:exists_caldag_modification">
+  <div class="corollary_thmheading">
+    <span class="corollary_thmcaption">
+    Corollary
+    </span>
+    <span class="corollary_thmlabel">11.3</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#cor:exists_caldag_modification">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000529"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-process.html#def:modification">Definition 2.2</a></li>
+          
+          <li><a href="sect0006.html#thm:exists_rightContinuous_modification_of_bounded_elemStochIntegral">Theorem 11.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="corollary_thmcontent">
+  <p>  Let \(X : T \to \Omega \to \mathbb {R}\) be an adapted stochastic process which is right-continuous in probability and such that one of the two conditions of Theorem&#160;<a href="sect0006.html#thm:exists_rightContinuous_modification_of_bounded_elemStochIntegral">11.2</a> holds. Then \(X\) has a cadlag modification. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000529">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Martingale.exists_cadlag_modification_of_rightContinuous">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11.4</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:Martingale.exists_cadlag_modification_of_rightContinuous">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000530"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-process.html#def:modification">Definition 2.2</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0006.html#cor:exists_caldag_modification">Corollary 11.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X : T \to \Omega \to \mathbb {R}\) be a martingale which is right-continuous in probability. Then \(X\) has a cadlag modification. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000530">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Martingale.exists_modifications_limits">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11.5</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:Martingale.exists_modifications_limits">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000531"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-process.html#def:modification">Definition 2.2</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0006.html#thm:exists_rightContinuous_modification_of_bounded_elemStochIntegral">Theorem 11.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X : T \to \Omega \to \mathbb {R}\) be a martingale. Then \(X\) has a modification \(Y\) such that for all \(t \in T\), \(Y\) has left and right limits at \(t\) and such that there is a countable set \(S \subseteq T\) for which \(Y\) is right-continuous on \(T \setminus S\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000531">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Martingale.exists_cadlag_modification">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">11.6</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#thm:Martingale.exists_cadlag_modification">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000532"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-process.html#def:modification">Definition 2.2</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:rightContinuous">Definition 7.36</a></li>
+          
+          <li><a href="sect0006.html#lem:Martingale.exists_modifications_limits">Lemma 11.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>  Let \(X : T \to \Omega \to \mathbb {R}\) be a martingale with respect to a right-continuous filtration. Then \(X\) has a cadlag modification. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000532">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<h1 id="a0000000051">11.3 Cadlag modifications of (local) martingales</h1>
+<p>TODO: this is partially or entirely redundant, consider removing this section (and moving the dyadics definition elsewhere). </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:dyadics">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">11.7</span>
+    <span class="definition_thmtitle">Dyadics</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#def:dyadics">#</a>
+    
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p> For \(T{\gt}0\), let \(\mathcal{D}_n^T = \left\lbrace \frac{k}{2^n}T \mid k=0,\cdots 2^n\right\rbrace \) be the set of dyadics at scale \(n\) and let \(\mathcal{D}^T=\bigcup _{n\in \mathbb {N}}\mathcal{D}_n^T\) be the set of all dyadics of \([0,T]\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:martingale_exists_dyadic_limit_left">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11.8</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:martingale_exists_dyadic_limit_left">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000533"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0006.html#def:dyadics">Definition 11.7</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X=(X_t)_{t\in \mathcal{D}}\) be a martingale indexed by the dyadics. Then almost surely, for every \(t\geq 0\) the limit </p>
+<div class="displaymath" id="a0000000534">
+  \[  \lim _{\stackrel{s\rightarrow t^-}{s\in \mathcal{D}}}X_s(\omega )  \]
+</div>
+<p> exists and is finite. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000533">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>See 8.2.1 of Pascucci. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:martingale_exists_dyadic_limit_right">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11.9</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:martingale_exists_dyadic_limit_right">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000535"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0006.html#def:dyadics">Definition 11.7</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X=(X_t)_{t\in \mathcal{D}}\) be a martingale indexed by the dyadics. Then almost surely, for every \(t\geq 0\) the limit </p>
+<div class="displaymath" id="a0000000536">
+  \[  \lim _{\stackrel{s\rightarrow t^+}{s\in \mathcal{D}}}X_s(\omega )  \]
+</div>
+<p> exists and is finite. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000535">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>See 8.2.1 of Pascucci. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:mg_is_cadlag">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11.10</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:mg_is_cadlag">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000537"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:hasUsualConditions">Definition 7.41</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0006.html#lem:martingale_exists_dyadic_limit_right">Lemma 11.9</a></li>
+          
+          <li><a href="sect0006.html#lem:martingale_exists_dyadic_limit_left">Lemma 11.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let the filtered probability space satisfy the usual conditions. Then every martingale \(X\) admits a modification that is still a martingale with cadlag trajectories. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000537">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> See 8.2.3 of Pascucci. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:exists_cadlag_mod_of_nonneg_submg">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11.11</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:exists_cadlag_mod_of_nonneg_submg">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000538"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:hasUsualConditions">Definition 7.41</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0006.html#lem:martingale_exists_dyadic_limit_right">Lemma 11.9</a></li>
+          
+          <li><a href="sect0006.html#lem:martingale_exists_dyadic_limit_left">Lemma 11.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let the filtered probability space satisfy the usual conditions. Then every nonnegative submartingale \(X\) admits a modification that is still a nonnegative submartingale with cadlag trajectories. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000538">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> See 8.2.3 of Pascucci. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:exists_cadlag_mod_of_local_mg">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">11.12</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0006.html#lem:exists_cadlag_mod_of_local_mg">#</a>
+    
+    <a class="icon proof" href="sect0006.html#a0000000539"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:hasUsualConditions">Definition 7.41</a></li>
+          
+          <li><a href="sect0006.html#lem:mg_is_cadlag">Lemma 11.10</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let the filtered probability space satisfy the usual conditions. Then every local martingale \(X\) admits a modification that is still a local martingale with cadlag trajectories. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000539">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0005.html" title="Simple processes and elementary integrals"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0003.html" title="Stochastic integral"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="chap-doob_meyer.html" title="Doob-Meyer Theorem"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

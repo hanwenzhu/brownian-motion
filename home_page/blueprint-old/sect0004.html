@@ -1,0 +1,4592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Local martingales</title>
+<link rel="next" href="sect0005.html" title="Simple processes and elementary integrals" />
+<link rel="prev" href="chap-debut_theorem.html" title="Debut Theorem" />
+<link rel="up" href="sect0003.html" title="Stochastic integral" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of a Brownian motion and of stochastic integrals in Lean</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Characteristic function and covariance</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#sec:characteristic_function"><span class="toc_ref">1.1</span> <span class="toc_entry">Characteristic functions</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#sec:covariance"><span class="toc_ref">1.2</span> <span class="toc_entry">Covariance</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-process.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html"><span class="toc_ref">3</span> <span class="toc_entry">Gaussian distributions</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-gaussian.html#sec:gaussian_measures"><span class="toc_ref">3.1</span> <span class="toc_entry">Gaussian measures</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html#sec:gaussian_processes"><span class="toc_ref">3.2</span> <span class="toc_entry">Gaussian processes</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html"><span class="toc_ref">4</span> <span class="toc_entry">Projective family of the Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-projective_family.html#a0000000029"><span class="toc_ref">4.1</span> <span class="toc_entry">Kolmogorov extension theorem</span></a>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html#a0000000030"><span class="toc_ref">4.2</span> <span class="toc_entry">Projective family of Gaussian measures</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html"><span class="toc_ref">5</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000031"><span class="toc_ref">5.1</span> <span class="toc_entry">Covers and covering numbers</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000032"><span class="toc_ref">5.2</span> <span class="toc_entry">Chaining</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000033"><span class="toc_ref">5.3</span> <span class="toc_entry">Chaining for stochastic processes under Kolmogorov conditions</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000034"><span class="toc_ref">5.4</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-brownian.html"><span class="toc_ref">6</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-brownian.html#a0000000035"><span class="toc_ref">6.1</span> <span class="toc_entry">Stochastic process with continuous paths</span></a>
+ </li>
+<li class="">
+  <a href="chap-brownian.html#a0000000036"><span class="toc_ref">6.2</span> <span class="toc_entry">Wiener measure on the continuous functions</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="sect0003.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="chap-filtration_martingale.html"><span class="toc_ref">7</span> <span class="toc_entry">Filtrations, processes and martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-filtration_martingale.html#a0000000037"><span class="toc_ref">7.1</span> <span class="toc_entry">Basic definitions</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000038"><span class="toc_ref">7.2</span> <span class="toc_entry">Right-continuous filtrations</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000039"><span class="toc_ref">7.3</span> <span class="toc_entry">Predictable processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000040"><span class="toc_ref">7.4</span> <span class="toc_entry">Uniformly integrable</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000041"><span class="toc_ref">7.5</span> <span class="toc_entry">Optional sampling</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000042"><span class="toc_ref">7.6</span> <span class="toc_entry">Martingale convergence</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000043"><span class="toc_ref">7.7</span> <span class="toc_entry">Doob’s Lp inequality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-debut_theorem.html"><span class="toc_ref">8</span> <span class="toc_entry">Debut Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-debut_theorem.html#a0000000044"><span class="toc_ref">8.1</span> <span class="toc_entry">Corollaries</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="sect0004.html"><span class="toc_ref">9</span> <span class="toc_entry">Local martingales</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-2 active">
+     <li class="">
+  <a href="sect0004.html#a0000000045"><span class="toc_ref">9.1</span> <span class="toc_entry">Local properties</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000046"><span class="toc_ref">9.2</span> <span class="toc_entry">Locally Cadlag</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000047"><span class="toc_ref">9.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000048"><span class="toc_ref">9.4</span> <span class="toc_entry">Doob-Meyer class</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">10</span> <span class="toc_entry">Simple processes and elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">11</span> <span class="toc_entry">Modifications with cadlag paths</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000049"><span class="toc_ref">11.1</span> <span class="toc_entry">Preliminaries</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000050"><span class="toc_ref">11.2</span> <span class="toc_entry">Cadlag modifications of martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000051"><span class="toc_ref">11.3</span> <span class="toc_entry">Cadlag modifications of (local) martingales</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html"><span class="toc_ref">12</span> <span class="toc_entry">Doob-Meyer Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-doob_meyer.html#a0000000052"><span class="toc_ref">12.1</span> <span class="toc_entry">Doob decomposition in discrete time</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000053"><span class="toc_ref">12.2</span> <span class="toc_entry">Komlòs Lemma</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000054"><span class="toc_ref">12.3</span> <span class="toc_entry">Doob-Meyer decomposition</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000055"><span class="toc_ref">12.4</span> <span class="toc_entry">Local version of the Doob-Meyer decomposition</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">13</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0007.html#a0000000056"><span class="toc_ref">13.1</span> <span class="toc_entry">Total variation and Lebesgue-Stieltjes integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000057"><span class="toc_ref">13.2</span> <span class="toc_entry">Square integrable martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000058"><span class="toc_ref">13.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000059"><span class="toc_ref">13.4</span> <span class="toc_entry">Stochastic integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000060"><span class="toc_ref">13.5</span> <span class="toc_entry">Itô formula</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">14</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000005">9 Local martingales</h1>
+<h1 id="a0000000045">9.1 Local properties</h1>
+<p>This section contains material taken mostly from <span class="cite">
+	[
+</span> and <span class="cite">
+	[
+</span>. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:preLocalizingSequence">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.1</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:preLocalizingSequence">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:IsStoppingTime">Definition 7.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsPreLocalizingSequence" class="lean_decl">ProbabilityTheory.IsPreLocalizingSequence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A pre-localizing sequence is a sequence of stopping times \((\tau _n)_{n \in \mathbb {N}}\) such that \(\tau _n \to \infty \) as \(n \to \infty \) (a.s.). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:localizingSequence">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.2</span>
+    <span class="definition_thmtitle">Localizing sequence</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:localizingSequence">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:preLocalizingSequence">Definition 9.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsLocalizingSequence" class="lean_decl">ProbabilityTheory.IsLocalizingSequence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A localizing sequence is a sequence of stopping times \((\tau _n)_{n \in \mathbb {N}}\) such that \(\tau _n\) is non-decreasing and \(\tau _n \to \infty \) as \(n \to \infty \) (a.s.). That is, it is a pre-localizing sequence that is also almost surely non-decreasing. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:localizingSequence_const_top">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.3</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:localizingSequence_const_top">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000443"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isLocalizingSequence_const_top" class="lean_decl">ProbabilityTheory.isLocalizingSequence_const_top</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The constant sequence \(\tau _n = \infty \) is a localizing sequence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000443">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:localizingSequence_min">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.4</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:localizingSequence_min">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000444"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsLocalizingSequence.min" class="lean_decl">ProbabilityTheory.IsLocalizingSequence.min</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \((\sigma _n), (\tau _n)\) be localizing sequences. Then \((\sigma _n \wedge \tau _n)\) is a localizing sequence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000444">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:locally">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.5</span>
+    <span class="definition_thmtitle">Local property</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:locally">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:stoppedProcess">Definition 7.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.Locally" class="lean_decl">ProbabilityTheory.Locally</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.Locally.localSeq" class="lean_decl">ProbabilityTheory.Locally.localSeq</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Let \(P\) be a class of stochastic processes (or equivalently a predicate on stochastic processes). We say that a stochastic process \(X : T \to \Omega \to E\) is locally in \(P\) (or satisfies \(P\) locally) if there exists a localizing sequence \((\tau _n)_{n \in \mathbb {N}}\) such that for all \(n \in \mathbb {N}\), the process \(X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0}\) is in \(P\) (in which \(X^{\tau _n}\) denotes the stopped process). We denote the class of processes that are locally in \(P\) by \(P_{\mathrm{loc}}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:implies_locally">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.6</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:implies_locally">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000445"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#lem:localizingSequence_const_top">Lemma 9.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.locally_of_prop" class="lean_decl">ProbabilityTheory.locally_of_prop</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For any class of processes \(P\), we have \(P \subseteq P_{\mathrm{loc}}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000445">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Take \(\tau _n = \infty \) for all \(n\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_mono">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.7</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_mono">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000446"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.Locally.mono" class="lean_decl">ProbabilityTheory.Locally.mono</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(P \subseteq Q\) then \(P_{\mathrm{loc}} \subseteq Q_{\mathrm{loc}}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000446">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(X \in P_{\mathrm{loc}}\). Then there exists a localizing sequence \((\tau _n)_{n \in \mathbb {N}}\) such that for all \(n \in \mathbb {N}\), \(X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0} \in P\). Since \(P \subseteq Q\), for all \(n \in \mathbb {N}\), \(X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0} \in Q\). Thus \(X \in Q_{\mathrm{loc}}\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:stable">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.8</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:stable">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsStable" class="lean_decl">ProbabilityTheory.IsStable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A class of stochastic processes \(P\) is stable if whenever \(X\) is in \(P\), then for any stopping time \(\tau \), the process \(X^{\tau }\mathbb {I}_{\tau {\gt} 0}\) is also in \(P\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isStable_locally">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.9</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isStable_locally">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000447"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsStable.isStable_locally" class="lean_decl">ProbabilityTheory.IsStable.isStable_locally</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(P\) is a stable class of processes, then \(P_{\mathrm{loc}}\) is also stable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000447">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_inter">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.10</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_inter">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000448"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="sect0004.html#lem:localizingSequence_min">Lemma 9.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.locally_and" class="lean_decl">ProbabilityTheory.locally_and</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(P, Q\) are stable classes of processes then \((P\cap Q)_{\mathrm{loc}} = P_{\mathrm{loc}}\cap Q_{\mathrm{loc}}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000448">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The forward direction is trivial so we only provide proof for the reverse. </p>
+<p>Suppose that \(X \in P_{\mathrm{loc}}\cap Q_{\mathrm{loc}}\). Then, there exists localizing sequences \((\tau _n)_{n \in \mathbb {N}}\) and \((\sigma _n)_{n \in \mathbb {N}}\) such that \(X^{\tau _n} \mathbb {I}_{\tau _n {\gt} 0}\in P\) and \(X^{\sigma _n} \mathbb {I}_{\sigma _n {\gt} 0} \in Q\). Consequently, by the stability of \(P\), </p>
+<div class="displaymath" id="a0000000449">
+  \[ X^{\sigma _n \wedge \tau _n} \mathbb {I}_{\sigma _n \wedge \tau _n {\gt} 0} = (X^{\tau _n} \mathbb {I}_{\tau _n {\gt} 0})^{\sigma _n \wedge \tau _n} \mathbb {I}_{\sigma _n \wedge \tau _n {\gt} 0} \in P. \]
+</div>
+<p> Similarly, by the stability of \(Q\), \(X^{\sigma _n \wedge \tau _n} \mathbb {I}_{\sigma _n \wedge \tau _n {\gt} 0} \in Q\). Thus, as \(\sigma _n \wedge \tau _n\) is a localizing sequence by Lemma&#160;<a href="sect0004.html#lem:localizingSequence_min">9.4</a> and \(X^{\sigma _n \wedge \tau _n} \mathbb {I}_{\sigma _n \wedge \tau _n {\gt} 0} \in P \cap Q\) for all \(n\), it follows that \(X \in (P \cap Q)_{\mathrm{loc}}\) </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isLocalizingSequence_of_isPreLocalizingSequence">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.11</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isLocalizingSequence_of_isPreLocalizingSequence">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000450"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:rightContinuous_basic">Lemma 7.40</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isLocalizingSequence_of_isPreLocalizingSequence" class="lean_decl">ProbabilityTheory.isLocalizingSequence_of_isPreLocalizingSequence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \((\tau _n)_{n \in \mathbb {N}}\) is a pre-localizing sequence, then the sequence defined by \(\tau '_n = \inf _{m \ge n} \tau _m\) is a localizing sequence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000450">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_of_isPreLocalizingSequence">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.12</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_of_isPreLocalizingSequence">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000451"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:rightContinuous_basic">Lemma 7.40</a></li>
+          
+          <li><a href="sect0004.html#def:preLocalizingSequence">Definition 9.1</a></li>
+          
+          <li><a href="sect0004.html#lem:isLocalizingSequence_of_isPreLocalizingSequence">Lemma 9.11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.locally_of_isPreLocalizingSequence" class="lean_decl">ProbabilityTheory.locally_of_isPreLocalizingSequence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(P\) be a stable class of processes and let \((\tau _n)_{n \in \mathbb {N}}\) be a pre-localizing sequence such that for all \(n \in \mathbb {N}\), \(X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0}\) is in \(P\). If the filtration is right-continuous, then \(X\) is locally in \(P\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000451">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Using the localizing sequence defined by Lemma&#160;<a href="sect0004.html#lem:isLocalizingSequence_of_isPreLocalizingSequence">9.11</a> suffices. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isPreLocalizingSequence_of_isLocalizingSequence">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.13</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isPreLocalizingSequence_of_isLocalizingSequence">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000452"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:preLocalizingSequence">Definition 9.1</a></li>
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isPreLocalizingSequence_of_isLocalizingSequence" class="lean_decl">ProbabilityTheory.isPreLocalizingSequence_of_isLocalizingSequence</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \((\tau _n)_{n \in \mathbb {N}}\) be a localizing sequence and let \((\sigma _{n,k})_{k \in \mathbb {N}}\) be a localizing sequence for each \(n\). Then, there exists a strictly increasing sequence \((k_n)_{n \in \mathbb {N}}\) such that the sequence defined by \(\tau '_n = \tau _n \wedge \sigma _{n,k_n}\) is a pre-localizing sequence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000452">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>For each \(n\), since \(\sigma _{n,k} \to \infty \) a.s. as \(k \to \infty \), we may choose \(k_n \in \mathbb {N}\) such that \(P(\sigma _{n,k_n} {\lt} \tau _n \wedge n) \le 2^{-n}\). Then, defining \(\tau '_n = \tau _n \wedge \sigma _{n,k_n}\), we have \(\tau _n' \to \infty \) by the Borel-Cantelli lemma. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_locally">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.14</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_locally">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000453"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_of_isPreLocalizingSequence">Lemma 9.12</a></li>
+          
+          <li><a href="sect0004.html#lem:isStable_locally">Lemma 9.9</a></li>
+          
+          <li><a href="sect0004.html#lem:isPreLocalizingSequence_of_isLocalizingSequence">Lemma 9.13</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.locally_locally" class="lean_decl">ProbabilityTheory.locally_locally</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Suppose that the filtration is right-continuous. For any stable class of processes \(P\), we have \((P_{\mathrm{loc}})_{\mathrm{loc}} = P_{\mathrm{loc}}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000453">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \((P_{\mathrm{loc}})_{\mathrm{loc}} \supseteq P_{\mathrm{loc}}\) by Lemma&#160;<a href="sect0004.html#lem:isStable_locally">9.9</a> so we only prove the reverse inclusion. </p>
+<p>Let \(X\) be a process in \((P_{\mathrm{loc}})_{\mathrm{loc}}\). By definition there exists a localizing sequence \((\tau _n)_{n \in \mathbb {N}}\) such that for all \(n \in \mathbb {N}\), \(X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0}\) is in \(P_{\mathrm{loc}}\). By definition of \(P_{\mathrm{loc}}\), for each \(n\) there exists a localizing sequence \((\sigma _{n,k})_{k \in \mathbb {N}}\) such that for all \(k \in \mathbb {N}\), \((X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0})^{\sigma _{n,k}}\mathbb {I}_{\sigma _{n,k} {\gt} 0}\) is in \(P\). </p>
+<p>By Lemma&#160;<a href="sect0004.html#lem:locally_of_isPreLocalizingSequence">9.12</a>, it suffices to show that there exists a pre-localizing sequence \((\tau '_n)_{n \in \mathbb {N}}\) such that for all \(n \in \mathbb {N}\), \(X^{\tau '_n}\mathbb {I}_{\tau '_n {\gt} 0}\) is in \(P\). Thus, using the localizing sequences \(\tau '_n = \tau _n \wedge \sigma _{n, k_n}\) defined by Lemma&#160;<a href="sect0004.html#lem:isPreLocalizingSequence_of_isLocalizingSequence">9.13</a>, it remains to argue that by stability of \(P\), \(X^{\tau '_n}\mathbb {I}_{\tau '_n {\gt} 0}\) is in \(P\) for all \(n\). Indeed, this follows as \(X^{\tau '_n}\mathbb {I}_{\tau '_n {\gt} 0} = ((X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0})^{\sigma _{n,k_n}}\mathbb {I}_{\sigma _{n,k_n} {\gt} 0})^{\tau '_n}\mathbb {I}_{\tau '_n {\gt} 0}\) where \((X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0})^{\sigma _{n,k_n}}\mathbb {I}_{\sigma _{n,k_n} {\gt} 0}\) is in \(P\) by construction and \(P\) is stable. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:local_induction">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.15</span>
+    <span class="lemma_thmtitle">Local implication from global implication</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:local_induction">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000454"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_locally">Lemma 9.14</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_mono">Lemma 9.7</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.locally_induction" class="lean_decl">ProbabilityTheory.locally_induction</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Suppose that the filtration is right-continuous. Let \(P, Q\) be two classes of stochastic processes such that \(P \subseteq Q_{\mathrm{loc}}\) and \(Q\) is stable. Let \(X\) be a stochastic process that satisfies \(P\) locally. Then \(X\) satisfies \(Q\) locally. In short, if \(P\) implies \(Q\) locally, then \(P\) locally implies \(Q\) locally. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000454">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Since \(X \in P_{\mathrm{loc}}\), then \(X \in (Q_{\mathrm{loc}})_{\mathrm{loc}}\) by assumption and Lemma&#160;<a href="sect0004.html#lem:locally_mono">9.7</a>. By Lemma <a href="sect0004.html#lem:locally_locally">9.14</a>, \((Q_{\mathrm{loc}})_{\mathrm{loc}} = Q_{\mathrm{loc}}\). Thus \(X \in Q_{\mathrm{loc}}\). </p>
+
+  </div>
+</div>
+<h1 id="a0000000046">9.2 Locally Cadlag</h1>
+<p>We in this section assume \(\mathcal{F}\) satisfies the usual conditions (i.e. complete and right-continuous). </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isLocalizingSequence_ae">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.16</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isLocalizingSequence_ae">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000455"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isLocalizingSequence_ae" class="lean_decl">ProbabilityTheory.isLocalizingSequence_ae</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(P\) be a predicate on paths and suppose \(X\) is a stochastic process satisfying \(P\) a.s. Then, defining </p>
+<div class="displaymath" id="a0000000456">
+  \[ \tau _n(\omega ) = \begin{cases}  \infty &  \text{if } X(\omega ) \text{ satisfies } P \\ 0 &  \text{otherwise} \end{cases}  \]
+</div>
+<p> for all \(n \in \mathbb {N}\), the sequence \((\tau _n)_{n \in \mathbb {N}}\) is a localizing sequence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000455">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_of_ae">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.17</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_of_ae">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000457"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#lem:isLocalizingSequence_ae">Lemma 9.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.locally_of_ae" class="lean_decl">ProbabilityTheory.locally_of_ae</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(P\) be a predicate on paths such that the constant path \(0\) satisfies \(P\) and \(X\) is a stochastic process satisfying \(P\) a.s. then, \(X\) satisfies \(P\) locally. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000457">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Follows directly by using the localizing sequence defined in Lemma&#160;<a href="sect0004.html#lem:isLocalizingSequence_ae">9.16</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_rightContinuous">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.18</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_rightContinuous">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000458"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_of_ae">Lemma 9.17</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.Locally.rightContinuous" class="lean_decl">ProbabilityTheory.Locally.rightContinuous</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A stochastic process \(X\) is locally right continuous if and only if it is right continuous almost surely. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000458">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> If \(X\) is a.s. right continuous, then it is locally right continuous by Lemma&#160;<a href="sect0004.html#lem:locally_of_ae">9.17</a>. </p>
+<p>On the other hand, assuming \(X\) is locally right continuous, there exists a localizing sequence \((\tau _n)_{n \in \mathbb {N}}\) such that for all \(n \in \mathbb {N}\) and \(\omega \in \Omega \), \((X^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0})(\omega )\) is right continuous. Thus, for almost surely every \(\omega \) and any \(t \in T\) there exists \(N \in \mathbb {N}\) such that \(\tau _N(\omega ) {\gt} t + 1\) (not that the ordering of a.s. and for all is important). Hence, as \(X_s(\omega ) = (X^{\tau _N}\mathbb {I}_{\tau _N {\gt} 0})_s(\omega )\) on a neighborhood of \(t\), we have that \(X(\omega )\) is right continuous at \(t\). Consequently, as \(t\) was arbitrary, \(X\) is a.s. right continuous. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_leftLimit">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.19</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_leftLimit">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000459"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_of_ae">Lemma 9.17</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.Locally.left_limit" class="lean_decl">ProbabilityTheory.Locally.left_limit</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A stochastic process \(X\) has left limits locally if and only if it has left limits almost surely. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000459">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Same proof as in Lemma&#160;<a href="sect0004.html#lem:locally_rightContinuous">9.18</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_isCadlag">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.20</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_isCadlag">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000460"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_of_ae">Lemma 9.17</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_rightContinuous">Lemma 9.18</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_leftLimit">Lemma 9.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.Locally.isCadlag" class="lean_decl">ProbabilityTheory.Locally.isCadlag</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A stochastic process \(X\) is locally cadlag if and only if it is cadlag almost surely. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000460">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The forward direction follows from Lemmas&#160;<a href="sect0004.html#lem:locally_rightContinuous">9.18</a> and <a href="sect0004.html#lem:locally_leftLimit">9.19</a> while the reverse direction follows from Lemma&#160;<a href="sect0004.html#lem:locally_of_ae">9.17</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isStable_rightContinuous">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.21</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isStable_rightContinuous">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000461"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isStable_rightContinuous" class="lean_decl">ProbabilityTheory.isStable_rightContinuous</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The class of right continuous processes is stable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000461">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Trivial. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isStable_left_limit">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.22</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isStable_left_limit">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000462"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isStable_left_limit" class="lean_decl">ProbabilityTheory.isStable_left_limit</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The class of processes with left limits is stable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000462">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Trivial. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isStable_isCadlag">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.23</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isStable_isCadlag">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000463"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="sect0004.html#lem:isStable_rightContinuous">Lemma 9.21</a></li>
+          
+          <li><a href="sect0004.html#lem:isStable_left_limit">Lemma 9.22</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isStable_isCadlag" class="lean_decl">ProbabilityTheory.isStable_isCadlag</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The class of cadlag processes is stable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000463">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Follows from Lemmas&#160;<a href="sect0004.html#lem:isStable_rightContinuous">9.21</a> and <a href="sect0004.html#lem:isStable_left_limit">9.22</a>. </p>
+
+  </div>
+</div>
+<h1 id="a0000000047">9.3 Local martingales</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:IsLocalMartingale">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.24</span>
+    <span class="definition_thmtitle">Local martingale</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:IsLocalMartingale">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsLocalMartingale" class="lean_decl">ProbabilityTheory.IsLocalMartingale</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   We say a stochastic process \((M_t)_{t \in T}\) is a local martingale if it is locally a cadlag martingale in the sense of Definition&#160;<a href="sect0004.html#def:locally">9.5</a>. That is, there exists a localizing sequence \((\tau _n)_{n \in \mathbb {N}}\) such that for all \(n \in \mathbb {N}\), the process \(M^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0}\) is a cadlag martingale. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:IsLocalSubmartingale">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.25</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:IsLocalSubmartingale">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:stoppedProcess">Definition 7.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsLocalSubmartingale" class="lean_decl">ProbabilityTheory.IsLocalSubmartingale</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A stochastic process is a local submartingale if it is locally a cadlag submartingale in the sense of Definition&#160;<a href="sect0004.html#def:locally">9.5</a>. That is, there exists a localizing sequence \((\tau _n)_{n \in \mathbb {N}}\) such that for all \(n \in \mathbb {N}\), the process \(M^{\tau _n}\mathbb {I}_{\tau _n {\gt} 0}\) is a cadlag submartingale. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Martingale.IsLocalMartingale">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.26</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:Martingale.IsLocalMartingale">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000464"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+          <li><a href="sect0004.html#lem:implies_locally">Lemma 9.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.Martingale.IsLocalMartingale" class="lean_decl">ProbabilityTheory.Martingale.IsLocalMartingale</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Every cadlag martingale is a local martingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000464">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> This follows from Lemma <a href="sect0004.html#lem:implies_locally">9.6</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:stable_IsMartingale">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.27</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:stable_IsMartingale">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000465"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:optionalSampling">Lemma 7.74</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isStable_martingale" class="lean_decl">ProbabilityTheory.isStable_martingale</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The class of cadlag martingales is stable. That is, if \(M\) is a cadlag martingale and \(\tau \) is a stopping time, then the stopped process cadlag \(M^{\tau }\mathbb {I}_{\tau {\gt} 0}\) is also a martingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000465">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Clearly, the stopped process \(M^{\tau }\mathbb {I}_{\tau {\gt} 0}\) is cadlag and it remains to show that it is a martingale. </p>
+<p>Fixing \(s \le t \in T\), as \(\{ \tau {\gt} 0\}  \in \mathcal{F}_0 \subseteq \mathcal{F}_s\), we have </p>
+<div class="displaymath" id="a0000000466">
+  \[ P[M^{\tau }_t \mathbb {I}_{\tau {\gt} 0} \mid \mathcal{F}_s] = \mathbb {I}_{\tau {\gt} 0}P[M_{\tau \wedge t} \mid \mathcal{F}_{s}]. \]
+</div>
+<p> Thus, as \(\tau \wedge t\) is a bounded stopping time, we have by the optional stopping theorem (Lemma&#160;<a href="chap-filtration_martingale.html#lem:optionalSampling">7.74</a>) that \(P[M_{\tau \wedge t} \mid \mathcal{F}_{s}] = M_{(\tau \wedge t) \wedge s} = M_{\tau \wedge s}\) and so, \(P[M^{\tau }_t \mathbb {I}_{\tau {\gt} 0} \mid \mathcal{F}_s] = M^{\tau }_s \mathbb {I}_{\tau {\gt} 0}\) as required. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:stable_IsSubmartingale">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.28</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:stable_IsSubmartingale">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000467"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:optionalSampling">Lemma 7.74</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isStable_submartingale" class="lean_decl">ProbabilityTheory.isStable_submartingale</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The class of cadlag submartingales is stable. That is, if \(M\) is a cadlag submartingale and \(\tau \) is a stopping time, then the stopped process \(M^{\tau }\mathbb {I}_{\tau {\gt} 0}\) is also a cadlag submartingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000467">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:IsLocalMartingale.eq_zero_of_finiteVariation">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">9.29</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#thm:IsLocalMartingale.eq_zero_of_finiteVariation">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>  Let \(M\) be a continuous local martingale with \(M_0 = 0\). If \(M\) is also a finite variation process, then \(M_t = 0\) for all \(t\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000468">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<h1 id="a0000000048">9.4 Doob-Meyer class</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:locallyIntegrableSup">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.30</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:locallyIntegrableSup">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.HasLocallyIntegrableSup" class="lean_decl">ProbabilityTheory.HasLocallyIntegrableSup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   We say that a stochastic process is integrable if for all \(t\), \(X_t\) is integrable. A process has locally integrable supremum if \((\sup _{s \le t} \Vert X_s \Vert )_t\) is locally integrable. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:classD">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.31</span>
+    <span class="definition_thmtitle">Doob-Meyer class, class D</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:classD">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:IsStoppingTime">Definition 7.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.ClassD" class="lean_decl">ProbabilityTheory.ClassD</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A stochastic process \((X_t)\) is of class D (or in the Doob-Meyer class) if it is progressively measurable and the set \(\{ X_\tau \mid \tau \text{ is a finite stopping time}\} \) is uniformly integrable. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:classDL">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">9.32</span>
+    <span class="definition_thmtitle">Class DL</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#def:classDL">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:IsStoppingTime">Definition 7.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.ClassDL" class="lean_decl">ProbabilityTheory.ClassDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A stochastic process \((X_t)\) is of class DL if it is progressively measurable and for all \(t \ge 0\), the set \(\{ X_\tau \mid \tau \text{ is a stopping time with } \tau \le t\} \) is uniformly integrable. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:classDLOfClassD">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.33</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:classDLOfClassD">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000469"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">Lemma 7.55</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.ClassD.classDL" class="lean_decl">ProbabilityTheory.ClassD.classDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A stochastic process of class D is of class DL. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000469">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> This follows from the definitions and Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">7.55</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Submartingale.classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.34</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:Submartingale.classDL">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000470"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:optionalSamplingSubmartingale">Lemma 7.75</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.Submartingale.classDL" class="lean_decl">MeasureTheory.Submartingale.classDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Every nonnegative right-continuous submartingale is of class DL. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000470">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(t \in T\) and \(\tau \le t\) be a stopping time. By Lemma&#160;<a href="chap-filtration_martingale.html#lem:optionalSamplingSubmartingale">7.75</a> and nonnegativity we get that \(0 \le X_\tau \le P[X_t \mid X_\tau ]\). As \(X\) is a submartingale, \(X_t\) is integrable, thus \(\{ X_t\} \) is uniformly integrable, and we can conclude from Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableDominated">7.51</a> and Lemma&#160;<a href="chap-filtration_martingale.html#lem:condExpUI">7.47</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Submartingale.classD_iff_uniformIntegrable">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.35</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:Submartingale.classD_iff_uniformIntegrable">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000471"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#lem:Submartingale.classDL">Lemma 9.34</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrable_of_tendstoInMeasure">Lemma 7.58</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">Lemma 7.55</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.Submartingale.classD_iff_uniformIntegrable" class="lean_decl">MeasureTheory.Submartingale.classD_iff_uniformIntegrable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A nonnegative càdlàg submartingale is of class D if and only if it is uniformly integrable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000471">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Assume that \(X\) is uniformly integrable. We know from Lemma&#160;<a href="sect0004.html#lem:Submartingale.classDL">9.34</a> that \(X\) is of class DL. Moreover, for any finite stopping time \(\tau \), We have that \(X_\tau = \lim _{n \to +\infty } X_{\tau \land n}\). Thanks to Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrable_of_tendstoInMeasure">7.58</a>, we deduce that \(X\) is of class D. </p>
+<p>Conversely, if \(X\) is of class D, then applying Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">7.55</a> using constant stopping times will yield uniform integrability. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Martingale.classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.36</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:Martingale.classDL">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000472"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="sect0004.html#lem:Submartingale.classDL">Lemma 9.34</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:Martingale.submartingale_convex_comp">Lemma 7.13</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableIffNorm">Lemma 7.54</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.Martingale.classDL" class="lean_decl">MeasureTheory.Martingale.classDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Every càdlàg martingale is of class DL. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000472">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(X\) be càdlàg martingale. By Lemma&#160;<a href="chap-filtration_martingale.html#lem:Martingale.submartingale_convex_comp">7.13</a>, \((|X_t|)_{t \in T}\) is a nonnegative càdlàg submartingale, and the result follows from Lemma&#160;<a href="sect0004.html#lem:Submartingale.classDL">9.34</a> along with Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableIffNorm">7.54</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Martingale.classD_iff_uniformIntegrable">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.37</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:Martingale.classD_iff_uniformIntegrable">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000473"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#lem:Submartingale.classDL">Lemma 9.34</a></li>
+          
+          <li><a href="sect0004.html#lem:Submartingale.classD_iff_uniformIntegrable">Lemma 9.35</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableIffNorm">Lemma 7.54</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.Martingale.classD_iff_uniformIntegrable" class="lean_decl">MeasureTheory.Martingale.classD_iff_uniformIntegrable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A càdlàg martingale is of class D if and only if it is uniformly integrable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000473">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Applying Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableIffNorm">7.54</a>, this follows from Lemma&#160;<a href="sect0004.html#lem:Submartingale.classDL">9.34</a> along with Lemma&#160;<a href="sect0004.html#lem:Submartingale.classD_iff_uniformIntegrable">9.35</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isStable_hasLocallyIntegrableSup">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.38</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isStable_hasLocallyIntegrableSup">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000474"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="sect0004.html#def:locallyIntegrableSup">Definition 9.30</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isStable_hasLocallyIntegrableSup" class="lean_decl">ProbabilityTheory.isStable_hasLocallyIntegrableSup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The class of process with locally integrable supremum is stable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000474">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(X\) be a process with locally integrable supremum and \(\tau \) be a stopping time. Let \(t \in T\). Then \((X^\tau )^*_t = \sup _{s \le t} \| X_{\tau \land s}\|  \le \sup _{s \le t} \| X_s\|  = X^*_t\), and as \(X^*_t\) is integrable, so is \((X^\tau )^*_t\). Thus \((X^\tau \mathbb {I}_{\tau {\gt} 0})^*_t\) is integrable, concluding the proof. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isStable_classD">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.39</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isStable_classD">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000475"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">Lemma 7.55</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableDominated">Lemma 7.51</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isStable_classD" class="lean_decl">ProbabilityTheory.isStable_classD</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The class D is stable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000475">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(X\) be a process of class D and \(\tau \) be a stopping time. For any finite stopping time \(\sigma \), we have that \(X_\sigma ^\tau = X_{\sigma \land \tau }\). Because \(\sigma \land \tau \) is finite and \(X\) is of class D, we deduce from Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">7.55</a> that \(\{ X_{\sigma \land \tau } \mid \sigma \text{ is a finite stopping time}\} \) is uniformly integrable, and thus that \(\{ X^\tau _\sigma \mid \sigma \text{ is a finite stopping time}\} \) is uniformly integrable. Using Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableDominated">7.51</a>, we obtain that \(\{ X^\tau _\sigma \mathbb {I}_{\tau {\gt} 0} \mid \sigma \text{ is a finite stopping time}\} \) is uniformly integrable, which concludes the proof. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isStable_classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.40</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isStable_classDL">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000476"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:stable">Definition 9.8</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">Lemma 7.55</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableDominated">Lemma 7.51</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isStable_classDL" class="lean_decl">ProbabilityTheory.isStable_classDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The class DL is stable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000476">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(X\) be a process of class DL, \(\tau \) be a stopping time. Let \(t \in T\). For any stopping time \(\sigma \le t\), we have that \(X_\sigma ^\tau = X_{\sigma \land \tau }\). Because \(\sigma \land \tau \) is bounded by \(t\) and \(X\) is of class DL, we deduce from Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">7.55</a> that \(\{ X_{\sigma \land \tau } \mid \sigma \text{ is a stopping time with } \sigma \le t\} \) is uniformly integrable, and thus that \(\{ X^\tau _\sigma \mid \sigma \text{ is a stopping time with } \sigma \le t\} \) is uniformly integrable. Using Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableDominated">7.51</a>, we obtain that \(\{ X^\tau _\sigma \mathbb {I}_{\tau {\gt} 0} \mid \sigma \text{ is a stopping time with } \sigma \le t\} \) is uniformly integrable, which concludes the proof. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Integrable.classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.41</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:Integrable.classDL">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000477"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableDominatedSingleton">Lemma 7.52</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.Integrable.classDL" class="lean_decl">MeasureTheory.Integrable.classDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(X\) be a stochastic process such that for all \(t \in T\), \(X^*_t := \sup _{s \le t} \| X_t\| \) is integrable. Then \(X\) is of class DL. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000477">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Let \(t \in T\). For every stopping time \(\tau \) with \(\tau \le t\), we have \(\| X_\tau \|  \le X^*_t\). Because by hypothesis \(X^*_t\) is integrable, we deduce from Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableDominatedSingleton">7.52</a> that \(\{ X_\tau \mid \tau \text{ is a stopping time with } \tau \le t\} \) is uniformly integrable. This proves that \(X\) is of class DL. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:HasLocallyIntegrableSup.locally_classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.42</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:HasLocallyIntegrableSup.locally_classDL">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000478"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:locallyIntegrableSup">Definition 9.30</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="sect0004.html#lem:Integrable.classDL">Lemma 9.41</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_mono">Lemma 9.7</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.HasLocallyIntegrableSup.locally_classDL" class="lean_decl">ProbabilityTheory.HasLocallyIntegrableSup.locally_classDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Assume that the filtration is right-continuous. Let \(X\) be a stochastic process with locally integrable supremum. Then \(X\) is locally of class DL. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000478">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Combine Lemma&#160;<a href="sect0004.html#lem:Integrable.classDL">9.41</a> and Lemma&#160;<a href="sect0004.html#lem:locally_mono">9.7</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:ClassDL.locally_classD">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.43</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:ClassDL.locally_classD">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000479"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">Lemma 7.55</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:uniformIntegrableDominated">Lemma 7.51</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.ClassDL.locally_classD" class="lean_decl">ProbabilityTheory.ClassDL.locally_classD</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(X\) is of class DL then it is locally of class D. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000479">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Take \(\tau _n := n\). Then </p>
+<div class="displaymath" id="a0000000480">
+  \begin{align*}  \{ X^{\tau _n}_\sigma \mid \sigma \text{ is a finite stopping time}\}  &  = \{ X_{\sigma \land n} \mid \sigma \text{ is a finite stopping time}\}  \\ &  \subseteq \{ X_\sigma \mid \sigma \text{ is a stopping time with } \sigma \le n\} . \end{align*}
+</div>
+<p> Because \(X\) is of class DL, that last set is uniformly integrable, thus </p>
+<div class="displaymath" id="a0000000481">
+  \[ \{ X^{\tau _n}_\sigma \mid \sigma \text{ is a finite stopping time}\}  \]
+</div>
+<p> is uniformly integrable thanks to Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableComp">7.55</a>. Lemma&#160;<a href="chap-filtration_martingale.html#lem:uniformIntegrableDominated">7.51</a> allows to conclude that </p>
+<div class="displaymath" id="a0000000482">
+  \[ \{ X^{\tau _n}_\sigma \mathbb {I}_{\tau _n {\gt} 0} \mid \sigma \text{ is a finite stopping time}\}  \]
+</div>
+<p> is uniformly integrable, thus \(X^{\tau _n} \mathbb {I}_{\tau _n {\gt} 0}\) is of class D. Obviously \(\tau _n \rightarrow +\infty \) as \(n\) goes to infinity, so \(X\) is locally of class D. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_classD_of_locally_classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.44</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_classD_of_locally_classDL">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000483"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:rightContinuous">Definition 7.36</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="sect0004.html#lem:local_induction">Lemma 9.15</a></li>
+          
+          <li><a href="sect0004.html#lem:ClassDL.locally_classD">Lemma 9.43</a></li>
+          
+          <li><a href="sect0004.html#lem:isStable_classD">Lemma 9.39</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.locally_classD_of_locally_classDL" class="lean_decl">ProbabilityTheory.locally_classD_of_locally_classDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If the filtration is right-continuous and \(X\) is locally of class DL then it is locally of class D. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000483">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Apply Lemma&#160;<a href="sect0004.html#lem:local_induction">9.15</a> using Lemma&#160;<a href="sect0004.html#lem:ClassDL.locally_classD">9.43</a> and Lemma&#160;<a href="sect0004.html#lem:isStable_classD">9.39</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isBounded_image_of_isCadlag_of_isCompact">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.45</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isBounded_image_of_isCadlag_of_isCompact">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000484"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/isBounded_image_of_isCadlag_of_isCompact" class="lean_decl">isBounded_image_of_isCadlag_of_isCompact</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Assume \(T\) is a linear order endowed with a topology making it first countable and \(E\) is a pseudometric space. If \(X\) is a càdlàg process then it maps compact sets to bounded sets. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000484">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Let \(K \subseteq T\) be a compact set and \(\omega \in \Omega \). Assume that \(X(\omega )(K)\) is not bounded. Then there exists a sequence \((t_n)\) in \(K\) such that for all \(n \in N\), \(d(X_{t_n}(\omega ), x) \ge n\), for some arbitrary \(x \in E\). Because \(K\) is compact, there is a subsequence \((t_{\phi (n)})\) that converges. Then one can extract a subsequence \((t_{\phi (\psi (n))})\) which either converges from below or from above. In both cases the sequence \((X_{t_{\phi (\psi (n))}})\) will converge, contradicting the hypotheses. </p>
+
+  </div>
+</div>
+<p>TODO: refine the hypotheses with those of Début theorem. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isLocalizingSequence_hittingAfter_Ici">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.46</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:isLocalizingSequence_hittingAfter_Ici">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000485"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-debut_theorem.html#def:leastGE">Definition 8.2</a></li>
+          
+          <li><a href="sect0004.html#def:localizingSequence">Definition 9.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isLocalizingSequence_hittingAfter_Ici" class="lean_decl">ProbabilityTheory.isLocalizingSequence_hittingAfter_Ici</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Assume \(T\) has a bottom element \(\bot \) and that its closed intervals are compact. If \(X\) is a real-valued càdlàg and adapted process, and if the filtration is right-continuous, then the sequence \(\tau _n := \inf \{ t | X_t \ge n\} \) is a localizing sequence. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000485">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>By Corollary&#160;<a href="chap-debut_theorem.html#cor:isStoppingTime_leastGE_of_rightContinuous">8.4</a>, each \(\tau _n\) is a stopping time. Moreover, for all \(n \in \mathbb {N}\), \(X_t \ge n+1 \implies X_t \ge n\), thus \(\tau _n \le \tau _{n+1}\). Finally, for every \(\omega \in \Omega \) and \(t_0 \in T\) there exists \(N \in \mathbb {N}\) such that for all \(s \le t_0\), \(X_s \le N\) thanks to Lemma&#160;??. Thus for all \(n \ge N\), \(\tau _n(\omega ) \ge t_0\), proving that \(\tau _n\) tends to infinity as n goes to infinity. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:sup_stoppedProcess_le">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.47</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:sup_stoppedProcess_le">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000486"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:stoppedProcess">Definition 7.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.sup_stoppedProcess_hittingAfter_Ici_le" class="lean_decl">ProbabilityTheory.sup_stoppedProcess_hittingAfter_Ici_le</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For \(Y\) a stochastic process, let \(Y^*_t = \sup _{s \le t} \Vert Y_s \Vert \). Let \(X\) be a stochastic process and let \(\tau = \inf \{ t \mid \Vert X_t \Vert \ge n\} \) for some \(n \in \mathbb {R}\). Then </p>
+<div class="displaymath" id="a0000000487">
+  \begin{align*}  (X^{\tau })^*_t \le n + \mathbb {1}_{\tau \le t} \Vert X_{\tau } \Vert \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000486">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>If \(\tau {\gt} t\), then for all \(s \le t\), \(\| X_s\|  \le n\), and thus \((X^\tau )^*_t = \sup _{s \le t} \| X_{\tau \land s}\|  \le n = n + \mathbb {1}_{\tau \le t} \| X_{\tau }\| \). Otherwise \((X^\tau )^*_t = \sup _{s \le \tau } \| X_s\| \). For \(s {\lt} \tau \), \(\| X_s\|  \le n\), and \(\| X_\tau \|  \le \| X_\tau \| \) so \(\sup _{s \le \tau } \| X_s\|  \le n \lor \| X_\tau \|  \le n + \| X_\tau \|  = n + \mathbb {I}_{\tau \le t} \| X_\tau \| \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:ClassDL.hasLocallyIntegrableSup">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.48</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:ClassDL.hasLocallyIntegrableSup">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000488"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:locallyIntegrableSup">Definition 9.30</a></li>
+          
+          <li><a href="sect0004.html#lem:isLocalizingSequence_hittingAfter_Ici">Lemma 9.46</a></li>
+          
+          <li><a href="sect0004.html#lem:sup_stoppedProcess_le">Lemma 9.47</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.ClassDL.hasLocallyIntegrableSup" class="lean_decl">ProbabilityTheory.ClassDL.hasLocallyIntegrableSup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Assume \(T\) has a bottom element \(\bot \) and that its closed intervals are compact. If \(X\) is a càdlàg and adapted process, and if the filtration is right-continuous, then any process of class DL has locally integrable supremum. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000488">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Set \(\tau _n := \inf \{ t | X_t \ge n\} \). This is a localizing sequence by Lemma&#160;<a href="sect0004.html#lem:isLocalizingSequence_hittingAfter_Ici">9.46</a>. For every \(t \in T\), we have by Lemma&#160;<a href="sect0004.html#lem:sup_stoppedProcess_le">9.47</a> that \((X^{\tau _n})^*_t \le n + \mathbb {I}_{\tau _n \le t} \| X_{\tau _n}\|  = n + \mathbb {I}_{\tau _n \le t} \| X_{\tau _n \land t}\| \). Because X is of class DL, \(X_{\tau _n \land t}\) is integrable, so \((X^{\tau _n})^*_t\) is integrable too, so \((X^{\tau _n} \mathbb {I}_{\tau _n {\gt} 0})^*_t\) is integrable. Thus \(X\) has locally integrable supremum. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:hasLocallyIntegrableSup_of_locally_classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.49</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:hasLocallyIntegrableSup_of_locally_classDL">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000489"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:locallyIntegrableSup">Definition 9.30</a></li>
+          
+          <li><a href="sect0004.html#lem:local_induction">Lemma 9.15</a></li>
+          
+          <li><a href="sect0004.html#lem:ClassDL.hasLocallyIntegrableSup">Lemma 9.48</a></li>
+          
+          <li><a href="sect0004.html#lem:isStable_hasLocallyIntegrableSup">Lemma 9.38</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.hasLocallyIntegrableSup_of_locally_classDL" class="lean_decl">ProbabilityTheory.hasLocallyIntegrableSup_of_locally_classDL</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Assume \(T\) has a bottom element \(\bot \) and that its closed intervals are compact. If \(X\) is a càdlàg and adapted process, and if the filtration is right-continuous, then any process locally of class DL has locally integrable supremum. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000489">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Apply Lemma&#160;<a href="sect0004.html#lem:local_induction">9.15</a> using Lemma&#160;<a href="sect0004.html#lem:ClassDL.hasLocallyIntegrableSup">9.48</a> and Lemma&#160;<a href="sect0004.html#lem:isStable_hasLocallyIntegrableSup">9.38</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_classD_iff_locallyIntegrableSup">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.50</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_classD_iff_locallyIntegrableSup">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:locallyIntegrableSup">Definition 9.30</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  A cadlag adapted process is locally of class D if and only if it has locally integrable supremum. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000490">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:locally_classD_iff_locally_classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.51</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:locally_classD_iff_locally_classDL">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  A cadlag adapted process is locally of class D if and only if it is locally of class DL. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000491">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Submartingale.locallyIntegrableSup">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.52</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:Submartingale.locallyIntegrableSup">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000492"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0004.html#def:locallyIntegrableSup">Definition 9.30</a></li>
+          
+          <li><a href="sect0004.html#lem:sup_stoppedProcess_le">Lemma 9.47</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:Submartingale.integrable_stoppedValue">Lemma 7.8</a></li>
+          
+          <li><a href="chap-debut_theorem.html#cor:isStoppingTime_leastGE_of_rightContinuous">Corollary 8.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Every cadlag submartingale for a right-continuous filtration has locally integrable supremum. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000492">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Define the stopping times \(\sigma _n = \inf \{ t \mid \Vert X_t \Vert \ge n\} \) and set \(\tau _n = \sigma _n \wedge n\). \(\sigma _n\) is a stopping time by Lemma&#160;<a href="chap-debut_theorem.html#cor:isStoppingTime_leastGE_of_rightContinuous">8.4</a> and so \(\tau _n\) is also a stopping time. The times \((\tau _n)_{n \in \mathbb {N}}\) form a localizing sequence. By Lemma&#160;<a href="sect0004.html#lem:sup_stoppedProcess_le">9.47</a>, we have that </p>
+<div class="displaymath" id="a0000000493">
+  \begin{align*}  (X^{\tau _n})^*_t &  \le n + \mathbb {1}_{\tau _n \le t} \Vert X_{\tau _n} \Vert \\ &  \le n + \Vert X_{\tau _n} \Vert \:  . \end{align*}
+</div>
+<p> It remains to show that \(X_{\tau _n}\) is integrable for each \(n\). This follows by Lemma&#160;<a href="chap-filtration_martingale.html#lem:Submartingale.integrable_stoppedValue">7.8</a> as \(\tau _n\) is a bounded stopping time. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Submartingale.locally_classD">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.53</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:Submartingale.locally_classD">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000494"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#lem:Submartingale.locallyIntegrableSup">Lemma 9.52</a></li>
+          
+          <li><a href="sect0004.html#lem:locally_classD_iff_locallyIntegrableSup">Lemma 9.50</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Every cadlag submartingale is locally of class D. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000494">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By Lemma&#160;<a href="sect0004.html#lem:locally_classD_iff_locallyIntegrableSup">9.50</a>, it suffices to show that every cadlag submartingale has locally integrable supremum. This is done in Lemma&#160;<a href="sect0004.html#lem:Submartingale.locallyIntegrableSup">9.52</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsLocalSubmartingale.locally_classD">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.54</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:IsLocalSubmartingale.locally_classD">#</a>
+    
+    <a class="icon proof" href="sect0004.html#a0000000495"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalSubmartingale">Definition 9.25</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+          <li><a href="sect0004.html#lem:local_induction">Lemma 9.15</a></li>
+          
+          <li><a href="sect0004.html#lem:stable_IsSubmartingale">Lemma 9.28</a></li>
+          
+          <li><a href="sect0004.html#lem:Submartingale.locally_classD">Lemma 9.53</a></li>
+          
+          <li><a href="sect0004.html#lem:isStable_classD">Lemma 9.39</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Every local submartingale is locally of class D. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000495">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By Lemma&#160;<a href="sect0004.html#lem:local_induction">9.15</a>, it suffices to show that if \(X\) is a submartingale then it is locally of class D. This is done in Lemma&#160;<a href="sect0004.html#lem:Submartingale.locally_classD">9.53</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsLocalMartingale.locally_classD">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.55</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:IsLocalMartingale.locally_classD">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+          <li><a href="sect0004.html#def:classD">Definition 9.31</a></li>
+          
+          <li><a href="sect0004.html#def:locally">Definition 9.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Every local martingale is locally of class D. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000496">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsLocalMartingale.martingale_iff_classDL">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.56</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:IsLocalMartingale.martingale_iff_classDL">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  A local martingale is a martingale if and only if it is of class DL. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000497">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsLocalSubmartingale.submartingale_iff_classDL_of_nonnegative">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">9.57</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0004.html#lem:IsLocalSubmartingale.submartingale_iff_classDL_of_nonnegative">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalSubmartingale">Definition 9.25</a></li>
+          
+          <li><a href="sect0004.html#def:classDL">Definition 9.32</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  A nonnegative local submartingale is a submartingale if and only if it is of class DL. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000498">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="chap-debut_theorem.html" title="Debut Theorem"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0003.html" title="Stochastic integral"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0005.html" title="Simple processes and elementary integrals"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

@@ -3,6 +3,7 @@ Copyright (c) 2025 Kexing Ying. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Kexing Ying
 -/
+import Architect
 import BrownianMotion.StochasticIntegral.ApproxSeq
 import BrownianMotion.Auxiliary.Adapted
 
@@ -139,6 +140,32 @@ theorem stoppedValue_min_ae_eq_condExp_of_discreteApproxSequence
 
 -- TODO: change name of `stoppedValue_min_ae_eq_condExp` in mathlib and remove the prime here
 /-- **Optional sampling theorem** for approximable time indices. -/
+@[blueprint
+  "lem:optionalSampling"
+  (title := "Optional sampling (continuous time)")
+  (statement := /-- Let $X$ be a right-continuous $\mathcal{F}$-martingale on an approximable time
+    index. Then, for
+    any stopping times $\sigma, \tau$ with $\tau$ bounded, we have that
+    $X_{\sigma \wedge \tau} = P[X_{\tau} \mid \mathcal{F}_{\sigma}]$ almost surely. -/)
+  (proof := /-- Fixing $A \in \mathcal{F}_{\sigma}$, we need to show that $P[X_{\tau} \mathbb{I}_A]
+    = P[X_{\sigma \wedge \tau} \mathbb{I}_A]$.
+    
+    Let $(\tau_n), (\sigma_n)$ be discrete approximation sequences of $\tau$ and $\sigma$
+    respectively.
+    As $\tau_n, \sigma_n$ take values in a countable set,
+    we have by the discrete time optional sampling theorem
+    (Lemma~\ref{lem:optionalSampling_discrete}) that
+    $$X_{\sigma_n \wedge \tau_n} = P[X_{\tau_n} \mid \mathcal{F}_{\sigma_n}]$$
+    and so, as \(\mathcal{F}_{\sigma} \subseteq \mathcal{F}_{\sigma_n}\) by
+    Lemma~\ref{lem:StoppingTimeGenMono},
+    we have that $P[X_{\sigma_n \wedge \tau_n} \mathbb{I}_A] = P[X_{\tau_n} \mathbb{I}_A]$.
+    On the other hand, by Lemma~\ref{lem:uniformIntegrable_stoppedValue_martingale}, the families
+    $\{X_{\tau_n}\}$ and $\{X_{\sigma_n \wedge \tau_n}\}$ are uniformly integrable.
+    Thus, as $X$ is right-continuous, $(X_{\sigma_n \wedge \tau_n}, X_{\tau_n}) \to (X_{\sigma
+    \wedge \tau}, X_{\tau})$ a.s.
+    We have $P[X_{\tau} \mathbb{I}_A] = P[X_{\sigma \wedge \tau} \mathbb{I}_A]$
+    by Lemma~\ref{lem:tendsto_eLpNorm_stoppedValue_discreteApproxSequence} as desired. -/)
+  (latexEnv := "lemma")]
 theorem stoppedValue_min_ae_eq_condExp'
     [Approximable 𝓕 μ] (h : Martingale X 𝓕 μ) (hRC : ∀ ω, RightContinuous (X · ω))
     (hτ : IsStoppingTime 𝓕 τ) (hσ : IsStoppingTime 𝓕 σ) {n : ι} (hτ_le : ∀ x, τ x ≤ n) :
@@ -176,6 +203,31 @@ section Nat
 
 variable {σ τ : Ω → WithTop ℕ} {X : ℕ → Ω → E} (𝓕 : Filtration ℕ mΩ)
 
+@[blueprint
+  "lem:optionalSampling_discrete_submartingale"
+  (statement := /-- Let $X$ be a discrete time submartingale with respect to the filtration
+    $\mathcal{F}$ taking values in a real Banach space $E$. Assume $E$ is an order-closed partial
+    order, an ordered monoid and an ordered module. Let $\tau, \sigma$ be stopping times. Then, if
+    $\tau$ is bounded, we have that almost surely, $X_{\tau \wedge \sigma} \le P[X_{\tau} \mid
+    \mathcal{F}_{\sigma}]$. -/)
+  (proof := /-- Use Doob decomposition to write $X_n = M_n + A_n$, where $M$
+    (Definition~\ref{def:martingalePart}) is a martingale
+    (Lemma~\ref{lem:martingale_martingalePart}) and $A$ (Definition~\ref{def:predictablePart}) is a
+    predictable process (Lemma~\ref{lem:predictable_predictablePart}). By
+    Lemma~\ref{lem:optionalSampling_discrete}, we have that almost surely, $M_{\tau \wedge \sigma} =
+    P[M_{\tau} \mid \mathcal{F}_{\sigma}]$. Because $A$ is predictable and $\tau \wedge \sigma \le
+    \sigma$, we deduce that almost surely, $A_{\tau \wedge \sigma} = P[A_{\tau \wedge \sigma} \mid
+    \mathcal{F}_\sigma]$. Moreover, by
+    Lemma~\ref{lem:nondecreasing_predictablePart_of_submartingale}, we know that almost surely, $A$
+    is nondecreasing. Therefore, using the fact $\tau \wedge \sigma \le \tau$, we get that
+    $P[A_{\tau \wedge \sigma} \mid \mathcal{F}_\sigma] \le P[A_\tau \mid \mathcal{F}_\sigma]$. We
+    deduce that almost surely,
+    $$X_{\tau \wedge \sigma} = M_{\tau \wedge \sigma} + A_{\tau \wedge \sigma} \le P[M_\tau \mid
+    \mathcal{F}_\sigma] + P[A_\tau \mid \mathcal{F}_\sigma] = P[X_\tau \mid \mathcal{F}_\sigma],$$
+    concluding the proof. -/)
+  (proofUses := ["lem:predictable_predictablePart", "lem:martingale_martingalePart",
+    "lem:nondecreasing_predictablePart_of_submartingale", "lem:optionalSampling_discrete"])
+  (latexEnv := "lemma")]
 theorem Submartingale.stoppedValue_min_ae_le_condExp_nat [PartialOrder E] [OrderClosedTopology E]
     [IsOrderedModule ℝ E] [IsOrderedAddMonoid E]
     (hX : Submartingale X 𝓕 P) {k : ℕ} (hτk : ∀ᵐ ω ∂P, τ ω ≤ k)
@@ -183,6 +235,19 @@ theorem Submartingale.stoppedValue_min_ae_le_condExp_nat [PartialOrder E] [Order
     stoppedValue X (τ ⊓ σ) ≤ᵐ[P] P[stoppedValue X τ|hσ.measurableSpace] := by
   sorry
 
+@[blueprint
+  "lem:optionalSampling_discrete_supermartingale"
+  (statement := /-- Let $X$ be a discrete time supermartingale with respect to the filtration
+    $\mathcal{F}$ taking values in a real Banach space $E$. Assume $E$ is an order-closed partial
+    order, an ordered monoid and an ordered module. Let $\tau, \sigma$ be stopping times. Then, if
+    $\tau$ is bounded, we have that almost surely, $X_{\tau \wedge \sigma} \ge P[X_{\tau} \mid
+    \mathcal{F}_{\sigma}]$. -/)
+  (proof := /-- We know that $-X$ is a submartingale, so from
+    Lemma~\ref{lem:optionalSampling_discrete_submartingale} we obtain that almost surely, $-X_{\tau
+    \wedge \sigma} \le P[-X_{\tau} \mid \mathcal{F}_{\sigma}]$. Multiplying by $-1$ yields the
+    desired result. -/)
+  (proofUses := ["lem:optionalSampling_discrete_submartingale"])
+  (latexEnv := "lemma")]
 theorem Supermartingale.condExp_ae_le_stoppedValue_min_nat [PartialOrder E] [OrderClosedTopology E]
     [IsOrderedModule ℝ E] [IsOrderedAddMonoid E]
     (hX : Supermartingale X 𝓕 P) {k : ℕ} (hτk : ∀ᵐ ω ∂P, τ ω ≤ k)
@@ -196,6 +261,34 @@ variable {ι : Type*} [LinearOrder ι] [TopologicalSpace ι] [OrderTopology ι]
   [OrderBot ι] [MeasurableSpace ι] [SecondCountableTopology ι] [BorelSpace ι] [MetrizableSpace ι]
   {σ τ : Ω → WithTop ι} {X : ι → Ω → E} (𝓕 : Filtration ι mΩ)
 
+@[blueprint
+  "lem:optionalSamplingSubmartingale"
+  (statement := /-- Let $X$ be a right-continuous $\mathcal{F}$-submartingale on an approximable
+    time index. Then, for
+    any stopping times $\sigma, \tau$ with $\tau$ bounded, we have that
+    $X_{\sigma \wedge \tau} \le P[X_{\tau} \mid \mathcal{F}_{\sigma}]$ almost surely. -/)
+  (proof := /-- Fixing $A \in \mathcal{F}_{\sigma}$, we need to show that $P[X_{\tau} \mathbb{I}_A]
+    \le P[X_{\sigma \wedge \tau} \mathbb{I}_A]$.
+    
+    Let $(\tau_n), (\sigma_n)$ be discrete approximation sequences of $\tau$ and $\sigma$
+    respectively.
+    As $\tau_n, \sigma_n$ take values in a countable set,
+    we have by the discrete time optional sampling theorem
+    (Lemma~\ref{lem:optionalSampling_discrete_submartingale}) that
+    $$X_{\sigma_n \wedge \tau_n} \le P[X_{\tau_n} \mid \mathcal{F}_{\sigma_n}]$$
+    and so, as \(\mathcal{F}_{\sigma} \subseteq \mathcal{F}_{\sigma_n}\) by
+    Lemma~\ref{lem:StoppingTimeGenMono},
+    we have that $P[X_{\sigma_n \wedge \tau_n} \mathbb{I}_A] \le P[X_{\tau_n} \mathbb{I}_A]$.
+    On the other hand, by Lemma~\ref{lem:uniformIntegrable_stoppedValue_submartingale}, the families
+    $\{X_{\tau_n}\}$ and $\{X_{\sigma_n \wedge \tau_n}\}$ are uniformly integrable.
+    Thus, as $X$ is right-continuous, $(X_{\sigma_n \wedge \tau_n}, X_{\tau_n}) \to (X_{\sigma
+    \wedge \tau}, X_{\tau})$ a.s.
+    We have $P[X_{\tau} \mathbb{I}_A] \le P[X_{\sigma \wedge \tau} \mathbb{I}_A]$
+    by Lemma~\ref{lem:tendsto_eLpNorm_stoppedValue_discreteApproxSequence} as desired. -/)
+  (proofUses := ["lem:tendsto_eLpNorm_stoppedValue_discreteApproxSequence",
+    "lem:stoppingTime_approximation", "lem:optionalSampling_discrete_submartingale",
+    "lem:StoppingTimeGenMono", "lem:uniformIntegrable_stoppedValue_submartingale"])
+  (latexEnv := "lemma")]
 theorem Submartingale.stoppedValue_min_ae_le_condExp [PartialOrder E] [OrderClosedTopology E]
     [IsOrderedModule ℝ E] [IsOrderedAddMonoid E]
     (hX1 : Submartingale X 𝓕 P) (hX2 : ∀ ω, RightContinuous (X · ω)) {k : ι}

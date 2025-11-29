@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne, Kexing Ying
 -/
+import Architect
 import Mathlib.Probability.Process.Stopping
 import BrownianMotion.StochasticIntegral.Predictable
 import BrownianMotion.Auxiliary.WithTop
@@ -22,6 +23,10 @@ namespace ProbabilityTheory
 variable {ι Ω E : Type*} {mΩ : MeasurableSpace Ω} {P : Measure Ω}
 
 /-- A localizing sequence is a sequence of stopping times that tends almost surely to infinity. -/
+@[blueprint
+  "def:preLocalizingSequence"
+  (statement := /-- A pre-localizing sequence is a sequence of stopping times $(\tau_n)_{n \in
+    \mathbb{N}}$ such that $\tau_n \to \infty$ as $n \to \infty$ (a.s.). -/)]
 structure IsPreLocalizingSequence [Preorder ι] [TopologicalSpace ι] [OrderTopology ι]
     (𝓕 : Filtration ι mΩ) (τ : ℕ → Ω → WithTop ι) (P : Measure Ω := by volume_tac) :
     Prop where
@@ -30,11 +35,22 @@ structure IsPreLocalizingSequence [Preorder ι] [TopologicalSpace ι] [OrderTopo
 
 /-- A localizing sequence is a sequence of stopping times that is almost surely increasing and
 tends almost surely to infinity. -/
+@[blueprint
+  "def:localizingSequence"
+  (title := "Localizing sequence")
+  (statement := /-- A localizing sequence is a sequence of stopping times $(\tau_n)_{n \in
+    \mathbb{N}}$ such that $\tau_n$ is non-decreasing and $\tau_n \to \infty$ as $n \to \infty$
+    (a.s.).
+    That is, it is a pre-localizing sequence that is also almost surely non-decreasing. -/)]
 structure IsLocalizingSequence [Preorder ι] [TopologicalSpace ι] [OrderTopology ι]
     (𝓕 : Filtration ι mΩ) (τ : ℕ → Ω → WithTop ι)
     (P : Measure Ω := by volume_tac) extends IsPreLocalizingSequence 𝓕 τ P where
   mono : ∀ᵐ ω ∂P, Monotone (τ · ω)
 
+@[blueprint
+  "lem:localizingSequence_const_top"
+  (statement := /-- The constant sequence $\tau_n = \infty$ is a localizing sequence. -/)
+  (latexEnv := "lemma")]
 lemma isLocalizingSequence_const_top [Preorder ι] [TopologicalSpace ι] [OrderTopology ι]
     (𝓕 : Filtration ι mΩ) (P : Measure Ω) : IsLocalizingSequence 𝓕 (fun _ _ ↦ ⊤) P where
   isStoppingTime n := by simp [IsStoppingTime]
@@ -45,6 +61,11 @@ section LinearOrder
 
 variable [LinearOrder ι] {𝓕 : Filtration ι mΩ} {X : ι → Ω → E} {p q : (ι → Ω → E) → Prop}
 
+@[blueprint
+  "lem:localizingSequence_min"
+  (statement := /-- Let $(\sigma_n), (\tau_n)$ be localizing sequences.
+    Then $(\sigma_n \wedge \tau_n)$ is a localizing sequence. -/)
+  (latexEnv := "lemma")]
 lemma IsLocalizingSequence.min [TopologicalSpace ι] [OrderTopology ι] {τ σ : ℕ → Ω → WithTop ι}
     (hτ : IsLocalizingSequence 𝓕 τ P) (hσ : IsLocalizingSequence 𝓕 σ P) :
     IsLocalizingSequence 𝓕 (min τ σ) P where
@@ -60,9 +81,33 @@ lemma stoppedProcess_const_top : stoppedProcess X (fun _ ↦ ⊤) = X := by
   unfold stoppedProcess
   simp
 
+attribute [blueprint
+  "def:stoppedProcess"
+  (title := "Stopped process")
+  (statement := /-- Let $X : T \to \Omega \to E$ be a stochastic process and let $\tau : \Omega \to
+    T$.
+    The stopped process with respect to $\tau$ is defined by
+    \begin{align*}
+      (X^{\tau})_t = \begin{cases}
+        X_t & \text{if } t \le \tau \\
+        X_{\tau} & \text{otherwise}
+      \end{cases}
+    \end{align*} -/)]
+  MeasureTheory.stoppedProcess
+
 /-- A stochastic process `X` is said to satisfy a property `p` locally with respect to a
 filtration `𝓕` if there exists a localizing sequence `(τ_n)` such that for all `n`, the stopped
 process of `fun i ↦ {ω | ⊥ < τ n ω}.indicator (X i)` satisfies `p`. -/
+@[blueprint
+  "def:locally"
+  (title := "Local property")
+  (statement := /-- Let $P$ be a class of stochastic processes (or equivalently a predicate on
+    stochastic processes).
+    We say that a stochastic process $X : T \to \Omega \to E$ is locally in $P$ (or satisfies $P$
+    locally) if there exists a localizing sequence $(\tau_n)_{n \in \mathbb{N}}$ such that for all
+    $n \in \mathbb{N}$, the process $X^{\tau_n}\mathbb{I}_{\tau_n > 0}$ is in $P$ (in which
+    $X^{\tau_n}$ denotes the stopped process).
+    We denote the class of processes that are locally in $P$ by $P_{\mathrm{loc}}$. -/)]
 def Locally [TopologicalSpace ι] [OrderTopology ι] [Zero E]
     (p : (ι → Ω → E) → Prop) (𝓕 : Filtration ι mΩ)
     (X : ι → Ω → E) (P : Measure Ω := by volume_tac) : Prop :=
@@ -74,6 +119,16 @@ section Locally
 variable [TopologicalSpace ι] [OrderTopology ι]
 
 /-- A localizing sequence, witness of the local property of the stochastic process. -/
+@[blueprint
+  "def:locally"
+  (title := "Local property")
+  (statement := /-- Let $P$ be a class of stochastic processes (or equivalently a predicate on
+    stochastic processes).
+    We say that a stochastic process $X : T \to \Omega \to E$ is locally in $P$ (or satisfies $P$
+    locally) if there exists a localizing sequence $(\tau_n)_{n \in \mathbb{N}}$ such that for all
+    $n \in \mathbb{N}$, the process $X^{\tau_n}\mathbb{I}_{\tau_n > 0}$ is in $P$ (in which
+    $X^{\tau_n}$ denotes the stopped process).
+    We denote the class of processes that are locally in $P$ by $P_{\mathrm{loc}}$. -/)]
 noncomputable
 def Locally.localSeq [Zero E] (hX : Locally p 𝓕 X P) :
     ℕ → Ω → WithTop ι :=
@@ -87,9 +142,23 @@ lemma Locally.stoppedProcess [Zero E] (hX : Locally p 𝓕 X P) (n : ℕ) :
     p (stoppedProcess (fun i ↦ {ω | ⊥ < hX.localSeq n ω}.indicator (X i)) (hX.localSeq n)) :=
   hX.choose_spec.2 n
 
+@[blueprint
+  "lem:implies_locally"
+  (statement := /-- For any class of processes $P$, we have $P \subseteq P_{\mathrm{loc}}$. -/)
+  (proof := /-- Take $\tau_n = \infty$ for all $n$. -/)
+  (latexEnv := "lemma")]
 lemma locally_of_prop [Zero E] (hp : p X) : Locally p 𝓕 X P :=
   ⟨fun n _ ↦ (⊤ : WithTop ι), isLocalizingSequence_const_top _ _, by simpa⟩
 
+@[blueprint
+  "lem:locally_mono"
+  (statement := /-- If $P \subseteq Q$ then $P_{\mathrm{loc}} \subseteq Q_{\mathrm{loc}}$. -/)
+  (proof := /-- Let $X \in P_{\mathrm{loc}}$.
+    Then there exists a localizing sequence $(\tau_n)_{n \in \mathbb{N}}$ such that for all $n \in
+    \mathbb{N}$, $X^{\tau_n}\mathbb{I}_{\tau_n > 0} \in P$.
+    Since $P \subseteq Q$, for all $n \in \mathbb{N}$, $X^{\tau_n}\mathbb{I}_{\tau_n > 0} \in Q$.
+    Thus $X \in Q_{\mathrm{loc}}$. -/)
+  (latexEnv := "lemma")]
 lemma Locally.mono [Zero E] (hpq : ∀ X, p X → q X) (hpX : Locally p 𝓕 X P) :
     Locally q 𝓕 X P :=
   ⟨hpX.localSeq, hpX.IsLocalizingSequence, fun n ↦ hpq _ <| hpX.stoppedProcess n⟩
@@ -112,6 +181,10 @@ variable [Zero E]
 
 /-- A property of stochastic processes is said to be stable if it is preserved under taking
 the stopped process by a stopping time. -/
+@[blueprint
+  "def:stable"
+  (statement := /-- A class of stochastic processes $P$ is stable if whenever $X$ is in $P$, then
+    for any stopping time $\tau$, the process $X^{\tau}\mathbb{I}_{\tau > 0}$ is also in $P$. -/)]
 def IsStable
     (𝓕 : Filtration ι mΩ) (p : (ι → Ω → E) → Prop) : Prop :=
     ∀ X : ι → Ω → E, p X → ∀ τ : Ω → WithTop ι, IsStoppingTime 𝓕 τ →
@@ -124,6 +197,11 @@ lemma IsStable.and (p q : (ι → Ω → E) → Prop)
 
 variable [TopologicalSpace ι] [OrderTopology ι]
 
+@[blueprint
+  "lem:isStable_locally"
+  (statement := /-- If $P$ is a stable class of processes, then $P_{\mathrm{loc}}$ is also stable.
+    -/)
+  (latexEnv := "lemma")]
 lemma IsStable.isStable_locally (hp : IsStable 𝓕 p) :
     IsStable 𝓕 (fun Y ↦ Locally p 𝓕 Y P) := by
   intro X hX τ hτ
@@ -133,6 +211,25 @@ lemma IsStable.isStable_locally (hp : IsStable 𝓕 p) :
   rw [stoppedProcess_indicator_comm', ← stoppedProcess_stoppedProcess]
   exact hp _ (hX.stoppedProcess n) τ hτ
 
+@[blueprint
+  "lem:locally_inter"
+  (statement := /-- If $P, Q$ are stable classes of processes then $(P\cap Q)_{\mathrm{loc}} =
+    P_{\mathrm{loc}}\cap Q_{\mathrm{loc}}$. -/)
+  (proof := /-- The forward direction is trivial so we only provide proof for the reverse.
+    
+    Suppose that $X \in P_{\mathrm{loc}}\cap Q_{\mathrm{loc}}$. Then, there exists localizing
+    sequences $(\tau_n)_{n \in \mathbb{N}}$ and $(\sigma_n)_{n \in \mathbb{N}}$ such that
+    $X^{\tau_n} \mathbb{I}_{\tau_n > 0}\in P$ and $X^{\sigma_n} \mathbb{I}_{\sigma_n > 0} \in Q$.
+    Consequently, by the stability of $P$,
+    \[X^{\sigma_n \wedge \tau_n} \mathbb{I}_{\sigma_n \wedge \tau_n > 0} = (X^{\tau_n}
+    \mathbb{I}_{\tau_n > 0})^{\sigma_n \wedge \tau_n} \mathbb{I}_{\sigma_n \wedge \tau_n > 0} \in
+    P.\]
+    Similarly, by the stability of $Q$, $X^{\sigma_n \wedge \tau_n} \mathbb{I}_{\sigma_n \wedge
+    \tau_n > 0} \in Q$. Thus, as $\sigma_n \wedge \tau_n$ is a localizing sequence by
+    Lemma~\ref{lem:localizingSequence_min} and $X^{\sigma_n \wedge \tau_n} \mathbb{I}_{\sigma_n
+    \wedge \tau_n > 0} \in P \cap Q$ for all $n$, it follows that $X \in (P \cap Q)_{\mathrm{loc}}$
+    -/)
+  (latexEnv := "lemma")]
 lemma locally_and (hp : IsStable 𝓕 p) (hq : IsStable 𝓕 q) :
     Locally (fun Y ↦ p Y ∧ q Y) 𝓕 X P ↔ Locally p 𝓕 X P ∧ Locally q 𝓕 X P := by
   refine ⟨Locally.of_and, fun ⟨hpX, hqX⟩ ↦
@@ -196,6 +293,11 @@ lemma measure_iInter_of_ae_antitone {ι : Type*}
     refine ⟨i, (lt_of_le_of_lt ?_ <| lt_top_iff_ne_top.2 hi).ne⟩
     rw [measure_congr (hst i)]
 
+@[blueprint
+  "lem:isLocalizingSequence_of_isPreLocalizingSequence"
+  (statement := /-- If $(\tau_n)_{n \in \mathbb{N}}$ is a pre-localizing sequence, then the sequence
+    defined by $\tau'_n = \inf_{m \ge n} \tau_m$ is a localizing sequence. -/)
+  (latexEnv := "lemma")]
 lemma isLocalizingSequence_of_isPreLocalizingSequence
     {τ : ℕ → Ω → WithTop ι} (h𝓕 : IsRightContinuous 𝓕) (hτ : IsPreLocalizingSequence 𝓕 τ P) :
     IsLocalizingSequence 𝓕 (fun i ω ↦ ⨅ j ≥ i, τ j ω) P where
@@ -214,6 +316,15 @@ lemma isLocalizingSequence_of_isPreLocalizingSequence
 
 /-- A stable property holds locally `p` for `X` if there exists a pre-localizing sequence `τ` for
 which the stopped process of `fun i ↦ {ω | ⊥ < τ n ω}.indicator (X i)` satisfies `p`. -/
+@[blueprint
+  "lem:locally_of_isPreLocalizingSequence"
+  (statement := /-- Let $P$ be a stable class of processes and let $(\tau_n)_{n \in \mathbb{N}}$ be
+    a pre-localizing sequence such that for all $n \in \mathbb{N}$, $X^{\tau_n}\mathbb{I}_{\tau_n >
+    0}$ is in $P$.
+    If the filtration is right-continuous, then $X$ is locally in $P$. -/)
+  (proof := /-- Using the localizing sequence defined by
+    Lemma~\ref{lem:isLocalizingSequence_of_isPreLocalizingSequence} suffices. -/)
+  (latexEnv := "lemma")]
 lemma locally_of_isPreLocalizingSequence [Zero E] {τ : ℕ → Ω → WithTop ι}
     (hp : IsStable 𝓕 p) (h𝓕 : IsRightContinuous 𝓕) (hτ : IsPreLocalizingSequence 𝓕 τ P)
     (hpτ : ∀ n, p (stoppedProcess (fun i ↦ {ω | ⊥ < τ n ω}.indicator (X i)) (τ n))) :
@@ -309,6 +420,17 @@ lemma isPreLocalizingSequence_of_isLocalizingSequence_aux
     σ n (nk n) ω < τ n ω ∧ σ n (nk n) ω < T n
   grind
 
+@[blueprint
+  "lem:isPreLocalizingSequence_of_isLocalizingSequence"
+  (statement := /-- Let $(\tau_n)_{n \in \mathbb{N}}$ be a localizing sequence and let
+    $(\sigma_{n,k})_{k \in \mathbb{N}}$ be a localizing sequence for each $n$.
+    Then, there exists a strictly increasing sequence $(k_n)_{n \in \mathbb{N}}$ such that the
+    sequence defined by $\tau'_n = \tau_n \wedge \sigma_{n,k_n}$ is a pre-localizing sequence. -/)
+  (proof := /-- For each $n$, since $\sigma_{n,k} \to \infty$ a.s. as $k \to \infty$, we may choose
+    $k_n \in \mathbb{N}$ such that $P(\sigma_{n,k_n} < \tau_n \wedge n) \le 2^{-n}$.
+    Then, defining $\tau'_n = \tau_n \wedge \sigma_{n,k_n}$, we have $\tau_n' \to \infty$ by the
+    Borel-Cantelli lemma. -/)
+  (latexEnv := "lemma")]
 lemma isPreLocalizingSequence_of_isLocalizingSequence
     [NoMaxOrder ι] {τ : ℕ → Ω → WithTop ι} {σ : ℕ → ℕ → Ω → WithTop ι}
     (hτ : IsLocalizingSequence 𝓕 τ P) (hσ : ∀ n, IsLocalizingSequence 𝓕 (σ n) P) :
@@ -331,6 +453,33 @@ lemma isPreLocalizingSequence_of_isLocalizingSequence
 variable [DenselyOrdered ι] [NoMaxOrder ι] [Zero E]
 
 /-- A stable property holding locally is idempotent. -/
+@[blueprint
+  "lem:locally_locally"
+  (statement := /-- Suppose that the filtration is right-continuous.
+    For any stable class of processes $P$, we have $(P_{\mathrm{loc}})_{\mathrm{loc}} =
+    P_{\mathrm{loc}}$. -/)
+  (proof := /-- $(P_{\mathrm{loc}})_{\mathrm{loc}} \supseteq P_{\mathrm{loc}}$ by
+    Lemma~\ref{lem:isStable_locally} so we only prove the reverse inclusion.
+    
+    Let $X$ be a process in $(P_{\mathrm{loc}})_{\mathrm{loc}}$.
+    By definition there exists a localizing sequence $(\tau_n)_{n \in \mathbb{N}}$ such that for all
+    $n \in \mathbb{N}$, $X^{\tau_n}\mathbb{I}_{\tau_n > 0}$ is in $P_{\mathrm{loc}}$.
+    By definition of $P_{\mathrm{loc}}$, for each $n$ there exists a localizing sequence
+    $(\sigma_{n,k})_{k \in \mathbb{N}}$ such that for all $k \in \mathbb{N}$,
+    $(X^{\tau_n}\mathbb{I}_{\tau_n > 0})^{\sigma_{n,k}}\mathbb{I}_{\sigma_{n,k} > 0}$ is in $P$.
+    
+    By Lemma~\ref{lem:locally_of_isPreLocalizingSequence}, it suffices to show that there exists a
+    pre-localizing sequence $(\tau'_n)_{n \in \mathbb{N}}$ such that for all $n \in \mathbb{N}$,
+    $X^{\tau'_n}\mathbb{I}_{\tau'_n > 0}$ is in $P$.
+    Thus, using the localizing sequences $\tau'_n = \tau_n \wedge \sigma_{n, k_n}$ defined by
+    Lemma~\ref{lem:isPreLocalizingSequence_of_isLocalizingSequence},
+    it remains to argue that by stability of $P$, $X^{\tau'_n}\mathbb{I}_{\tau'_n > 0}$ is in $P$
+    for all $n$.
+    Indeed, this follows as $X^{\tau'_n}\mathbb{I}_{\tau'_n > 0} = ((X^{\tau_n}\mathbb{I}_{\tau_n >
+    0})^{\sigma_{n,k_n}}\mathbb{I}_{\sigma_{n,k_n} > 0})^{\tau'_n}\mathbb{I}_{\tau'_n > 0}$ where
+    $(X^{\tau_n}\mathbb{I}_{\tau_n > 0})^{\sigma_{n,k_n}}\mathbb{I}_{\sigma_{n,k_n} > 0}$ is in $P$
+    by construction and $P$ is stable. -/)
+  (latexEnv := "lemma")]
 lemma locally_locally
     (h𝓕 : IsRightContinuous 𝓕) (hp : IsStable 𝓕 p) :
     Locally (fun Y ↦ Locally p 𝓕 Y P) 𝓕 X P ↔ Locally p 𝓕 X P := by
@@ -353,6 +502,20 @@ lemma locally_locally
   · exact ⟨hL.localSeq, hL.IsLocalizingSequence, fun n ↦ locally_of_prop <| hL.stoppedProcess n⟩
 
 /-- If `p` implies `q` locally, then `p` locally implies `q` locally. -/
+@[blueprint
+  "lem:local_induction"
+  (title := "Local implication from global implication")
+  (statement := /-- Suppose that the filtration is right-continuous.
+    Let $P, Q$ be two classes of stochastic processes such that $P \subseteq Q_{\mathrm{loc}}$ and
+    $Q$ is stable.
+    Let $X$ be a stochastic process that satisfies $P$ locally.
+    Then $X$ satisfies $Q$ locally.
+    In short, if $P$ implies $Q$ locally, then $P$ locally implies $Q$ locally. -/)
+  (proof := /-- Since $X \in P_{\mathrm{loc}}$, then $X \in (Q_{\mathrm{loc}})_{\mathrm{loc}}$ by
+    assumption and Lemma~\ref{lem:locally_mono}.
+    By Lemma \ref{lem:locally_locally}, $(Q_{\mathrm{loc}})_{\mathrm{loc}} = Q_{\mathrm{loc}}$.
+    Thus $X \in Q_{\mathrm{loc}}$. -/)
+  (latexEnv := "lemma")]
 lemma locally_induction (h𝓕 : IsRightContinuous 𝓕)
     (hpq : ∀ Y, p Y → Locally q 𝓕 Y P) (hq : IsStable 𝓕 q) (hpX : Locally p 𝓕 X P) :
     Locally q 𝓕 X P :=
@@ -402,6 +565,19 @@ lemma isStoppingTime_ae_const (𝓕 : Filtration ι mΩ) (P : Measure Ω) [HasUs
 
 variable [TopologicalSpace ι] [OrderTopology ι]
 
+@[blueprint
+  "lem:isLocalizingSequence_ae"
+  (statement := /-- Let $P$ be a predicate on paths and suppose $X$ is a stochastic process
+    satisfying $P$ a.s. Then, defining
+    $$\tau_n(\omega) =
+    \begin{cases}
+      \infty & \text{if } X(\omega) \text{ satisfies } P \\
+      0 & \text{otherwise}
+    \end{cases}
+    $$
+    for all $n \in \mathbb{N}$, the sequence $(\tau_n)_{n \in \mathbb{N}}$ is a localizing sequence.
+    -/)
+  (latexEnv := "lemma")]
 lemma isLocalizingSequence_ae
     (𝓕 : Filtration ι mΩ) (P : Measure Ω) [HasUsualConditions 𝓕 P]
     {p : (ι → E) → Prop} (hpX : ∀ᵐ ω ∂P, p (X · ω)) :
@@ -418,6 +594,13 @@ lemma isLocalizingSequence_ae
 variable [NormedAddCommGroup E] [HasUsualConditions 𝓕 P]
 
 open Classical in
+@[blueprint
+  "lem:locally_of_ae"
+  (statement := /-- If $P$ be a predicate on paths such that the constant path $0$ satisfies $P$ and
+    $X$ is a stochastic process satisfying $P$ a.s. then, $X$ satisfies $P$ locally. -/)
+  (proof := /-- Follows directly by using the localizing sequence defined in
+    Lemma~\ref{lem:isLocalizingSequence_ae}. -/)
+  (latexEnv := "lemma")]
 lemma locally_of_ae {p : (ι → E) → Prop} (hpX : ∀ᵐ ω ∂P, p (X · ω)) (hp₀ : p (0 : ι → E)) :
     Locally (fun X ↦ ∀ ω, p (X · ω)) 𝓕 X P := by
   refine ⟨_, isLocalizingSequence_ae 𝓕 P hpX, fun _ ω ↦ ?_⟩
@@ -436,6 +619,24 @@ section NormedSpace
 
 variable [NormedSpace ℝ E] [CompleteSpace E]
 
+@[blueprint
+  "lem:locally_rightContinuous"
+  (statement := /-- A stochastic process $X$ is locally right continuous if and only if it is right
+    continuous almost surely. -/)
+  (proof := /-- If $X$ is a.s. right continuous, then it is locally right continuous by
+    Lemma~\ref{lem:locally_of_ae}.
+    
+    On the other hand, assuming $X$ is locally right continuous, there exists a localizing sequence
+    $(\tau_n)_{n \in \mathbb{N}}$ such that for all $n \in \mathbb{N}$ and $\omega \in \Omega$,
+    $(X^{\tau_n}\mathbb{I}_{\tau_n > 0})(\omega)$ is right continuous.
+    Thus, for almost surely every $\omega$ and any $t \in T$ there exists $N \in \mathbb{N}$ such
+    that $\tau_N(\omega) > t + 1$ (not that the ordering of a.s. and for all is important). Hence,
+    as
+    $X_s(\omega) = (X^{\tau_N}\mathbb{I}_{\tau_N > 0})_s(\omega)$ on a neighborhood of $t$, we have
+    that $X(\omega)$ is right continuous at $t$.
+    Consequently, as $t$ was arbitrary, $X$ is a.s. right continuous. -/)
+  (proofUses := ["lem:locally_of_ae"])
+  (latexEnv := "lemma")]
 lemma Locally.rightContinuous
     (hX : Locally (fun X ↦ ∀ ω, Function.RightContinuous (X · ω)) 𝓕 X P) :
     ∀ᵐ ω ∂P, Function.RightContinuous (X · ω) := by
@@ -446,6 +647,13 @@ lemma locally_rightContinuous_iff :
     ↔ ∀ᵐ ω ∂P, Function.RightContinuous (X · ω) :=
   ⟨fun h ↦ h.rightContinuous, fun h ↦ locally_of_ae h <| fun _ ↦ continuousWithinAt_const⟩
 
+@[blueprint
+  "lem:locally_leftLimit"
+  (statement := /-- A stochastic process $X$ has left limits locally if and only if it has left
+    limits almost surely. -/)
+  (proof := /-- Same proof as in Lemma~\ref{lem:locally_rightContinuous}. -/)
+  (proofUses := ["lem:locally_of_ae"])
+  (latexEnv := "lemma")]
 lemma Locally.left_limit
     (hX : Locally (fun X ↦ ∀ ω, ∀ x, ∃ l, Tendsto (X · ω) (𝓝[<] x) (𝓝 l)) 𝓕 X P) :
     ∀ᵐ ω ∂P, ∀ x, ∃ l, Tendsto (X · ω) (𝓝[<] x) (𝓝 l) := by
@@ -457,6 +665,14 @@ lemma locally_left_limit_iff :
   ⟨fun h ↦ h.left_limit, fun h ↦ locally_of_ae
     (p := fun f ↦ ∀ x, ∃ l, Tendsto f (𝓝[<] x) (𝓝 l)) h <| fun _ ↦ ⟨0, tendsto_const_nhds⟩⟩
 
+@[blueprint
+  "lem:locally_isCadlag"
+  (statement := /-- A stochastic process $X$ is locally cadlag if and only if it is cadlag almost
+    surely. -/)
+  (proof := /-- The forward direction follows from Lemmas~\ref{lem:locally_rightContinuous} and
+    \ref{lem:locally_leftLimit}
+    while the reverse direction follows from Lemma~\ref{lem:locally_of_ae}. -/)
+  (latexEnv := "lemma")]
 lemma Locally.isCadlag
     (hX : Locally (fun X ↦ ∀ ω, IsCadlag (X · ω)) 𝓕 X P) :
     ∀ᵐ ω ∂P, IsCadlag (X · ω) := by
@@ -470,6 +686,11 @@ lemma locally_isCadlag_iff :
 
 end NormedSpace
 
+@[blueprint
+  "lem:isStable_rightContinuous"
+  (statement := /-- The class of right continuous processes is stable. -/)
+  (proof := /-- Trivial. -/)
+  (latexEnv := "lemma")]
 lemma isStable_rightContinuous :
     IsStable 𝓕 (fun (X : ι → Ω → E) ↦ ∀ ω, Function.RightContinuous (X · ω)) := by
   intro X hX τ hτ ω a
@@ -502,6 +723,11 @@ lemma isStable_rightContinuous :
     simp only [min_eq_right (not_lt.mp h_stop)]
 
 
+@[blueprint
+  "lem:isStable_left_limit"
+  (statement := /-- The class of processes with left limits is stable. -/)
+  (proof := /-- Trivial. -/)
+  (latexEnv := "lemma")]
 lemma isStable_left_limit :
     IsStable 𝓕 (fun (X : ι → Ω → E) ↦ ∀ ω, ∀ x, ∃ l, Tendsto (X · ω) (𝓝[<] x) (𝓝 l)) := by
   intro X hX τ hτ ω x
@@ -560,6 +786,12 @@ lemma isStable_left_limit :
         filter_upwards [self_mem_nhdsWithin] with y _
         simp [ne_bot]
 
+@[blueprint
+  "lem:isStable_isCadlag"
+  (statement := /-- The class of cadlag processes is stable. -/)
+  (proof := /-- Follows from Lemmas~\ref{lem:isStable_rightContinuous} and
+    \ref{lem:isStable_left_limit}. -/)
+  (latexEnv := "lemma")]
 lemma isStable_isCadlag :
     IsStable 𝓕 (fun (X : ι → Ω → E) ↦ ∀ ω, IsCadlag (X · ω)) :=
   fun X hX τ hτ ω ↦

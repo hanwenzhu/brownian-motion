@@ -1,0 +1,1551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Stochastic integral</title>
+<link rel="next" href="sect0008.html" title="Bibliography" />
+<link rel="prev" href="chap-doob_meyer.html" title="Doob-Meyer Theorem" />
+<link rel="up" href="sect0003.html" title="Stochastic integral" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of a Brownian motion and of stochastic integrals in Lean</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Characteristic function and covariance</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#sec:characteristic_function"><span class="toc_ref">1.1</span> <span class="toc_entry">Characteristic functions</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#sec:covariance"><span class="toc_ref">1.2</span> <span class="toc_entry">Covariance</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-process.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html"><span class="toc_ref">3</span> <span class="toc_entry">Gaussian distributions</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-gaussian.html#sec:gaussian_measures"><span class="toc_ref">3.1</span> <span class="toc_entry">Gaussian measures</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html#sec:gaussian_processes"><span class="toc_ref">3.2</span> <span class="toc_entry">Gaussian processes</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html"><span class="toc_ref">4</span> <span class="toc_entry">Projective family of the Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-projective_family.html#a0000000029"><span class="toc_ref">4.1</span> <span class="toc_entry">Kolmogorov extension theorem</span></a>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html#a0000000030"><span class="toc_ref">4.2</span> <span class="toc_entry">Projective family of Gaussian measures</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html"><span class="toc_ref">5</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000031"><span class="toc_ref">5.1</span> <span class="toc_entry">Covers and covering numbers</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000032"><span class="toc_ref">5.2</span> <span class="toc_entry">Chaining</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000033"><span class="toc_ref">5.3</span> <span class="toc_entry">Chaining for stochastic processes under Kolmogorov conditions</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000034"><span class="toc_ref">5.4</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-brownian.html"><span class="toc_ref">6</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-brownian.html#a0000000035"><span class="toc_ref">6.1</span> <span class="toc_entry">Stochastic process with continuous paths</span></a>
+ </li>
+<li class="">
+  <a href="chap-brownian.html#a0000000036"><span class="toc_ref">6.2</span> <span class="toc_entry">Wiener measure on the continuous functions</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="sect0003.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="chap-filtration_martingale.html"><span class="toc_ref">7</span> <span class="toc_entry">Filtrations, processes and martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-filtration_martingale.html#a0000000037"><span class="toc_ref">7.1</span> <span class="toc_entry">Basic definitions</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000038"><span class="toc_ref">7.2</span> <span class="toc_entry">Right-continuous filtrations</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000039"><span class="toc_ref">7.3</span> <span class="toc_entry">Predictable processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000040"><span class="toc_ref">7.4</span> <span class="toc_entry">Uniformly integrable</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000041"><span class="toc_ref">7.5</span> <span class="toc_entry">Optional sampling</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000042"><span class="toc_ref">7.6</span> <span class="toc_entry">Martingale convergence</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000043"><span class="toc_ref">7.7</span> <span class="toc_entry">Doob’s Lp inequality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-debut_theorem.html"><span class="toc_ref">8</span> <span class="toc_entry">Debut Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-debut_theorem.html#a0000000044"><span class="toc_ref">8.1</span> <span class="toc_entry">Corollaries</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">9</span> <span class="toc_entry">Local martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000045"><span class="toc_ref">9.1</span> <span class="toc_entry">Local properties</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000046"><span class="toc_ref">9.2</span> <span class="toc_entry">Locally Cadlag</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000047"><span class="toc_ref">9.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000048"><span class="toc_ref">9.4</span> <span class="toc_entry">Doob-Meyer class</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">10</span> <span class="toc_entry">Simple processes and elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">11</span> <span class="toc_entry">Modifications with cadlag paths</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000049"><span class="toc_ref">11.1</span> <span class="toc_entry">Preliminaries</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000050"><span class="toc_ref">11.2</span> <span class="toc_entry">Cadlag modifications of martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000051"><span class="toc_ref">11.3</span> <span class="toc_entry">Cadlag modifications of (local) martingales</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html"><span class="toc_ref">12</span> <span class="toc_entry">Doob-Meyer Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-doob_meyer.html#a0000000052"><span class="toc_ref">12.1</span> <span class="toc_entry">Doob decomposition in discrete time</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000053"><span class="toc_ref">12.2</span> <span class="toc_entry">Komlòs Lemma</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000054"><span class="toc_ref">12.3</span> <span class="toc_entry">Doob-Meyer decomposition</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000055"><span class="toc_ref">12.4</span> <span class="toc_entry">Local version of the Doob-Meyer decomposition</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="sect0007.html"><span class="toc_ref">13</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-2 active">
+     <li class="">
+  <a href="sect0007.html#a0000000056"><span class="toc_ref">13.1</span> <span class="toc_entry">Total variation and Lebesgue-Stieltjes integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000057"><span class="toc_ref">13.2</span> <span class="toc_entry">Square integrable martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000058"><span class="toc_ref">13.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000059"><span class="toc_ref">13.4</span> <span class="toc_entry">Stochastic integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000060"><span class="toc_ref">13.5</span> <span class="toc_entry">Itô formula</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">14</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000008">13 Stochastic integral</h1>
+<p>The lecture notes at <a href ="https://dec41.user.srcf.net/h/III_L/stochastic_calculus_and_applications/">this link</a> as well as chapter 18 of <span class="cite">
+	[
+</span> are good references for this chapter. Some of the proofs are taken from <span class="cite">
+	[
+</span>. </p>
+<h1 id="a0000000056">13.1 Total variation and Lebesgue-Stieltjes integral</h1>
+<p>TODO: in Mathlib, we can integrate with respect to the measure given by a right-continuous monotone function (<span class="ttfamily">StieltjesFunction.measure</span>). This will be useful to integrate against the quadratic variation of a local martingale. However, we will also want to integrate with respect to a signed measure given by a càdlàg function with finite variation. We need to investigate what’s already in Mathlib. See <span class="ttfamily">Mathlib.Topology.EMetricSpace.BoundedVariation</span>. </p>
+<h1 id="a0000000057">13.2 Square integrable martingales</h1>
+<p>In this section, \(E\) denotes a complete normed space. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:squareIntegrableMartingales">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.1</span>
+    <span class="definition_thmtitle">Square integrable martingales</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:squareIntegrableMartingales">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Let \(\mathcal{M}^2\) be the set of square integrable continuous martingales with respect to a filtration \(\mathcal{F}\) indexed by \(\mathbb {R}_+\), </p>
+<div class="displaymath" id="a0000000604">
+  \begin{align*}  \mathcal{M}^2 = \{  M : \mathbb {R}_+ \to \Omega \to \mathbb {R} \mid M \text{ continuous martingale with } \sup _{t}\mathbb {E}[M_t^2] {\lt} \infty \}  \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<p>TODO: add results about \(M_\infty \) for \(M \in \mathcal{M}^2\)&#160;. </p>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:hilbertSpace_squareIntegrableMartingales">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13.2</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#thm:hilbertSpace_squareIntegrableMartingales">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000605"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:squareIntegrableMartingales">Definition 13.1</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:limitProcess">Definition 7.76</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#cor:doob_lp_norm">Corollary 7.84</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>  The space \(\mathcal{M}^2\) is a Hilbert space with the inner product defined by </p>
+<div class="displaymath" id="a0000000606">
+  \begin{align*}  \langle M, N \rangle = \mathbb {E}[M_\infty N_\infty ] \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000605">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<h1 id="a0000000058">13.3 Local martingales</h1>
+<p>TODO: filtrations should be assumed right-continuous and complete whenever needed. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsLocalMartingale.isLocalSubmartingale_sq_norm">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.3</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:IsLocalMartingale.isLocalSubmartingale_sq_norm">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+          <li><a href="sect0004.html#def:IsLocalSubmartingale">Definition 9.25</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsLocalMartingale.isLocalSubmartingale_sq_norm" class="lean_decl">ProbabilityTheory.IsLocalMartingale.isLocalSubmartingale_sq_norm</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   If \(M\) is a cadlag local martingale, then \(\Vert M \Vert ^2\) is a cadlag local sub-martingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000607">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:quadraticVariation">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.4</span>
+    <span class="definition_thmtitle">Quadratic variation</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:quadraticVariation">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+          <li><a href="chap-doob_meyer.html#thm:local_doobMeyer">Theorem 12.38</a></li>
+          
+          <li><a href="sect0007.html#lem:IsLocalMartingale.isLocalSubmartingale_sq_norm">Lemma 13.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.quadraticVariation" class="lean_decl">ProbabilityTheory.quadraticVariation</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   For any continuous local martingale \(M\), there exists a continuous process \([M]\) with \([M]_0 = 0\) such that \(\Vert M \Vert ^2 - [M]\) is a local martingale. That process is a.s. unique and is called the <em>quadratic variation</em> of \(M\). \([M]\) is defined as the predictable part of the Doob-Meyer decomposition of the local sub-martingale \(\Vert M \Vert ^2\)&#160;. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:covariation">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.5</span>
+    <span class="definition_thmtitle">Covariation</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:covariation">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+          <li><a href="sect0007.html#def:quadraticVariation">Definition 13.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  For any continuous local martingales \(M\) and \(N\), there exists a continuous process \([M,N]\) with \([M,N]_0 = 0\) such that \(MN - [M,N]\) is a local martingale. That process is a.s. unique and is called the <em>covariation</em> of \(M\) and \(N\). </p>
+<p>It can be defined by \([M, N]_t = \frac{1}{4}\left([M+N]_t - [M-N]_t \right)\)&#160;. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:covariation_eq_inner">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.6</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:covariation_eq_inner">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:covariation">Definition 13.5</a></li>
+          
+          <li><a href="sect0007.html#def:squareIntegrableMartingales">Definition 13.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(M\) and \(N\) be continuous square integrable martingales. Then </p>
+<div class="displaymath" id="a0000000608">
+  \begin{align*}  \mathbb {E}\left[[M,N]_\infty \right] = \langle M - M_0, N - N_0 \rangle _{\mathcal{M}^2} \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000609">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:quadraticVariation_brownian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.7</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:quadraticVariation_brownian">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-brownian.html#def:brownian">Definition 6.5</a></li>
+          
+          <li><a href="sect0007.html#def:quadraticVariation">Definition 13.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(B\) be a standard Brownian motion. Then the quadratic variation of \(B\) is given by \([B]_t = t\)&#160;. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000610">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:continuousSemiMartingale">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.8</span>
+    <span class="definition_thmtitle">Continuous semi-martingale</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:continuousSemiMartingale">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0004.html#def:IsLocalMartingale">Definition 9.24</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  A continuous semi-martingale is a process that can be decomposed into a local martingale and a finite variation process. More formally, a process \(X : \mathbb {R}_+ \to \Omega \to E\) is a continuous semi-martingale if there exists a continuous local martingale \(M\) and a continuous adapted process \(A\) with locally finite variation and \(A_0 = 0\) such that </p>
+<div class="displaymath" id="a0000000611">
+  \begin{align*}  X_t = M_t + A_t \end{align*}
+</div>
+<p> for all \(t \ge 0\). The decomposition is a.s. unique. </p>
+
+  </div>
+</div>
+<h1 id="a0000000059">13.4 Stochastic integral</h1>
+<p>TODO: relax continuity of the martingales, be clear about continuous quadratic variation vs general càdlàg quadratic variation. </p>
+<p>For \(M\) a continuous local martingale and \(X\) a stochastic process, we will use integrals of the form \(\int _0^t X_s \:  d[M]_s\)&#160;. Let’s explain what those integrals mean. For all \(\omega \in \Omega \), \([M](\omega )\) is a right-continuous non-decreasing function (called a Stieltjes function in Mathlib) so it defines a measure on \(\mathbb {R}_+\), denoted by \(d[M]\)&#160;. Then, for each fixed \(\omega \in \Omega \), if the function \(s \mapsto X_s(\omega )\) is integrable with respect to the measure \(d[M](\omega )\), the Bochner integral \(\int _0^t X_s(\omega ) \:  d[M](\omega )\) is well-defined. By \(\int _0^t X_s \:  d[M]_s\), we mean the random variable \(\omega \mapsto \int _0^t X_s(\omega ) \:  d[M](\omega )\)&#160;. If we also vary \(t\), we get a stochastic process. </p>
+<h2 id="a0000000612">13.4.1 Itô isometry</h2>
+<div class="definition_thmwrapper theorem-style-definition" id="def:L2M">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.9</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:L2M">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:squareIntegrableMartingales">Definition 13.1</a></li>
+          
+          <li><a href="sect0007.html#def:quadraticVariation">Definition 13.4</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:predictableMeasurableSpace">Definition 7.42</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Let \(M \in \mathcal{M}^2\) be a continuous square integrable martingale. We define </p>
+<div class="displaymath" id="a0000000613">
+  \begin{align*}  L^2(M) = L^2(\Omega \times \mathbb {R}_+, \mathcal{P}, \mathbb {P} \times d[M]) \end{align*}
+</div>
+<p> in which \(\mathcal{P}\) is the predictable \(\sigma \)-algebra and \(d[M]\) is the measure induced by the quadratic variation of \(M\). The norm on that Hilbert space is \(\Vert X \Vert ^2 = \mathbb {E}\left[ \int _0^{\infty } X_t^2 \:  d[M]_t \right]\)&#160;. </p>
+
+  </div>
+</div>
+<p>TODO the sources don’t use the same assumptions: predictable vs progressive (<span class="ttfamily">MeasureTheory.ProgMeasurable</span>). Progressive would be more general. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:sq_norm_elemStochIntegral">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.10</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:sq_norm_elemStochIntegral">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000614"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="sect0007.html#def:squareIntegrableMartingales">Definition 13.1</a></li>
+          
+          <li><a href="sect0007.html#def:quadraticVariation">Definition 13.4</a></li>
+          
+          <li><a href="sect0007.html#def:L2M">Definition 13.9</a></li>
+          
+          <li><a href="sect0005.html#lem:Martingale.elemStochIntegral">Lemma 10.17</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  For \(V \in \mathcal{E}\) and \(M \in \mathcal{M}^2\), then \(V \bullet M \in \mathcal{M}^2\) and </p>
+<div class="displaymath" id="a0000000615">
+  \begin{align*}  \Vert V \bullet M \Vert _{\mathcal{M}^2}^2 & = \Vert V \Vert _{L^2(M)}^2 \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000614">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> There are two steps to the proof. </p>
+<p>First, in order to make sense of \(\Vert V \Vert _{L^2(M)}\), we define the natural linear map from \(\mathcal{E}\) to \(L^2(M)\) via <span class="ttfamily">SimpleProcess.toFun</span>. (Informally, this is identifying \(\mathcal{E}\) as a subset \(\mathcal{E} \subseteq L^2(M)\).) This induces the \(L^2(M)\)-norm on \(\mathcal{E}\), using something like <span class="ttfamily">NormedSpace.induced</span>. </p>
+<p>Next, we show that integration \(V \mapsto V \bullet M\) is an isometry from \(\mathcal{E}\) with the \(L^2(M)\)-norm, to \(\mathcal{M}^2\). The proof is TODO. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:integral_process_eq_zero">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.11</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:integral_process_eq_zero">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000616"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:L2M">Definition 13.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X\in L^2(M)\) such that \(\int _0^t X_s \:  d[M]_s = 0\) for all \(t \ge 0\) a.s.. Then \(X = 0\) \((\mathbb {P} \times d[M])\)-almost everywhere. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000616">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>For \(B\) a measurable set of \(\mathbb {R}_+\) and \(\omega \in \Omega \), let \(\nu _\omega (B) = \int _B X_s(\omega ) \:  d[M]_s(\omega )\)&#160;. This is a signed measure on \(\mathbb {R}_+\)&#160;. Then if for all \(t\), \(\int _0^t X_s(\omega ) \:  d[M]_s(\omega ) = 0\) then \(\nu _\omega ([0,t]) = 0\) for all \(t\). Those intervals generate the Borel \(\sigma \)-algebra on \(\mathbb {R}_+\), so \(\nu _\omega \) is the zero measure. Thus, for almost all \(\omega \), \(\nu _\omega \) is the zero measure. </p>
+<p>The measure \(\nu _\omega \) is absolutely continuous with respect to the measure \(d[M](\omega )\)&#160;, and its Radon-Nikodym derivative is \(X(\omega )\)&#160;. Since \(\nu _\omega \) is the zero measure for almost all \(\omega \), we have that \(X(\omega ) = 0\) \(d[M](\omega )\)-almost everywhere for almost all \(\omega \)&#160;. Equivalently, \(X = 0\) \((\mathbb {P} \times d[M])\)-almost everywhere. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:integral_process_injective">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.12</span>
+    <span class="lemma_thmtitle">Injectivity of the integral</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:integral_process_injective">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000617"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:L2M">Definition 13.9</a></li>
+          
+          <li><a href="sect0007.html#lem:integral_process_eq_zero">Lemma 13.11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X, Y \in L^2(M)\) such that \(\int _0^t X_s \:  d[M]_s = \int _0^t Y_s \:  d[M]_s\) for all \(t \ge 0\) a.s.. Then \(X = Y\) almost everywhere. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000617">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By linearity of the integral, we have \(\int _0^t (X_s - Y_s) \:  d[M]_s = 0\) for all \(t \ge 0\) a.s.. Then apply Lemma&#160;<a href="sect0007.html#lem:integral_process_eq_zero">13.11</a> to \(X - Y\)&#160;. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:martingale_integral_of_forall_eq_zero">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.13</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:martingale_integral_of_forall_eq_zero">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000618"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:L2M">Definition 13.9</a></li>
+          
+          <li><a href="sect0005.html#lem:martingale_iff_integral_elemStochIntegral_eq_zero">Lemma 10.15</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X \in L^2(M)\) such that \(\langle X, V\rangle = 0\) for any simple process \(V\). Let \(A_t = \int _0^t X_s \:  d[M]_s\). Then \(A_t\) is a martingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000618">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By Lemma&#160;<a href="sect0005.html#lem:martingale_iff_integral_elemStochIntegral_eq_zero">10.15</a>, it is enough to show that for any bounded real simple process \(V\), \(\mathbb {E}[(V \bullet A)_\infty ] = 0\)&#160;. </p>
+<div class="displaymath" id="a0000000619">
+  \begin{align*}  \mathbb {E}\left[(V \bullet A)_\infty \right] & = \mathbb {E}\left[ \int _0^{\infty } V_t X_t \:  d[M]_t \right] \\ & = \langle X, V \rangle \\ & = 0 \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:integral_eq_zero_of_forall_eq_zero">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.14</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:integral_eq_zero_of_forall_eq_zero">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000620"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:L2M">Definition 13.9</a></li>
+          
+          <li><a href="sect0004.html#thm:IsLocalMartingale.eq_zero_of_finiteVariation">Theorem 9.29</a></li>
+          
+          <li><a href="sect0007.html#lem:martingale_integral_of_forall_eq_zero">Lemma 13.13</a></li>
+          
+          <li><a href="sect0004.html#lem:Martingale.IsLocalMartingale">Lemma 9.26</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X \in L^2(M)\) such that \(\langle X, V\rangle = 0\) for any simple process \(V\). Then for all \(t\), \(\int _0^t X_s \:  d[M]_s = 0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000620">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> \(A_t := \int _0^t X_s \:  d[M]_s\) is a finite variation process such that \(A_t\) is integrable for all \(t \ge 0\)&#160;. By Theorem&#160;<a href="sect0004.html#thm:IsLocalMartingale.eq_zero_of_finiteVariation">9.29</a>, it is enough to show that \(A\) is a local martingale. We have by Lemma&#160;<a href="sect0007.html#lem:martingale_integral_of_forall_eq_zero">13.13</a> that \(A\) is a martingale, and hence a local martingale (Lemma&#160;<a href="sect0004.html#lem:Martingale.IsLocalMartingale">9.26</a>). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:dense_simpleProcess">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.15</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:dense_simpleProcess">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000621"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:L2M">Definition 13.9</a></li>
+          
+          <li><a href="sect0005.html#def:simpleProcess">Definition 10.1</a></li>
+          
+          <li><a href="sect0007.html#lem:integral_eq_zero_of_forall_eq_zero">Lemma 13.14</a></li>
+          
+          <li><a href="sect0007.html#lem:integral_process_eq_zero">Lemma 13.11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  The set of simple processes is dense in \(L^2(M)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000621">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Since \(L^2(M)\) is a Hilbert space, it is enough to show that if \(X \in L^2(M)\) is orthogonal to all simple processes, then \(X = 0\)&#160;. Let \(X \in L^2(M)\) such that for any simple process \(V\), \(\mathbb {E}\left[ \int _0^{\infty } X_t V_t \:  d[M]_t \right] = 0\)&#160;. Let \(A_t = \int _0^t X_s \:  d[M]_s\). It suffices to show that \(A = 0\) by Lemma&#160;<a href="sect0007.html#lem:integral_process_eq_zero">13.11</a>&#160;. This is proved in Lemma&#160;<a href="sect0007.html#lem:integral_eq_zero_of_forall_eq_zero">13.14</a>&#160;. </p>
+<p>In Lean, this is stated as: the natural linear map <span class="ttfamily">toFun</span> from \(\mathcal{E}\) to \(L^2(M)\) is <span class="ttfamily">IsDenseInducing</span>. The Itô isometry is then defined using <span class="ttfamily">IsDenseInducing.extend</span>. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:itoIsometry">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.16</span>
+    <span class="definition_thmtitle">Itô isometry</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:itoIsometry">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#lem:dense_simpleProcess">Lemma 13.15</a></li>
+          
+          <li><a href="sect0007.html#lem:sq_norm_elemStochIntegral">Lemma 13.10</a></li>
+          
+          <li><a href="sect0007.html#thm:hilbertSpace_squareIntegrableMartingales">Theorem 13.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Let \(M \in \mathcal{M}^2\). Then the elementary stochastic integral map \(\mathcal{E} \to \mathcal{M}^2\) defined by \(V \mapsto V \cdot M\) extends to an isometry \(L^2(M) \to \mathcal{M}^2\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:inner_itoIsometry">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">13.17</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#lem:inner_itoIsometry">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:itoIsometry">Definition 13.16</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  \(\langle X \cdot M, Y \cdot M \rangle _{\mathcal{M}^2} = (XY) \cdot \langle M, N \rangle _{\mathcal{M}^2}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000622">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<h2 id="a0000000623">13.4.2 Local martingales</h2>
+<div class="definition_thmwrapper theorem-style-definition" id="def:L2locM">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.18</span>
+    <span class="definition_thmtitle">\(L^2_{loc}(M)\)</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:L2locM">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:L2M">Definition 13.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Let \(M\) be a continuous local martingale. We define \(L^2_{loc}(M)\) as the space of predictable processes \(X\) such that for all \(t \ge 0\), \(\mathbb {E}\left[ \int _0^t X_s^2 \:  d[M]_s \right] {\lt} \infty \). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:locStochIntegral">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.19</span>
+    <span class="definition_thmtitle">Stochastic integral for continuous local martingales</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:locStochIntegral">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:L2locM">Definition 13.18</a></li>
+          
+          <li><a href="sect0007.html#def:itoIsometry">Definition 13.16</a></li>
+          
+          <li><a href="sect0007.html#def:covariation">Definition 13.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Let \(M\) be a continuous local martingale and let \(X \in L^2_{loc}(M)\). We define the local stochastic integral \(X \cdot M\) as the unique continuous local martingale with \((X \cdot M)_0 = 0\) such that for any continuous local martingale \(N\), almost surely, </p>
+<div class="displaymath" id="a0000000624">
+  \begin{align*}  [X \cdot M, N] = X \cdot [M, N] \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<h2 id="a0000000625">13.4.3 Semi-martingales</h2>
+<div class="definition_thmwrapper theorem-style-definition" id="def:stochIntegral">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">13.20</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#def:stochIntegral">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:continuousSemiMartingale">Definition 13.8</a></li>
+          
+          <li><a href="sect0007.html#def:locStochIntegral">Definition 13.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  For a continuous semi-martingale \(X = M + A\) and \(V \in L^2_{semi}(X)\) (to be defined) we define the stochastic integral as </p>
+<div class="displaymath" id="a0000000626">
+  \begin{align*}  V \cdot X = V \cdot M + V \cdot A \:  , \end{align*}
+</div>
+<p> in which \(V \cdot M\) is the local stochastic integral defined in <a href="sect0007.html#def:locStochIntegral">13.19</a> and \(V \cdot A\) is the Lebesgue-Stieltjes integral with respect to the locally finite variation process \(A\). </p>
+
+  </div>
+</div>
+<p>For \(X = M + A\) and \(Y = N + B\), we define the covariation as </p>
+<div class="displaymath" id="a0000000627">
+  \begin{align*}  [X, Y] = [M, N] \:  . \end{align*}
+</div>
+<h1 id="a0000000060">13.5 Itô formula</h1>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:integration_by_parts">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13.21</span>
+    <span class="theorem_thmtitle">Integration by parts</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#thm:integration_by_parts">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:continuousSemiMartingale">Definition 13.8</a></li>
+          
+          <li><a href="sect0007.html#def:stochIntegral">Definition 13.20</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>  Let \(X\) and \(Y\) be two continuous semi-martingales. Then we have almost surely </p>
+<div class="displaymath" id="a0000000628">
+  \begin{align*}  X_t Y_t - X_0 Y_0 = (X \cdot Y)_t + (Y \cdot X)_t + [X,Y]_t \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000629">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:Ito_formula">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">13.22</span>
+    <span class="theorem_thmtitle">Itô’s formula</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0007.html#thm:Ito_formula">#</a>
+    
+    <a class="icon proof" href="sect0007.html#a0000000630"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0007.html#def:continuousSemiMartingale">Definition 13.8</a></li>
+          
+          <li><a href="sect0007.html#thm:integration_by_parts">Theorem 13.21</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>  Let \(X^1, \ldots , X^d\) be continuous semi-martingales and let \(f : \mathbb {R}^d \to \mathbb {R}\) be a twice continuously differentiable function. Then, writing \(X = (X^1, \ldots , X^d)\), the process \(f(X)\) is a semi-martingale and we have </p>
+<div class="displaymath" id="a0000000631">
+  \begin{align*}  f(X_t) & = f(X_0) + \sum _{i=1}^d \int _0^t \frac{\partial f}{\partial x_i}(X_s) \:  dX^i_s + \frac{1}{2} \sum _{i,j=1}^d \int _0^t \frac{\partial ^2 f}{\partial x_i \partial x_j}(X_s) \:  d[X^i, X^j]_s \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000630">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="chap-doob_meyer.html" title="Doob-Meyer Theorem"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0003.html" title="Stochastic integral"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0008.html" title="Bibliography"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

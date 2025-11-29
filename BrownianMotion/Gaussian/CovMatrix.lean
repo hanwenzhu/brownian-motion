@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Auxiliary.ContinuousBilinForm
 import BrownianMotion.Auxiliary.MeasureTheory
 import Mathlib.Analysis.InnerProductSpace.Adjoint
@@ -30,6 +31,17 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E]
   [MeasurableSpace E] [BorelSpace E] {μ : Measure E}
 
 /-- Covariance of a measure on an inner product space, as a continuous bilinear form. -/
+@[blueprint
+  "def:covInnerBilin"
+  (title := "Covariance in a Hilbert space")
+  (statement := /-- The covariance bilinear form of a finite measure $\mu$ with finite second moment
+    on a Hilbert space $E$ is the continuous bilinear form $C_\mu : E \times E \to \mathbb{R}$ with
+    \begin{align*}
+      C'_\mu(x, y) = \int_z \langle x, z - m_\mu \rangle \langle y, z - m_\mu \rangle \: d\mu(z) \:
+      .
+    \end{align*}
+    This is $C_\mu$ applied to the linear maps $L_x, L_y \in E^*$ defined by $L_x(z) = \langle x, z
+    \rangle$ and $L_y(z) = \langle y, z \rangle$. -/)]
 noncomputable
 def covInnerBilin (μ : Measure E) : ContinuousBilinForm ℝ E :=
   ContinuousLinearMap.bilinearComp (covarianceBilinDual μ)
@@ -93,6 +105,30 @@ nonrec lemma IsGaussian.isPosSemidef_covInnerBilin [SecondCountableTopology E] [
     [IsGaussian μ] : (covInnerBilin μ).IsPosSemidef :=
   isPosSemidef_covInnerBilin IsGaussian.memLp_two_id
 
+@[blueprint
+  "lem:covInnerBilin_map"
+  (statement := /-- Let $E$ and $F$ be two Hilbert spaces with $F$ finite dimensional, $\mu$ a
+    finite measure on $E$ with finite second moment, and $L : E \to F$ a continuous linear map.
+    Then the covariance bilinear form of the measure $L_*\mu$ is given by
+    \begin{align*}
+      C'_{L_*\mu}(u, v)
+      &= C'_\mu(L^\dagger(u), L^\dagger(v))
+      \: ,
+    \end{align*}
+    in which $L^\dagger : F \to E$ is the adjoint of $L$. -/)
+  (proof := /-- \begin{align*}
+      C'_{L_*\mu}(u, v)
+      &= (L_*\mu)\left[\langle u, x - m_{L_*\mu}\rangle \langle x - m_{L_*\mu}, v \rangle\right]
+      \\
+      &= \mu\left[\langle u, L(x) - L(m_\mu)\rangle \langle L(x) - L(m_\mu), v \rangle \right]
+      \\
+      &= \mu\left[\langle L^\dagger(u), x - m_\mu\rangle \langle x - m_\mu, L^\dagger(v) \rangle
+      \right]
+      \\
+      &= C'_\mu(L^\dagger(u), L^\dagger(v))
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma covInnerBilin_map {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
     [MeasurableSpace F] [BorelSpace F] [CompleteSpace E] [FiniteDimensional ℝ F]
     [IsFiniteMeasure μ] (h : MemLp id 2 μ) (L : E →L[ℝ] F) (u v : F) :
@@ -181,7 +217,32 @@ lemma covInnerBilin_apply_prod {Ω : Type*} {mΩ : MeasurableSpace Ω}
 
 variable [FiniteDimensional ℝ E]
 
+attribute [blueprint
+  "lem:covarianceBilin_same_eq_variance"
+  (statement := /-- For $\mu$ a measure on $F$ with finite second moment and $L \in F^*$, $C_\mu(L,
+    L) = \mathbb{V}_\mu[L]$. -/)
+  (latexEnv := "lemma")]
+  ProbabilityTheory.covarianceBilinDual_self_eq_variance
+
+attribute [blueprint
+  "def:IsGaussian"
+  (title := "Gaussian measure")
+  (statement := /-- A measure $\mu$ on $F$ is Gaussian if for every continuous linear form $L \in
+    F^*$, the pushforward measure $L_* \mu$ is a Gaussian measure on $\mathbb{R}$. -/)]
+  ProbabilityTheory.IsGaussian
+
 /-- Covariance matrix of a measure on a finite dimensional inner product space. -/
+@[blueprint
+  "def:covMatrix"
+  (title := "Covariance matrix")
+  (statement := /-- The covariance matrix of a finite measure $\mu$ with finite second moment on a
+    finite dimensional inner product space $E$ is the positive semidefinite matrix $\Sigma_\mu$ such
+    that for $u, v \in E$,
+    \begin{align*}
+      \langle u, \Sigma_\mu v\rangle = \mu[\langle u, x - m_\mu \rangle \langle x - m_\mu, v
+      \rangle] \: .
+    \end{align*}
+    This is the covariance bilinear form $C'_\mu(u, v)$, as a matrix. -/)]
 noncomputable
 def covMatrix (μ : Measure E) : Matrix (Fin (Module.finrank ℝ E)) (Fin (Module.finrank ℝ E)) ℝ :=
   (covInnerBilin μ).toMatrix (stdOrthonormalBasis ℝ E).toBasis
@@ -210,6 +271,26 @@ lemma covInnerBilin_eq_dotProduct_covMatrix_mulVec (x y : E) :
   rw [ContinuousBilinForm.apply_eq_dotProduct_toMatrix_mulVec _ (stdOrthonormalBasis ℝ E).toBasis]
   rfl
 
+@[blueprint
+  "lem:covMatrix_map"
+  (statement := /-- Let $E$ and $F$ be two finite dimensional inner product spaces, $\mu$ a measure
+    on $E$ with finite second moment, and $L : E \to F$ a continuous linear map.
+    Then the covariance matrix of the measure $L_*\mu$ has entries
+    \begin{align*}
+      \langle e_i, \Sigma_{L_*\mu} e_j\rangle
+      &= \langle L^\dagger(e_i), \Sigma_\mu L^\dagger(e_j)\rangle
+      \: ,
+    \end{align*}
+    in which $L^\dagger : F \to E$ is the adjoint of $L$. -/)
+  (proof := /-- On the left-hand side we have
+    $$\langle e_i, \Sigma_{L_*\mu} e_j\rangle = C'_{L_*\mu}(e_i, e_j) = C'_\mu(L^\dagger(e_i),
+    L^\dagger(e_j)),$$
+    where the last equality comes from Lemma~\ref{lem:covInnerBilin_map}. On the right-hand side we
+    have
+    $$\langle L^\dagger(e_i), \Sigma_{L_*\mu} L^\dagger(e_j)\rangle = C'_\mu(L^\dagger(e_i),
+    L^\dagger(e_j)),$$
+    which concludes the proof. -/)
+  (latexEnv := "lemma")]
 lemma covMatrix_map {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
     [MeasurableSpace F] [BorelSpace F] [FiniteDimensional ℝ F]
     [IsFiniteMeasure μ] (h : MemLp id 2 μ) (L : E →L[ℝ] F) (i j : Fin (Module.finrank ℝ F)) :
@@ -218,6 +299,17 @@ lemma covMatrix_map {F : Type*} [NormedAddCommGroup F] [InnerProductSpace ℝ F]
         (stdOrthonormalBasis ℝ E).repr (L.adjoint (stdOrthonormalBasis ℝ F j))) := by
   rw [covMatrix_apply, covInnerBilin_map h, covInnerBilin_eq_dotProduct_covMatrix_mulVec]
 
+@[blueprint
+  "def:covMatrix"
+  (title := "Covariance matrix")
+  (statement := /-- The covariance matrix of a finite measure $\mu$ with finite second moment on a
+    finite dimensional inner product space $E$ is the positive semidefinite matrix $\Sigma_\mu$ such
+    that for $u, v \in E$,
+    \begin{align*}
+      \langle u, \Sigma_\mu v\rangle = \mu[\langle u, x - m_\mu \rangle \langle x - m_\mu, v
+      \rangle] \: .
+    \end{align*}
+    This is the covariance bilinear form $C'_\mu(u, v)$, as a matrix. -/)]
 lemma posSemidef_covMatrix [IsGaussian μ] : (covMatrix μ).PosSemidef :=
     (ContinuousBilinForm.isPosSemidef_iff_posSemidef_toMatrix _).1
       IsGaussian.isPosSemidef_covInnerBilin

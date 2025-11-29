@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne, Thomas Zhu
 -/
+import Architect
 import Mathlib.Probability.Process.Predictable
 import Mathlib.Probability.Process.Stopping
 import BrownianMotion.Auxiliary.StoppedProcess
@@ -65,6 +66,12 @@ attribute [local measurability]
 
 Note that we require the union to be disjoint. This is not necessary, but makes it easier to define
 the indicator function of an elementary predictable set as a `SimpleProcess`. -/
+@[blueprint
+  "def:elementaryPredictableSet"
+  (title := "Elementary predictable set")
+  (statement := /-- A set $A \subseteq T \times \Omega$ is an \emph{elementary predictable set} if
+    it is a finite union of sets of the form ${0} \times B$ for $B \in \mathcal{F}_0$ or of the form
+    $(s, t] \times B$ with $0 \le s < t$ in $T$ and $B \in \mathcal{F}_s$. -/)]
 structure ElementaryPredictableSet (𝓕 : Filtration ι mΩ) where
   /-- The set over `⊥`. -/
   setBot : Set Ω
@@ -119,7 +126,20 @@ end ElementaryPredictableSet
 
 /-- A **simple process** is defined as a finite sum of indicator functions of intervals `(s, t]`,
 each assigned to a bounded `𝓕 s`-measurable random variable `value`, plus a `valueBot` at ⊥. -/
-@[ext]
+@[ext, blueprint
+  "def:simpleProcess"
+  (title := "Simple process")
+  (statement := /-- Let $(s_k < t_k)_{k \in \{1, ..., n\}}$ be points in a linear order $T$ with a
+    bottom element 0.
+    Let $(\eta_k)_{0 \le k \le n}$ be random variables with values in a normed space $F$ such that
+    $\eta_0$ is $\mathcal{F}_0$-measurable and $\eta_k$ is $\mathcal{F}_{s_k}$-measurable for $k \ge
+    1$.
+    Then the simple process for that sequence is the process $V : T \to \Omega \to F$ defined by
+    \begin{align*}
+      V_t = \eta_0 \mathbb{1}_{\{0\}}(t) + \sum_{k=1}^{n} \eta_k \mathbb{1}_{(s_k, t_k]}(t)
+      \: .
+    \end{align*}
+    Let $\mathcal{E}_{T, F}$ be the set of simple processes indexed by $T$ with value in $F$. -/)]
 structure SimpleProcess (F : Type*) [NormedAddCommGroup F] [MeasurableSpace F] [NormedSpace ℝ F]
     [BorelSpace F] [SecondCountableTopology F] (𝓕 : Filtration ι mΩ) where
   /-- The value at ⊥. -/
@@ -234,6 +254,10 @@ instance instSMul : SMul ℝ (SimpleProcess F 𝓕) where
       dsimp
       grw [norm_smul, V.value_le_valueBound, Real.norm_eq_abs]⟩ }
 
+@[blueprint
+  "lem:addCommGroup_simpleProcess"
+  (statement := /-- The simple processes $\mathcal{E}_{T, F}$ form an additive commutative group. -/)
+  (latexEnv := "lemma")]
 instance instAddCommGroup : AddCommGroup (SimpleProcess F 𝓕) where
   sub_eq_add_neg U V := by ext <;> apply sub_eq_add_neg
   add_assoc U V W := by ext <;> apply add_assoc
@@ -244,6 +268,11 @@ instance instAddCommGroup : AddCommGroup (SimpleProcess F 𝓕) where
   nsmul := nsmulRec
   zsmul := zsmulRec
 
+@[blueprint
+  "lem:module_simpleProcess"
+  (statement := /-- The simple processes $\mathcal{E}_{T, F}$ form a module over the scalars
+    $\mathbb{R}$. -/)
+  (latexEnv := "lemma")]
 instance instModule : Module ℝ (SimpleProcess F 𝓕) where
   zero_smul V := by ext <;> apply zero_smul
   smul_zero V := by ext <;> apply smul_zero
@@ -305,6 +334,21 @@ variable [NormedAddCommGroup E] [NormedSpace ℝ E]
 variable [NormedAddCommGroup G] [NormedSpace ℝ G]
 
 /-- The elementary stochastic integral. -/
+@[blueprint
+  "def:elemStochIntegral"
+  (title := "Elementary stochastic integral")
+  (statement := /-- Let $V \in \mathcal{E}_{T, F}$ be a simple process and let $X$ be a stochastic
+    process with values in a normed space $E$.
+    Let $B$ be a continuous bilinear map from $E \times F$ to another normed space $G$.
+    The \emph{elementary stochastic integral} process $V \bullet X : T \to \Omega \to G$ is defined
+    by
+    \begin{align*}
+      (V \bullet X)_t
+      &= \sum_{k=1}^{n} B (X^t_{t_k} - X^t_{s_k}, \eta_k)
+      \: .
+    \end{align*}
+    An important example is $G = E$, $F = \mathbb{R}$ and $B(x, r) = r \cdot x$ the scalar
+    multiplication. -/)]
 def integral (B : E →L[ℝ] F →L[ℝ] G) (X : ι → Ω → E) (V : SimpleProcess F 𝓕) :
     WithTop ι → Ω → G :=
   fun i ω ↦ V.value.sum fun p v =>
@@ -312,7 +356,14 @@ def integral (B : E →L[ℝ] F →L[ℝ] G) (X : ι → Ω → E) (V : SimplePr
 
 -- TODO: possible notation V●X, possibly for more general integrals
 
-@[simp] lemma integral_zero_left {B : E →L[ℝ] F →L[ℝ] G} (V : SimpleProcess F 𝓕) :
+@[simp, blueprint
+  "lem:elemStochIntegral_linear"
+  (statement := /-- The elementary stochastic integral is linear in both arguments. -/)
+  (proof := /-- (In Lean, this is split into several lemmas about each argument and add/sub/smul.)
+    
+    Immediate from the definition. -/)
+  (latexEnv := "lemma")]
+lemma integral_zero_left {B : E →L[ℝ] F →L[ℝ] G} (V : SimpleProcess F 𝓕) :
     integral B (fun _ ↦ 0) V = fun _ ↦ 0 := by
   ext; simp [integral]
 
@@ -321,22 +372,50 @@ def integral (B : E →L[ℝ] F →L[ℝ] G) (X : ι → Ω → E) (V : SimplePr
     integral B (-X) V = -integral B X V := by
   ext; simp [integral]; abel
 
-@[simp] lemma integral_add_left {B : E →L[ℝ] F →L[ℝ] G} (X Y : ι → Ω → E)
+@[simp, blueprint
+  "lem:elemStochIntegral_linear"
+  (statement := /-- The elementary stochastic integral is linear in both arguments. -/)
+  (proof := /-- (In Lean, this is split into several lemmas about each argument and add/sub/smul.)
+    
+    Immediate from the definition. -/)
+  (latexEnv := "lemma")]
+lemma integral_add_left {B : E →L[ℝ] F →L[ℝ] G} (X Y : ι → Ω → E)
     (V : SimpleProcess F 𝓕) :
     integral B (X + Y) V = integral B X V + integral B Y V := by
   ext; simp [integral]; abel
 
-@[simp] lemma integral_sub_left {B : E →L[ℝ] F →L[ℝ] G} (X Y : ι → Ω → E)
+@[simp, blueprint
+  "lem:elemStochIntegral_linear"
+  (statement := /-- The elementary stochastic integral is linear in both arguments. -/)
+  (proof := /-- (In Lean, this is split into several lemmas about each argument and add/sub/smul.)
+    
+    Immediate from the definition. -/)
+  (latexEnv := "lemma")]
+lemma integral_sub_left {B : E →L[ℝ] F →L[ℝ] G} (X Y : ι → Ω → E)
     (V : SimpleProcess F 𝓕) :
     integral B (X - Y) V = integral B X V - integral B Y V := by
   ext; simp [integral]; abel
 
-@[simp] lemma integral_smul_left {B : E →L[ℝ] F →L[ℝ] G} (c : ℝ) (X : ι → Ω → E)
+@[simp, blueprint
+  "lem:elemStochIntegral_linear"
+  (statement := /-- The elementary stochastic integral is linear in both arguments. -/)
+  (proof := /-- (In Lean, this is split into several lemmas about each argument and add/sub/smul.)
+    
+    Immediate from the definition. -/)
+  (latexEnv := "lemma")]
+lemma integral_smul_left {B : E →L[ℝ] F →L[ℝ] G} (c : ℝ) (X : ι → Ω → E)
     (V : SimpleProcess F 𝓕) :
     integral B (c • X) V = c • integral B X V := by
   ext; simp [integral, Finsupp.smul_sum, smul_sub]
 
-@[simp] lemma integral_zero_right {B : E →L[ℝ] F →L[ℝ] G} (X : ι → Ω → E) :
+@[simp, blueprint
+  "lem:elemStochIntegral_linear"
+  (statement := /-- The elementary stochastic integral is linear in both arguments. -/)
+  (proof := /-- (In Lean, this is split into several lemmas about each argument and add/sub/smul.)
+    
+    Immediate from the definition. -/)
+  (latexEnv := "lemma")]
+lemma integral_zero_right {B : E →L[ℝ] F →L[ℝ] G} (X : ι → Ω → E) :
     integral B X (0 : SimpleProcess F 𝓕) = fun _ ↦ 0 := by
   ext; simp [integral]
 
@@ -345,17 +424,38 @@ def integral (B : E →L[ℝ] F →L[ℝ] G) (X : ι → Ω → E) (V : SimplePr
     integral B X (-V) = -integral B X V := by
   ext; simp [integral, Finsupp.sum_neg_index]; abel
 
-@[simp] lemma integral_add_right {B : E →L[ℝ] F →L[ℝ] G} (X : ι → Ω → E)
+@[simp, blueprint
+  "lem:elemStochIntegral_linear"
+  (statement := /-- The elementary stochastic integral is linear in both arguments. -/)
+  (proof := /-- (In Lean, this is split into several lemmas about each argument and add/sub/smul.)
+    
+    Immediate from the definition. -/)
+  (latexEnv := "lemma")]
+lemma integral_add_right {B : E →L[ℝ] F →L[ℝ] G} (X : ι → Ω → E)
     (V W : SimpleProcess F 𝓕) :
     integral B X (V + W) = integral B X V + integral B X W := by
   ext; simp [integral, Finsupp.sum_add_index]; abel
 
-@[simp] lemma integral_sub_right {B : E →L[ℝ] F →L[ℝ] G}
+@[simp, blueprint
+  "lem:elemStochIntegral_linear"
+  (statement := /-- The elementary stochastic integral is linear in both arguments. -/)
+  (proof := /-- (In Lean, this is split into several lemmas about each argument and add/sub/smul.)
+    
+    Immediate from the definition. -/)
+  (latexEnv := "lemma")]
+lemma integral_sub_right {B : E →L[ℝ] F →L[ℝ] G}
     (X : ι → Ω → E) (V W : SimpleProcess F 𝓕) :
     integral B X (V - W) = integral B X V - integral B X W := by
   ext; simp [integral, Finsupp.sum_sub_index]; abel
 
-@[simp] lemma integral_smul_right {B : E →L[ℝ] F →L[ℝ] G} (c : ℝ) (X : ι → Ω → E)
+@[simp, blueprint
+  "lem:elemStochIntegral_linear"
+  (statement := /-- The elementary stochastic integral is linear in both arguments. -/)
+  (proof := /-- (In Lean, this is split into several lemmas about each argument and add/sub/smul.)
+    
+    Immediate from the definition. -/)
+  (latexEnv := "lemma")]
+lemma integral_smul_right {B : E →L[ℝ] F →L[ℝ] G} (c : ℝ) (X : ι → Ω → E)
     (V : SimpleProcess F 𝓕) :
     integral B X (c • V) = c • integral B X V := by
   ext; simp [integral, Finsupp.sum_smul_index', Finsupp.smul_sum, smul_sub]
@@ -371,6 +471,13 @@ namespace ElementaryPredictableSet
 variable (F)
 
 /-- The indicator function of an elementary predictable set as a simple process. -/
+@[blueprint
+  "lem:elementaryPredictableSet_iff_indicator"
+  (statement := /-- A set $A \subseteq T \times \Omega$ is an elementary predictable set if and only
+    if the indicator function $\mathbb{1}_A$ is a simple process. -/)
+  (proof := /-- Currently only proved the forward direction, because the backward direction is not
+    easy to state. -/)
+  (latexEnv := "lemma")]
 def indicator [One F] (S : ElementaryPredictableSet 𝓕) :
     SimpleProcess F 𝓕 where
   valueBot := S.setBot.indicator 1
@@ -428,7 +535,35 @@ section Predictable
 
 namespace ElementaryPredictableSet
 
-@[measurability]
+attribute [blueprint
+  "def:predictableMeasurableSpace"
+  (title := "Predictable $\\sigma$-algebra")
+  (statement := /-- Let $\mathcal{F}$ be a filtration on a measurable space indexed $\Omega$ by a
+    linearly ordered set $T$.
+    Let $S = \{\{\bot\} \times A \mid A \in \mathcal{F}_\bot\}$ if $T$ has a bottom element and $S =
+    \emptyset$ otherwise.
+    The predictable sigma-algebra on $T \times \Omega$ is the sigma-algebra generated by the set of
+    sets $\{(t, \infty] \times A \mid t \in T, \: A \in \mathcal{F}_t\} \cup S$. -/)]
+  MeasureTheory.Filtration.predictable
+
+attribute [blueprint
+  "lem:predictable_Ioc_prod"
+  (statement := /-- Sets of the form $(s, t] \times A$ for any $A \in \mathcal{F}_s$ is measurable
+    with respect to the predictable $\sigma$-algebra. -/)
+  (proof := /-- For $t \le s$, the set in question is empty and thusly, trivially measurable. On the
+    other hand, for $s < t$, measurability follows as
+    $(s, t] \times A = (s, \infty) \times A \setminus (t, \infty) \times A$. -/)
+  (latexEnv := "lemma")]
+  MeasureTheory.measurableSet_predictable_Ioc_prod
+
+@[measurability, blueprint
+  "lem:predictableSet_elementaryPredictableSet"
+  (statement := /-- An elementary predictable set is measurable with respect to the predictable
+    $\sigma$-algebra. -/)
+  (proof := /-- It is a union of sets of the form ${0} \times B$ with $B \in \mathcal{F}_0$ or of
+    the form $(s, t] \times B$ with $B \in \mathcal{F}_s$, which are measurable by
+    Lemma~\ref{lem:predictable_Ioc_prod}. -/)
+  (latexEnv := "lemma")]
 theorem measurableSet_predictable (S : ElementaryPredictableSet 𝓕) :
     MeasurableSet[𝓕.predictable] ↑S := by
   apply MeasurableSet.union
@@ -466,6 +601,10 @@ end ElementaryPredictableSet
 
 namespace SimpleProcess
 
+@[blueprint
+  "lem:predictable_simpleProcess"
+  (statement := /-- A simple process is predictable. -/)
+  (latexEnv := "lemma")]
 theorem isPredictable (V : SimpleProcess F 𝓕) : IsPredictable 𝓕 V := by
   apply Measurable.stronglyMeasurable
   apply Measurable.add
@@ -497,6 +636,12 @@ theorem isPredictable (V : SimpleProcess F 𝓕) : IsPredictable 𝓕 V := by
     · measurability
 
 variable (F 𝓕) in
+@[blueprint
+  "lem:iSup_comap_simpleProcess"
+  (statement := /-- Real simple processes generate the predictable $\sigma$-algebra, i.e., the
+    predictable $\sigma$-algebra is the supremum of the comaps by simple processes (seen as maps
+    from $T \times \Omega$ to $\mathbb{R}$) of the Borel $\sigma$-algebra. -/)
+  (latexEnv := "lemma")]
 theorem iSup_comap_eq_predictable [(atTop : Filter ι).IsCountablyGenerated]
     [One F] [NeZero (1 : F)] :
     (⨆ V : SimpleProcess F 𝓕, mF.comap (Function.uncurry ⇑V)) = 𝓕.predictable := by

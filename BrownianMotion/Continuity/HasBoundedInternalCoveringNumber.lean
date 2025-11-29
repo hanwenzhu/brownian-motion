@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Continuity.CoveringNumber
 
 /-!
@@ -15,6 +16,14 @@ open scoped ENNReal NNReal
 
 variable {T : Type*} [PseudoEMetricSpace T] {A : Set T} {c ε : ℝ≥0∞} {d : ℝ}
 
+@[blueprint
+  "def:HasBoundedInternalCoveringNumber"
+  (title := "Bounded internal covering number")
+  (statement := /-- Let $\mathrm{diam}(A)$ be the diameter of $A \subseteq E$, i.e.
+    $\mathrm{diam}(A) = \sup_{x,y \in A} d_E(x, y)$.
+    A set $A \subseteq E$ has bounded internal covering number with constant $c>0$ and exponent
+    $t>0$ if for all $\varepsilon \in (0, \mathrm{diam}(A)]$, $N^{int}_\varepsilon(A) \le c
+    \varepsilon^{-t}$. -/)]
 def HasBoundedInternalCoveringNumber (A : Set T) (c : ℝ≥0∞) (d : ℝ) : Prop :=
   ∀ ε, ε ≤ EMetric.diam A → internalCoveringNumber ε A ≤ c * ε⁻¹ ^ d
 
@@ -45,6 +54,19 @@ lemma HasBoundedInternalCoveringNumber.diam_lt_top
     exists_prop, exists_eq_right_right, Finset.coe_empty, isCover_empty_iff, Set.empty_subset] at h
   simp [h] at this
 
+@[blueprint
+  "lem:hasBoundedInternalCoveringNumber_subset"
+  (statement := /-- If $A$ has bounded internal covering number with constant $c>0$ and exponent
+    $d>0$, then for all $B \subseteq A$, $B$ has bounded internal covering number with constant $2^d
+    c$ and exponent $d$. -/)
+  (proof := /-- \begin{align*}
+      N^{int}_\varepsilon(B)
+      &\le N^{int}_{\varepsilon/2}(A)
+      \le c (\varepsilon/2)^{-d}
+      = 2^d c \varepsilon^{-d}
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma HasBoundedInternalCoveringNumber.subset {B : Set T}
     (h : HasBoundedInternalCoveringNumber A c d) (hBA : B ⊆ A) (hd : 0 ≤ d) :
     HasBoundedInternalCoveringNumber B (2 ^ d * c) d := by
@@ -75,6 +97,13 @@ lemma HasBoundedInternalCoveringNumber.subset {B : Set T}
       ENNReal.mul_rpow_of_nonneg _ _ hd]
     ring
 
+@[blueprint
+  "def:HasBoundedCoveringNumberCover"
+  (title := "Cover with bounded covering numbers")
+  (statement := /-- A set $T$ is said to have a cover with bounded covering numbers if there exists
+    a monotone sequence of totally bounded subsets $(T_n)_{n \in \mathbb{N}}$ of $T$ such that for
+    all $n$, $T_n$ has bounded internal covering number with constant $c_n$ and exponent $d_n > 0$,
+    and such that $T \subseteq \bigcup_{n \in \mathbb{N}} T_n$. -/)]
 structure IsCoverWithBoundedCoveringNumber (C : ℕ → Set T) (A : Set T) (c : ℕ → ℝ≥0∞) (d : ℕ → ℝ)
     where
   c_ne_top : ∀ n, c n ≠ ∞
@@ -86,6 +115,11 @@ structure IsCoverWithBoundedCoveringNumber (C : ℕ → Set T) (A : Set T) (c : 
   subset_iUnion : A ⊆ ⋃ i, C i
 
 open scoped Pointwise in
+@[blueprint
+  "lem:hasBoundedCoveringNumberCover_nnreal"
+  (statement := /-- $\mathbb{R}_+$ has a cover with bounded covering numbers for the sets $T_n =
+    [0,n)$, constants $c_n = n$ and exponents $d_n = 1$. -/)
+  (latexEnv := "lemma")]
 lemma isCoverWithBoundedCoveringNumber_Ico_nnreal :
     IsCoverWithBoundedCoveringNumber (fun n ↦ Set.Ico (0 : ℝ≥0) (n + 1)) Set.univ
       (fun n ↦ 3 * (n + 1)) (fun _ ↦ 1) where

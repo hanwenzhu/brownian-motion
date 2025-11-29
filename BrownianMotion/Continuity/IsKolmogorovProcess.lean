@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Auxiliary.FiniteInf
 import BrownianMotion.Auxiliary.MeanInequalities
 import BrownianMotion.Continuity.Chaining
@@ -55,6 +56,12 @@ lemma measurable_pair_of_measurable [SecondCountableTopology E] (hX : ∀ s, Mea
   fun_prop
 
 omit [PseudoEMetricSpace T] in
+@[blueprint
+  "lem:aemeasurable_pair_of_aemeasurable"
+  (statement := /-- If $E$ is separable and $X : T \to \Omega \to E$ is a process such that $X_t$ is
+    $\mathbb{P}$-a.e. measurable for all $t \in T$, then for all $s, t \in T$, the pair $(X_s, X_t)$
+    is $\mathbb{P}$-a.e. measurable for the Borel $\sigma$-algebra on $E^2$. -/)
+  (latexEnv := "lemma")]
 lemma aemeasurable_pair_of_aemeasurable [SecondCountableTopology E] (hX : ∀ s, AEMeasurable (X s) P)
     (s t : T) :
     @AEMeasurable _ _ (borel (E × E)) _ (fun ω ↦ (X s ω, X t ω)) P := by
@@ -64,6 +71,47 @@ lemma aemeasurable_pair_of_aemeasurable [SecondCountableTopology E] (hX : ∀ s,
 
 end Measurability
 
+attribute [blueprint
+  "def:IsKolmogorovProcess"
+  (title := "Kolmogorov condition")
+  (statement := /-- Let $X : T \to \Omega \to E$ be a stochastic process, where $(T, d_T)$ and $(E,
+    d_E)$ are pseudo-metric spaces and $(\Omega, \mathbb{P})$ is a measure space.
+    Let $p, q > 0$.
+    We say that $X$ satisfies the Kolmogorov condition for exponents $(p,q)$ with constant $M$ if
+    for all $s, t \in T$, $(X_s, X_t)$ is $\mathbb{P}$-a.e. measurable for the Borel
+    $\sigma$-algebra on $E^2$ and
+    \begin{align*}
+      \mathbb{E}[d_E(X_s, X_t)^p] \le M d_T(s, t)^q
+      \: .
+    \end{align*} -/)]
+  ProbabilityTheory.IsAEKolmogorovProcess
+
+attribute [blueprint
+  "lem:IsKolmogorovProcess.edist_eq_zero"
+  (statement := /-- If $X : T \to \Omega \to E$ is a process that satisfies the Kolmogorov condition
+    for exponents $(p,q)$ with constant $M$ and $s, t \in T$ are such that $d_T(s, t) = 0$, then
+    $\mathbb{P}$-a.e. $d_E(X_s, X_t) = 0$. -/)
+  (proof := /-- It suffices to show that $d_E(X_s, X_t)^p = 0$ almost everywhere, which is in turn
+    implied by $\mathbb{E}[d_E(X_s, X_t)^p] \le M d_t(s, t)^q = 0$. -/)
+  (latexEnv := "lemma")]
+  ProbabilityTheory.IsAEKolmogorovProcess.edist_eq_zero
+
+@[blueprint
+  "lem:IsKolmogorovProcess.lintegral_sup_rpow_edist_eq_zero"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $T'$ be a countable subset of $T$ such that for all $s, t \in T'$, $d_T(s, t) = 0$.
+    Then
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in T'} d_E(X_s, X_t)^p \right]
+      &= 0
+      \: .
+    \end{align*} -/)
+  (proof := /-- Since $T'$ is countable, we get from
+    Lemma~\ref{lem:IsKolmogorovProcess.edist_eq_zero} that almost surely, for all $s, t \in T'$,
+    $d_E(X_s, X_t)^p = 0$.
+    In particular the expectation of the supremum is $0$. -/)
+  (latexEnv := "lemma")]
 lemma IsAEKolmogorovProcess.lintegral_sup_rpow_edist_eq_zero (hX : IsAEKolmogorovProcess X P p q M)
     {T' : Set T} (hT' : T'.Countable)
     (h : ∀ s ∈ T', ∀ t ∈ T', edist s t = 0) :
@@ -90,6 +138,28 @@ lemma IsAEKolmogorovProcess.lintegral_sup_rpow_edist_eq_zero' (hX : IsAEKolmogor
   simp_rw [ae_all_iff]
   exact fun s t ↦ hX.edist_eq_zero (h s t)
 
+@[blueprint
+  "lem:integral_sup_rpow_dist_le_card_mul_rpow"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $\varepsilon > 0$ and $C \subseteq T^2$ be a finite set such that for all $(s, t) \in C$,
+    $d_T(s, t) \le \varepsilon$.
+    Then
+    \begin{align*}
+      \mathbb{E}\left[\sup_{(s,t) \in C} d_E(X_s, X_t)^p \right]
+      &\le \vert C \vert M \varepsilon^q
+      \: .
+    \end{align*} -/)
+  (proof := /-- \begin{align*}
+      \mathbb{E}\left[\sup_{(s,t) \in C} d_E(X_s, X_t)^p \right]
+      &\le \mathbb{E}\left[\sum_{(s,t) \in C} d_E(X_s, X_t)^p \right]
+      \\
+      &\le M \sum_{(s,t) \in C} d_T(s, t)^q
+      \\
+      &\le \vert C \vert M \varepsilon^q
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_le_card_mul_rpow (hX : IsAEKolmogorovProcess X P p q M)
     {ε : ℝ≥0∞} (C : Finset (T × T)) (hC : ∀ u ∈ C, edist u.1 u.2 ≤ ε) :
     ∫⁻ ω, ⨆ u : C, edist (X u.1.1 ω) (X u.1.2 ω) ^ p ∂P
@@ -106,6 +176,71 @@ lemma lintegral_sup_rpow_edist_le_card_mul_rpow (hX : IsAEKolmogorovProcess X P 
     · apply hC; assumption
   _ = #C * M * ε ^ q := by simp [mul_assoc]
 
+attribute [blueprint
+  "lem:pair_reduction"
+  (statement := /-- Let $(T,d_T)$ be a metric space.
+    Let $J \subseteq T$ be finite, $a > 1$, $c>0$ and $n \in \{1, 2, ...\}$ such that $|J| \le a^n$.
+    Then, there is $K \subseteq J^2$ such that for any function $f : T \to E$ with $(E,d_E)$ a
+    metric space,
+    \begin{align}
+      |K|
+      & \le a |J|
+      \:, \label{eq:chain1} \\
+      \forall (s,t) \in K,
+      &\:  d_T(s,t) \le c n
+      \:, \label{eq:chain2} \\
+      \sup_{s,t\in J, d_T(s,t) \le c} d_E(f(s), f(t))
+      & \le 2 \sup_{(s,t) \in K} d_E(f(s), f(t))
+      \: . \label{eq:chain3}
+    \end{align} -/)
+  (proof := /-- Let $(V_i, t_i, r_i)_{i \in \mathbb{N}}$ be a log-size ball sequence for $(J, a, c,
+    n)$. We show that its pair set satisfies the conditions of the lemma.
+    
+    Equation~\eqref{eq:chain1} is given by Lemma~\ref{lem:card_pairSet_le}.
+    The second property~\eqref{eq:chain2} is Lemma~\ref{lem:dist_le_of_mem_pairSet}.
+    Equation~\eqref{eq:chain3} was proved in Lemma~\ref{lem:sup_dist_le_two_mul_sup_dist_pairSet}.
+    -/)
+  (latexEnv := "lemma")]
+  EMetric.pair_reduction
+
+@[blueprint
+  "lem:integral_sup_rpow_dist_of_dist_le"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $J \subseteq T$ be finite, $a, c \in \mathbb R_+$ with $a \ge 1$ and $n \in \{1, 2, ...\}$
+    such that $|J| \le a^n$.
+    Then
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in J; d_T(s, t) \le c} d_E(X_s, X_t)^p \right]
+      &\le 2^p a |J| M (cn)^q
+      \: .
+    \end{align*} -/)
+  (proof := /-- By Lemma~\ref{lem:pair_reduction}, there exists $K \subseteq J^2$ such that
+    \begin{align*}
+      |K|
+      & \le a |J|
+      \:, \\
+      \forall (s,t) \in K,
+      & \ d_T(s,t) \le c n
+      \:, \\
+      \sup_{s,t\in J, d_T(s,t) \le c} d_E(X_s, X_t)
+      & \le 2 \sup_{(s,t) \in K} d_E(X_s, X_t)
+      \: .
+    \end{align*}
+    Hence for such a set $K$,
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in J; d_T(s, t) \le c} d_E(X_s, X_t)^p \right]
+      &\le 2^p \mathbb{E} \left[ \sup_{(s, t) \in K} d_E(X_s, X_t)^p \right]
+      \: .
+    \end{align*}
+    Then by Lemma~\ref{lem:integral_sup_rpow_dist_le_card_mul_rpow},
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{(s, t) \in K} d_E(X_s, X_t)^p \right]
+      &\le |K| M (cn)^q
+      \le a |J| M (cn)^q
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_le_card_mul_rpow_of_dist_le
     (hX : IsAEKolmogorovProcess X P p q M) {J : Finset T} {a c : ℝ≥0∞} {n : ℕ}
     (hJ_card : #J ≤ a ^ n) :
@@ -139,6 +274,43 @@ section FirstTerm
 
 variable {J : Set T}
 
+@[blueprint
+  "lem:integral_sup_rpow_dist_cover_of_dist_le"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $C$ be a finite $\varepsilon$-cover of $J \subseteq T$ with $C \subseteq J$, with minimal
+    cardinal.
+    Then for $c \ge 0$,
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in C; d_T(s, t) \le c} d_E(X_s, X_t)^p \right]
+      &\le 2^{p+1} M \left(2 c \log_2 N^{int}_{\varepsilon}(J) \right)^q  N^{int}_{\varepsilon}(J)
+      \: .
+    \end{align*}
+    Note the logarithm has base $2$. -/)
+  (proof := /-- Let $\bar{r} = 1 + \log_2 N^{int}_{\varepsilon}(J)$. Then
+    \begin{align*}
+      \vert C \vert
+      = N^{int}_{\varepsilon}(J)
+      \le 2^{\bar{r}}
+      \: .
+    \end{align*}
+    By Lemma~\ref{lem:integral_sup_rpow_dist_of_dist_le} with $J = C$, $a = 2$, $c = c$, $n =
+    \bar{r}$,
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in C; d_T(s, t) \le c} d_E(X_s, X_t)^p \right]
+      &\le 2^{p+1} |C| M (c \bar{r})^q
+      = 2^{p+1} M (c \bar{r})^q N^{int}_{\varepsilon}(J)
+      \: .
+    \end{align*}
+    
+    Suppose $N^{int}_{\varepsilon}(J) \ge 2$ (if it equals one the result is trivial).
+    Then $\bar{r} \le 2 \log_2 N^{int}_{\varepsilon}(J)$.
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in C; d_T(s, t) \le c} d_E(X_s, X_t)^p \right]
+      &\le 2^{p+1} M \left(2 c \log_2 N^{int}_{\varepsilon}(J) \right)^q  N^{int}_{\varepsilon}(J)
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_cover_of_dist_le
     (hX : IsAEKolmogorovProcess X P p q M) {C : Finset T} {ε : ℝ≥0∞}
     (hC_card : #C = internalCoveringNumber ε J)
@@ -170,6 +342,42 @@ lemma lintegral_sup_rpow_edist_cover_of_dist_le
     · exact hX.q_pos.le
     · norm_cast
 
+@[blueprint
+  "lem:integral_sup_rpow_dist_cover_rescale"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    For all $n \in \mathbb{N}$, let $C_n$ a finite $\varepsilon_n$-cover of $J \subseteq T$ with
+    $C_n \subseteq J$ for $\varepsilon_n = \varepsilon_0 2^{-n}$, with minimal cardinal.
+    Suppose $\varepsilon_0 < \infty$, let $\delta \in (0, 4 \varepsilon_0]$ and let $m$ be a natural
+    number such that $\varepsilon_0 2^{-m} \le \delta$ and $\delta \le \varepsilon_0 2^{-m+2}$.
+    Then for $k \ge m$,
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_{\bar{s}_m},
+      X_{\bar{t}_m})^p \right]
+      &\le 2^{p+1} M \left(16 \delta \log_2 N^{int}_{\delta/4}(J) \right)^q  N^{int}_{\delta/4}(J)
+      \: .
+    \end{align*} -/)
+  (proof := /-- By definition of $m$, $\delta \le \varepsilon_0 2^{-m+2}$.
+    For $s, t \in C_k$ with $d_T(s, t) \le \delta$, $d_T(\bar{s}_m, \bar{t}_m) \le \delta +
+    \varepsilon_0 2^{-m+2} \le \varepsilon_0 2^{-m+3}$
+    (Corollary~\ref{cor:dist_chainingSequence_pow_two_le}).
+    It thus suffices to get a bound on $\mathbb{E} \left[ \sup_{s, t \in C_m; d_T(s, t) \le
+    \varepsilon_0 2^{-m+3}} d_E(X_s, X_t)^p \right]$.
+    
+    We can apply Lemma~\ref{lem:integral_sup_rpow_dist_cover_of_dist_le} with $\varepsilon =
+    \varepsilon_m$, $c = \varepsilon_0 2^{-m+3}$. We obtain
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in C_m; d_T(s, t) \le \varepsilon_0 2^{-m+3}} d_E(X_s, X_t)^p
+      \right]
+      &\le 2^{p+1} M \left(16 \varepsilon_0 2^{-m} \log_2 N^{int}_{\varepsilon_m}(J) \right)^q 
+      N^{int}_{\varepsilon_m}(J)
+      \: .
+    \end{align*}
+    By definition of $m$, $\varepsilon_m = \varepsilon_0 2^{-m} \ge \delta/4$,
+    hence $N^{int}_{\varepsilon_m}(J) \le N^{int}_{\delta / 4}(J)$.
+    
+    Finally, by definition of $m$ we have $\varepsilon_0 2^{-m} \le \delta$. -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_cover_rescale (hX : IsAEKolmogorovProcess X P p q M) (hJ : J.Finite)
     {C : ℕ → Finset T} {ε₀ : ℝ≥0∞} (hε₀ : ε₀ ≠ ⊤)
     (hC : ∀ i, IsCover (C i) (ε₀ * 2⁻¹ ^ i) J) (hC_subset : ∀ i, (C i : Set T) ⊆ J)
@@ -232,6 +440,27 @@ section SecondTerm
 
 variable {J : Set T} {C : ℕ → Finset T} {ε : ℕ → ℝ≥0∞} {j k m : ℕ}
 
+@[blueprint
+  "lem:integral_sup_rpow_dist_succ"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers and $C_n$ a finite
+    $\varepsilon_n$-cover of $T$ with $C_n \subseteq T$.
+    Then for $j < k$,
+    \begin{align*}
+      \mathbb{E}\left[\sup_{t \in C_k} d_E(X_{\bar{t}_j}, X_{\bar{t}_{j+1}})^p \right]
+      &\le \vert C_{j+1} \vert M \varepsilon_j^q
+      \: .
+    \end{align*} -/)
+  (proof := /-- \begin{align*}
+      \mathbb{E}\left[\sup_{t \in C_k} d_E(X_{\bar{t}_j}, X_{\bar{t}_{j+1}})^p \right]
+      &\le \mathbb{E}\left[\sup_{u \in C_{j+1}} d_E(X_{\bar{u}_j}, X_{u})^p \right]
+      \: .
+    \end{align*}
+    We then apply Lemma~\ref{lem:integral_sup_rpow_dist_le_card_mul_rpow} to the set $C =
+    \{(\bar{u}_j, u) \mid u \in C_{j+1}\}$, which satisfies the condition $d_T(\bar{u}_j, u) \le
+    \varepsilon_j$ and has cardinal $\vert C_{j+1} \vert$. -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_succ (hX : IsAEKolmogorovProcess X P p q M)
     (hC : ∀ n, IsCover (C n) (ε n) J) (hC_subset : ∀ n, (C n : Set T) ⊆ J) (hjk : j < k) :
     ∫⁻ ω, ⨆ (t : C k),
@@ -264,6 +493,42 @@ lemma lintegral_sup_rpow_edist_succ (hX : IsAEKolmogorovProcess X P p q M)
   simp only [Function.Embedding.coeFn_mk, f₀]
   exact edist_chainingSequence_add_one_self hC hC_subset u.2
 
+@[blueprint
+  "lem:integral_sup_dist_le_sum_rpow"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a stochastic process.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers and $C_n$ a finite
+    $\varepsilon_n$-cover of $T$ with $C_n \subseteq T$.
+    For $p \ge 1$ and $m \le k$,
+    \begin{align*}
+      \mathbb{E}\left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le \left(\sum_{i=m}^{k-1} \left( \mathbb{E}\left[\sup_{t \in C_k} d_E(X_{\bar{t}_i},
+      X_{\bar{t}_{i+1}})^p\right] \right)^{1/p}\right)^p
+      \: .
+    \end{align*} -/)
+  (proof := /-- By the triangle inequality,
+    \begin{align*}
+      \sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p
+      &\le \sup_{t \in C_k} \left( \sum_{i=m}^{k-1} d_E(X_{\bar{t}_i}, X_{\bar{t}_{i+1}}) \right)^p
+      \\
+      &\le \left( \sum_{i=m}^{k-1} \sup_{t \in C_k} d_E(X_{\bar{t}_i}, X_{\bar{t}_{i+1}}) \right)^p
+      \: .
+    \end{align*}
+    We thus have
+    \begin{align*}
+      \left(\mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]\right)^{1/p}
+      &\le \left(\mathbb{E} \left[\left( \sum_{i=m}^{k-1} \sup_{t \in C_k} d_E(X_{\bar{t}_i},
+      X_{\bar{t}_{i+1}}) \right)^p\right]\right)^{1/p}
+      \: .
+    \end{align*}
+    And then, by Minkowski's inequality, since $p \ge 1$,
+    \begin{align*}
+      \left(\mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]\right)^{1/p}
+      &\le \sum_{i=m}^{k-1} \left( \mathbb{E}\left[\sup_{t \in C_k} d_E(X_{\bar{t}_i},
+      X_{\bar{t}_{i+1}})^p \right] \right)^{1/p}
+      \: .
+    \end{align*}
+    Finally, we raise to the $p$-th power to obtain the result. -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_le_sum_rpow (hp : 1 ≤ p) (hX : IsAEKolmogorovProcess X P p q M)
     (hm : m ≤ k) :
     ∫⁻ ω, ⨆ (t : C k), edist (X t ω) (X (chainingSequence C t k m) ω) ^ p ∂P
@@ -283,6 +548,21 @@ lemma lintegral_sup_rpow_edist_le_sum_rpow (hp : 1 ≤ p) (hX : IsAEKolmogorovPr
   gcongr
   exact edist_chainingSequence_le_sum_edist (X · ω) hm
 
+@[blueprint
+  "lem:integral_sup_rpow_dist_le_sum"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers and $C_n$ a finite
+    $\varepsilon_n$-cover of $T$ with $C_n \subseteq T$.
+    Then for $p \ge 1$ and $m \le k$,
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le M \left( \sum_{j=m}^{k-1} \vert C_{j+1} \vert^{1/p} \varepsilon_j^{q/p} \right)^p
+      \: .
+    \end{align*} -/)
+  (proof := /-- Put together Lemma~\ref{lem:integral_sup_rpow_dist_succ} and
+    Lemma~\ref{lem:integral_sup_dist_le_sum_rpow}. -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_le_sum (hp : 1 ≤ p) (hX : IsAEKolmogorovProcess X P p q M)
     (hC : ∀ n, IsCover (C n) (ε n) J) (hC_subset : ∀ n, (C n : Set T) ⊆ J) (hm : m ≤ k) :
     ∫⁻ ω, ⨆ (t : C k), edist (X t ω) (X (chainingSequence C t k m) ω) ^ p ∂P
@@ -309,6 +589,36 @@ lemma lintegral_sup_rpow_edist_le_sum (hp : 1 ≤ p) (hX : IsAEKolmogorovProcess
     field_simp
     simp
 
+@[blueprint
+  "lem:integral_sup_rpow_dist_le_of_minimal_cover"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers in $(0,
+    \mathrm{diam}(T))$ and $C_n$ a finite $\varepsilon_n$-cover of $T$ with $C_n \subseteq T$, and
+    with minimal cardinality.
+    Suppose that $T$ has bounded internal covering number with constant $c_1>0$ and exponent $d >
+    0$.
+    Then for $p \ge 1$ and $m \le k$,
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le M c_1 \left( \sum_{j=m}^{k-1} \varepsilon_{j+1}^{-d/p} \varepsilon_j^{q/p} \right)^p
+      \: .
+    \end{align*} -/)
+  (proof := /-- By Lemma~\ref{lem:integral_sup_rpow_dist_le_sum}, we have
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le M \left( \sum_{j=m}^{k-1} \vert C_{j+1} \vert^{1/p} \varepsilon_j^{q/p} \right)^p
+      \: .
+    \end{align*}
+    Then by the minimality of the cardinality of $C_n$ and the bounded internal covering number
+    hypothesis, we have
+    \begin{align*}
+      \vert C_{j+1} \vert
+      &\le N^{int}_{\varepsilon_{j+1}}(T)
+      \le c_1 \varepsilon_{j+1}^{-d}
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_le_of_minimal_cover (hp : 1 ≤ p)
     (hX : IsAEKolmogorovProcess X P p q M)
     (hε : ∀ n, ε n ≤ EMetric.diam J)
@@ -342,6 +652,33 @@ lemma lintegral_sup_rpow_edist_le_of_minimal_cover (hp : 1 ≤ p)
     congr with i
     rw [ENNReal.inv_rpow, neg_div, ENNReal.rpow_neg]
 
+@[blueprint
+  "cor:integral_sup_rpow_dist_le_of_minimal_cover_two"
+  (statement := /-- Under the assumptions of
+    Lemma~\ref{lem:integral_sup_rpow_dist_le_of_minimal_cover}, for $\varepsilon_n = \varepsilon_0
+    2^{-n}$, then for $m \le k$,
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le 2^d M c_1 (\varepsilon_0 2^{-m + 1})^{q - d} \frac{1}{\left( 2^{(q -d)/p} - 1\right)^p}
+      \: .
+    \end{align*} -/)
+  (proof := /-- Applying first Lemma~\ref{lem:integral_sup_rpow_dist_le_of_minimal_cover}, we get
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le 2^d M c_1 \varepsilon_0^{q - d} \left( \sum_{j=m}^{k-1} 2^{- j(q - d)/p} \right)^p
+      \\
+      &= 2^d M c_1 (\varepsilon_0 2^{-m})^{q - d} \left( \sum_{j=0}^{k-m-1} 2^{- j(q - d)/p}
+      \right)^p
+      \\
+      &\le 2^d M c_1 (\varepsilon_0 2^{-m})^{q - d} \left( \sum_{j=0}^{\infty} 2^{- j(q - d)/p}
+      \right)^p
+      \\
+      &= 2^d M c_1 (\varepsilon_0 2^{-m})^{q - d} \frac{1}{(1 - 2^{-(q-d)/p})^p}
+      \\
+      &= 2^d M c_1 (\varepsilon_0 2^{-m+1})^{q - d} \frac{1}{(2^{(q-d)/p} - 1)^p}
+      \: .
+    \end{align*} -/)
+  (latexEnv := "corollary")]
 lemma lintegral_sup_rpow_edist_le_of_minimal_cover_two (hp : 1 ≤ p)
     (hX : IsAEKolmogorovProcess X P p q M) {ε₀ : ℝ≥0∞} (hε : ε₀ ≤ EMetric.diam J) (hε' : ε₀ ≠ ⊤)
     (hC : ∀ n, IsCover (C n) (ε₀ * 2⁻¹ ^ n) J) (hC_subset : ∀ n, (C n : Set T) ⊆ J)
@@ -423,6 +760,34 @@ lemma lintegral_sup_rpow_edist_le_of_minimal_cover_two (hp : 1 ≤ p)
   rw [← zpow_neg_one, ← zpow_neg_one, ← ENNReal.rpow_intCast_mul]
   simp [← ENNReal.rpow_intCast]
 
+@[blueprint
+  "lem:integral_sup_dist_le_sum_rpow_of_le_one"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a stochastic process.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers and $C_n$ a finite
+    $\varepsilon_n$-cover of $T$ with $C_n \subseteq T$.
+    For $0 < p \le 1$ and $m \le k$,
+    \begin{align*}
+      \mathbb{E}\left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le \sum_{i=m}^{k-1} \mathbb{E}\left[\sup_{t \in C_k} d_E(X_{\bar{t}_i},
+      X_{\bar{t}_{i+1}})^p\right]
+      \: .
+    \end{align*} -/)
+  (proof := /-- For $0 < p \le 1$, the power function is sub-additive, i.e. for $a, b \ge 0$,
+    \begin{align*}
+      (a + b)^p \le a^p + b^p
+      \: .
+    \end{align*}
+    We can thus apply the triangle inequality to obtain
+    \begin{align*}
+      \sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p
+      &\le \sup_{t \in C_k} \left(\sum_{i=m}^{k-1} d_E(X_{\bar{t}_i}, X_{\bar{t}_{i+1}})\right)^p
+      \\
+      &\le \sup_{t \in C_k} \sum_{i=m}^{k-1} d_E(X_{\bar{t}_i}, X_{\bar{t}_{i+1}})^p
+      \\
+      &\le \sum_{i=m}^{k-1} \sup_{t \in C_k} d_E(X_{\bar{t}_i}, X_{\bar{t}_{i+1}})^p
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_le_sum_rpow_of_le_one (hp : p ≤ 1)
     (hX : IsAEKolmogorovProcess X P p q M) (hm : m ≤ k) :
     ∫⁻ ω, ⨆ (t : C k), edist (X t ω) (X (chainingSequence C t k m) ω) ^ p ∂P
@@ -438,6 +803,21 @@ lemma lintegral_sup_rpow_edist_le_sum_rpow_of_le_one (hp : p ≤ 1)
   · exact hX.p_pos.le
   · exact edist_chainingSequence_le_sum_edist (X · ω) hm
 
+@[blueprint
+  "lem:integral_sup_rpow_dist_le_sum_of_le_one"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers and $C_n$ a finite
+    $\varepsilon_n$-cover of $T$ with $C_n \subseteq T$.
+    For $0 < p \le 1$ and $m \le k$,
+    \begin{align*}
+      \mathbb{E}\left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le M \sum_{i=m}^{k-1} \vert C_{j+1} \vert \varepsilon_j^{q}
+      \: .
+    \end{align*} -/)
+  (proof := /-- Put together Lemma~\ref{lem:integral_sup_rpow_dist_succ} and
+    Lemma~\ref{lem:integral_sup_dist_le_sum_rpow_of_le_one}. -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_le_sum_of_le_one (hp : p ≤ 1)
     (hX : IsAEKolmogorovProcess X P p q M)
     (hC : ∀ n, IsCover (C n) (ε n) J) (hC_subset : ∀ n, (C n : Set T) ⊆ J) (hm : m ≤ k) :
@@ -450,6 +830,36 @@ lemma lintegral_sup_rpow_edist_le_sum_of_le_one (hp : p ≤ 1)
   simp only [Finset.mem_range] at hi
   omega
 
+@[blueprint
+  "lem:integral_sup_rpow_dist_le_of_minimal_cover_of_le_one"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers in $(0,
+    \mathrm{diam}(T)]$ and $C_n$ a finite $\varepsilon_n$-cover of $T$ with $C_n \subseteq T$, and
+    with minimal cardinality.
+    Suppose that $T$ has bounded internal covering number with constant $c_1>0$ and exponent $d >
+    0$.
+    Then for $p \le 1$ and $m \le k$,
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le M c_1 \sum_{j=m}^{k-1} \varepsilon_{j+1}^{-d} \varepsilon_j^{q}
+      \: .
+    \end{align*} -/)
+  (proof := /-- By Lemma~\ref{lem:integral_sup_rpow_dist_le_sum_of_le_one}, we have
+    \begin{align*}
+      \mathbb{E}\left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le M \sum_{i=m}^{k-1} \vert C_{j+1} \vert \varepsilon_j^{q}
+      \: .
+    \end{align*}
+    Then by the minimality of the cardinality of $C_n$ and the bounded internal covering number
+    hypothesis, we have
+    \begin{align*}
+      \vert C_{j+1} \vert
+      &= N^{int}_{\varepsilon_{j+1}}(T)
+      \le c_1 \varepsilon_{j+1}^{-d}
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_rpow_edist_le_of_minimal_cover_of_le_one (hp : p ≤ 1)
     (hX : IsAEKolmogorovProcess X P p q M)
     (hε : ∀ n, ε n ≤ EMetric.diam J)
@@ -470,6 +880,30 @@ lemma lintegral_sup_rpow_edist_le_of_minimal_cover_of_le_one (hp : p ≤ 1)
     exact hC_card _
   · rw [ENNReal.inv_rpow, ENNReal.rpow_neg]
 
+@[blueprint
+  "cor:integral_sup_rpow_dist_le_of_minimal_cover_two_of_le_one"
+  (statement := /-- Under the assumptions of
+    Lemma~\ref{lem:integral_sup_rpow_dist_le_of_minimal_cover_of_le_one}, for $\varepsilon_n =
+    \varepsilon_0 2^{-n}$, then for $m \le k$,
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le 2^d M c_1 (\varepsilon_0 2^{-m + 1})^{q - d} \frac{1}{\left( 2^{(q -d)} - 1\right)}
+      \: .
+    \end{align*} -/)
+  (proof := /-- Applying first Lemma~\ref{lem:integral_sup_rpow_dist_le_of_minimal_cover_of_le_one},
+    we get
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le 2^d M c_1 (\varepsilon_0 2^{-m})^{q-d}\sum_{j=0}^{k-m-1} 2^{- j (q - d)}
+      \\
+      &\le 2^d M c_1 (\varepsilon_0 2^{-m})^{q-d}\sum_{j=0}^{+\infty} 2^{- j (q - d)}
+      \\
+      &= 2^d M c_1 (\varepsilon_0 2^{-m})^{q-d} \frac{1}{1 - 2^{-(q - d)}}
+      \\
+      &= 2^d M c_1 (\varepsilon_0 2^{-m+1})^{q-d} \frac{1}{2^{(q - d)} - 1}
+      \: .
+    \end{align*} -/)
+  (latexEnv := "corollary")]
 lemma lintegral_sup_rpow_edist_le_of_minimal_cover_two_of_le_one (hp : p ≤ 1)
     (hX : IsAEKolmogorovProcess X P p q M) {ε₀ : ℝ≥0∞} (hε : ε₀ ≤ EMetric.diam J)
     (hC : ∀ n, IsCover (C n) (ε₀ * 2⁻¹ ^ n) J) (hC_subset : ∀ n, (C n : Set T) ⊆ J)
@@ -533,10 +967,33 @@ lemma lintegral_sup_rpow_edist_le_of_minimal_cover_two_of_le_one (hp : p ≤ 1)
     _ = 2 ^ (q - d) * (2 ^ (q - d) - 1)⁻¹ := by
       rw [ENNReal.mul_inv (.inr (by finiteness)) (.inl (by simp)), ENNReal.inv_rpow, inv_inv]
 
+@[blueprint
+  "def:Cp"
+  (statement := /-- \begin{align*}
+      C_p = \max\left\{\frac{1}{\left( 2^{(q -d)/p} - 1\right)^p}, \frac{1}{\left( 2^{(q -d)} -
+      1\right)} \right\}
+      \: .
+    \end{align*} -/)]
 noncomputable
 def Cp (d p q : ℝ) : ℝ≥0∞ :=
   max (1 / ((2 ^ ((q - d) / p)) - 1) ^ p) (1 / (2 ^ (q - d) - 1))
 
+@[blueprint
+  "lem:second_term_bound"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$.
+    Let $C_n$ a finite $(\varepsilon_0 2^{-n})$-cover of $T$ for $\varepsilon_0 \le
+    \mathrm{diam}(T)$ with $C_n \subseteq T$, and with minimal cardinality.
+    Suppose that $T$ has bounded internal covering number with constant $c_1>0$ and exponent $d >
+    0$.
+    Then for $m \le k$,
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le 2^d M c_1 (\varepsilon_0 2^{-m + 1})^{q - d} C_p
+      \: .
+    \end{align*} -/)
+  (proof := /-- This is the max of the two bounds obtained $p \ge 1$ and $p \le 1$. -/)
+  (latexEnv := "lemma")]
 lemma second_term_bound {C : ℕ → Finset T} {k m : ℕ}
     (hX : IsAEKolmogorovProcess X P p q M) {ε₀ : ℝ≥0∞} (hε : ε₀ ≤ EMetric.diam J)
     (hC : ∀ n, IsCover (C n) (ε₀ * 2⁻¹ ^ n) J) (hC_subset : ∀ n, (C n : Set T) ⊆ J)
@@ -561,6 +1018,41 @@ section Together
 
 variable {M : ℝ≥0} {d p q : ℝ} {J : Set T} {c δ : ℝ≥0∞}
 
+@[blueprint
+  "lem:lintegral_sup_cover_eq_of_lt_iInf_dist"
+  (statement := /-- Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov
+    condition for exponents $(p,q)$ with constant $M$ and let $J$ be a finite subset of $T$.
+    Let $C$ be an $\varepsilon$-cover of $J$ with $C \subseteq J$.
+    If $\varepsilon < \inf_{s, t \in J; d_T(s, t)>0} d_T(s, t)$ then
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in C; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      &= \mathbb{E}\left[ \sup_{s, t \in J; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+    \end{align*} -/)
+  (proof := /-- First, remark that $C$ is actually a $0$-cover of $J$.
+    For $s, t \in J$, let $s', t' \in C$ be such that $d_T(s, s') = 0$ and $d_T(t, t') = 0$.
+    Then by the triangle inequality,
+    \begin{align*}
+      d_E(X_s, X_t)
+      &\le d_E(X_s, X_{s'}) + d_E(X_{s'}, X_{t'}) + d_E(X_t, X_{t'})
+    \end{align*}
+    and by Lemma~\ref{lem:IsKolmogorovProcess.edist_eq_zero}, we have $d_E(X_s, X_{s'}) = 0$ and
+    $d_E(X_t, X_{t'}) = 0$ almost surely, hence $d_E(X_s, X_t) \le d_E(X_{s'}, X_{t'})$.
+    Since $J$ is finite, almost surely we have that inequality for all pairs $(s, t) \in J$ and
+    their corresponding $(s', t') \in C$.
+    Note that $d_T(s', t') = d_T(s, t)$, hence $d_T(s, t) \le \delta$ is equivalent to $d_T(s', t')
+    \le \delta$.
+    We obtain
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in J; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      &\le \mathbb{E}\left[ \sup_{s, t \in J; d_T(s, t) \le \delta} d_E(X_{s'}, X_{t'})^p \right]
+      \\
+      &= \mathbb{E}\left[ \sup_{s, t \in J; d_T(s', t') \le \delta} d_E(X_{s'}, X_{t'})^p \right]
+      \\
+      &\le \mathbb{E}\left[ \sup_{s, t \in C; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      \: .
+    \end{align*}
+    The reverse inequality holds because $C$ is a subset of $J$. -/)
+  (latexEnv := "lemma")]
 lemma lintegral_sup_cover_eq_of_lt_iInf_dist {C : Finset T} {ε : ℝ≥0∞}
     (hX : IsAEKolmogorovProcess X P p q M)
     (hJ : J.Finite) (hC : IsCover C ε J) (hC_subset : (C : Set T) ⊆ J)
@@ -671,6 +1163,54 @@ lemma scale_change_lintegral_iSup
   gcongr with ω
   exact scale_change_rpow m (fun s ↦ X s ω) _ _ hX.p_pos.le
 
+@[blueprint
+  "thm:finite_set_bound_of_dist_le_of_diam_le"
+  (statement := /-- Suppose that $T$ is a finite set with bounded internal covering number with
+    constant $c_1>0$ and exponent $d > 0$.
+    Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov condition for exponents
+    $(p,q)$ with constant $M$, with $q > d$ and $p > 0$.
+    For all $\delta \ge 4\mathrm{diam}(T)$,
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in T; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      \le 4^p 2^q M c_1 \delta^{q - d} C_p
+      \: .
+    \end{align*} -/)
+  (proof := /-- Let $\varepsilon_0 = \mathrm{diam}(T)$.
+    For all $n \in \mathbb{N}$, let $C_n$ a finite $\varepsilon_n$-cover of $T$ with $C_n \subseteq
+    T$ for $\varepsilon_n = \varepsilon_0 2^{-n}$, with minimal cardinal.
+    
+    Let $k$ be a natural number such that $\varepsilon_0 2^{-k} < \inf_{s, t \in T; d_T(s,t)>0}
+    d_T(s, t)$, which exists since $T$ is finite.
+    By Lemma~\ref{lem:lintegral_sup_cover_eq_of_lt_iInf_dist}, the supremum over $T$ can be replaced
+    by a supremum over $C_k$.
+    
+    By Corollary~\ref{cor:scale_change_rpow},
+    \begin{align*}
+      &\mathbb{E}\left[ \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      \\
+      &\le 2^p \mathbb{E}\left[ \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_{\bar{s}_0},
+      X_{\bar{t}_0})^p \right]
+        + 4^p \mathbb{E}\left[ \sup_{s \in C_k} d_E(X_s, X_{\bar{s}_0})^p \right]
+      \: .
+    \end{align*}
+    
+    Since $\varepsilon_0 = \mathrm{diam}(T)$, $C_0$ is a singleton and $d_E(X_{\bar{s}_0},
+    X_{\bar{t}_0}) = 0$ for all $s, t$.
+    We thus have
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_{\bar{s}_0},
+      X_{\bar{t}_0})^p \right]
+      &= 0
+      \: .
+    \end{align*}
+    
+    By Lemma~\ref{lem:second_term_bound},
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_0})^p \right]
+      &\le 2^q M c_1 \varepsilon_0^{q - d} C_p
+      \le 2^q M c_1 \delta^{q - d} C_p
+      \: .
+    \end{align*} -/)]
 lemma finite_set_bound_of_edist_le_of_diam_le (hJ : HasBoundedInternalCoveringNumber J c d)
     (hJ_finite : J.Finite) (hX : IsAEKolmogorovProcess X P p q M)
     (hd_pos : 0 < d) (hdq_lt : d < q) (hδ_le : EMetric.diam J ≤ δ / 4) :
@@ -747,6 +1287,86 @@ lemma finite_set_bound_of_edist_le_of_diam_le (hJ : HasBoundedInternalCoveringNu
     rw [← ENNReal.rpow_add _ _ (by simp) (by simp)]
     ring_nf
 
+@[blueprint
+  "thm:finite_set_bound_of_dist_le_of_le_diam"
+  (statement := /-- Suppose that $T$ is a finite set with bounded internal covering number with
+    constant $c_1>0$ and exponent $d > 0$.
+    Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov condition for exponents
+    $(p,q)$ with constant $M$, with $q > d$ and $p > 0$.
+    For all $\delta \in (0, 4\mathrm{diam}(T)]$,
+    \begin{align*}
+      &\mathbb{E}\left[ \sup_{s, t \in T; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      \\
+      &\le 2^{2p+4q+1} M \delta^{q-d} \left(\delta^d \left(\log_2 N^{int}_{\delta/4}(T) \right)^q 
+      N^{int}_{\delta/4}(T)
+        + c_1 C_p\right)
+      \: .
+    \end{align*} -/)
+  (proof := /-- Let $\varepsilon_0 = \mathrm{diam}(T)$.
+    For all $n \in \mathbb{N}$, let $C_n$ a finite $\varepsilon_n$-cover of $T$ with $C_n \subseteq
+    T$ for $\varepsilon_n = \varepsilon_0 2^{-n}$, with minimal cardinal.
+    
+    Let $k$ be a natural number such that $\varepsilon_0 2^{-k} < \inf_{s, t \in T; d_T(s,t)>0}
+    d_T(s, t)$, which exists since $T$ is finite.
+    If $\delta \le \varepsilon_0 2^{-k}$, then $\{(s, t) \in C_k; d_T(s, t) \le \delta\} = \{(s, t)
+    \mid s,t \in C_k, d_T(s,t) = 0\}$ and the inequality holds trivially (by
+    Lemma~\ref{lem:IsKolmogorovProcess.lintegral_sup_rpow_edist_eq_zero}).
+    We can thus assume $\delta > \varepsilon_0 2^{-k}$.
+    
+    By Lemma~\ref{lem:lintegral_sup_cover_eq_of_lt_iInf_dist}, the supremum over $T$ can be replaced
+    by a supremum over $C_k$.
+    
+    By Corollary~\ref{cor:scale_change_rpow}, for any $m \le k$,
+    \begin{align*}
+      &\mathbb{E}\left[ \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      \\
+      &\le 2^p \mathbb{E}\left[ \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_{\bar{s}_m},
+      X_{\bar{t}_m})^p \right]
+        + 4^p \mathbb{E}\left[ \sup_{s \in C_k} d_E(X_s, X_{\bar{s}_m})^p \right]
+      \: .
+    \end{align*}
+    
+    \emph{First term}
+    
+    We have $\delta \le 4\varepsilon_0$ by assumption.
+    Let $n_2 = \lfloor \log_2(4\varepsilon_0/\delta) \rfloor$ and $m = \min\{n_2, k\}$.
+    If $m = n_2$ then $\varepsilon_0 2^{-m} = \varepsilon_0 2^{-n_2} < \delta/2$.
+    Otherwise, $m = k$ and $\varepsilon_0 2^{-m} = \varepsilon_0 2^{-k} < \delta$ as argued at the
+    start of the proof.
+    We thus get $\varepsilon_0 2^{-m} \le \delta$.
+    We can also verify that $\delta \le \varepsilon_0 2^{-n_2+2} \le \varepsilon_0 2^{-m+2}$.
+    By Lemma~\ref{lem:integral_sup_rpow_dist_cover_rescale},
+    \begin{align*}
+      \mathbb{E} \left[ \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_{\bar{s}_m},
+      X_{\bar{t}_m})^p \right]
+      &\le 2^{p+1} M \left(16 \delta \log_2 N^{int}_{\delta/4}(T) \right)^q  N^{int}_{\delta/4}(T)
+      \: .
+    \end{align*}
+    
+    \emph{Second term}
+    
+    By Lemma~\ref{lem:second_term_bound} and then the inequality $\varepsilon_0 2^{-m} \le \delta$,
+    \begin{align*}
+      \mathbb{E} \left[\sup_{t \in C_k} d_E(X_t, X_{\bar{t}_m})^p \right]
+      &\le 2^d M c_1 (\varepsilon_0 2^{-m+1})^{q - d} C_p
+      \\
+      &\le 2^q M c_1 \delta^{q - d} C_p
+      \: .
+    \end{align*}
+    
+    Putting the two terms together, we obtain
+    \begin{align*}
+      &\mathbb{E}\left[ \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      \\
+      &\le 4^p M \left(4\left(16 \delta \log_2 N^{int}_{\delta/4}(T) \right)^q 
+      N^{int}_{\delta/4}(T)
+        + 2^q c_1 \delta^{q - d} C_p\right)
+      \\
+      &\le 2^{2p+4q+1} M \delta^{q-d} \left(\delta^d \left(\log_2 N^{int}_{\delta/4}(T) \right)^q 
+      N^{int}_{\delta/4}(T)
+        + c_1 C_p\right)
+      \: .
+    \end{align*} -/)]
 lemma finite_set_bound_of_edist_le_of_le_diam (hJ : HasBoundedInternalCoveringNumber J c d)
     (hJ_finite : J.Finite) (hX : IsAEKolmogorovProcess X P p q M)
     (hd_pos : 0 < d) (hdq_lt : d < q)
@@ -919,6 +1539,25 @@ lemma finite_set_bound_of_edist_le_of_le_diam (hJ : HasBoundedInternalCoveringNu
       · norm_cast
       linarith
 
+@[blueprint
+  "cor:finite_set_bound_of_dist_le_of_le_diam_bis"
+  (statement := /-- With the same assumptions and notations as in
+    Theorem~\ref{thm:finite_set_bound_of_dist_le_of_le_diam}, for all $\delta \in (0,
+    4\mathrm{diam}(T)]$,
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in T; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      &\le 2^{2p+4q+1} M c_1 \delta^{q-d} \left(4^d \left(\log_2 \left(c_1 \delta^{-d} 4^d \right)
+      \right)^q
+        + C_p\right)
+      \: .
+    \end{align*} -/)
+  (proof := /-- We apply Theorem~\ref{thm:finite_set_bound_of_dist_le_of_le_diam} and then remark
+    that for $\delta \le 4\mathrm{diam}(T)$, we can use the bounded internal covering number
+    hypothesis to bound $N^{int}_{\delta/4}(T)$~:
+    \begin{align*}
+      N^{int}_{\delta/4}(T) \le c_1 \left(\frac{\delta}{4}\right)^{-d} \: .
+    \end{align*} -/)
+  (latexEnv := "corollary")]
 lemma finite_set_bound_of_edist_le_of_le_diam' (hJ : HasBoundedInternalCoveringNumber J c d)
     (hJ_finite : J.Finite) (hX : IsAEKolmogorovProcess X P p q M)
     (hc : c ≠ ∞) (hd_pos : 0 < d) (hdq_lt : d < q)
@@ -991,6 +1630,23 @@ lemma finite_set_bound_of_edist_le_of_le_diam' (hJ : HasBoundedInternalCoveringN
       · simp [hδ_ne_top, hδ]
   · exact le_of_eq (by ring)
 
+@[blueprint
+  "cor:finite_set_bound_of_dist_le"
+  (statement := /-- Suppose that $T$ is a finite set with bounded internal covering number with
+    constant $c_1>0$ and exponent $d > 0$.
+    Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov condition for exponents
+    $(p,q)$ with constant $M$, with $q > d$ and $p > 0$.
+    For all $\delta > 0$,
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in T; d_T(s, t) \le \delta} d_E(X_s, X_t)^p \right]
+      &\le 2^{2p+4q+1} M c_1 \delta^{q-d} \left(4^d \left(\max\left\{0, \log_2 \left(c_1 \delta^{-d}
+      4^d\right) \right\} \right)^q
+        + C_p\right)
+      \: .
+    \end{align*} -/)
+  (proof := /-- We combine Corollary~\ref{cor:finite_set_bound_of_dist_le_of_le_diam_bis} and
+    Theorem~\ref{thm:finite_set_bound_of_dist_le_of_diam_le}. -/)
+  (latexEnv := "corollary")]
 lemma finite_set_bound_of_edist_le (hJ : HasBoundedInternalCoveringNumber J c d)
     (hJ_finite : J.Finite) (hX : IsAEKolmogorovProcess X P p q M) (hc : c ≠ ∞)
     (hd_pos : 0 < d) (hdq_lt : d < q) (hδ : δ ≠ 0) :

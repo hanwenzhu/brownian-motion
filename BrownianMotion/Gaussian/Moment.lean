@@ -1,3 +1,4 @@
+import Architect
 import Mathlib.Probability.Distributions.Gaussian.Basic
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 
@@ -6,6 +7,43 @@ open scoped NNReal
 
 namespace ProbabilityTheory
 
+attribute [blueprint
+  "def:gaussianReal"
+  (title := "Real Gaussian measure")
+  (statement := /-- The real Gaussian measure with mean $\mu \in \mathbb{R}$ and variance $\sigma^2
+    > 0$ is the measure on $\mathbb{R}$ with density $\frac{1}{\sqrt{2 \pi \sigma^2}}
+    \exp\left(-\frac{(x - \mu)^2}{2 \sigma^2}\right)$ with respect to the Lebesgue measure.
+    The real Gaussian measure with mean $\mu \in \mathbb{R}$ and variance $0$ is the Dirac measure
+    $\delta_\mu$.
+    We denote this measure by $\mathcal{N}(\mu, \sigma^2)$. -/)]
+  ProbabilityTheory.gaussianReal
+
+@[blueprint
+  "lem:centralMoment_two_mul_gaussianReal"
+  (statement := /-- The central moment of order $2n$ of a real Gaussian measure $\mathcal{N}(\mu,
+    \sigma^2)$ is given by
+    \begin{align*}
+      \mathbb{E}[(X - \mu)^{2n}] = \sigma^{2n} (2n - 1)!! \: ,
+    \end{align*}
+    in which $(2n - 1)!! = (2n - 1)(2n - 3) \cdots 3 \cdot 1$ is the double factorial of $2n - 1$.
+    -/)
+  (proof := /-- \begin{align*}
+     \mathbb{E}[(X - \mu)^{2n}] &= \int_{-\infty}^\infty (x - \mu)^{2n} \frac{1}{\sqrt{2 \pi
+     \sigma^2}} e^{-\frac{(x - \mu)^2}{2 \sigma^2}} \mathrm dx \\
+     &= \int_{-\infty}^\infty x^{2n} \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{x^2}{2 \sigma^2}}
+     \mathrm dx \\
+     &= 2 \int_{0}^\infty x^{2n} \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{x^2}{2 \sigma^2}} \mathrm
+     dx \\
+     &= 2 \int_{0}^\infty {\sqrt{2 \sigma^2 x}}^{2n} \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-x)}
+     \frac{\sigma^2}{\sqrt{2 \sigma^2 x'}} \mathrm dx \\
+     &= \frac{\sigma^{2n} 2^n}{\sqrt{\pi}} \int_{0}^\infty x^{n - 1/2} e{-x} \mathrm dx \\
+     &= \frac{\sigma^{2n} 2^n}{\sqrt{\pi}} \Gamma(n + 1/2) \\
+     &= \frac{\sigma^{2n} 2^n}{\Gamma(1/2)} \left( \prod_{k=0}^{n-1} (k + 1/2) \right) \Gamma(1/2)
+     \\
+     &= \sigma^{2n} \prod_{k=0}^{n-1} (2k + 1) \\
+     &= \sigma^{2n} (2n - 1)!!
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma centralMoment_two_mul_gaussianReal (μ : ℝ) (σ : ℝ≥0) (n : ℕ) :
     centralMoment id (2 * n) (gaussianReal μ (σ^2))
     = σ ^ (2 * n) * Nat.doubleFactorial (2 * n - 1) := by

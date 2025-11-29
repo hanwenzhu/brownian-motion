@@ -3,6 +3,7 @@ Copyright (c) 2025 Kexing Ying. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Kexing Ying
 -/
+import Architect
 import BrownianMotion.StochasticIntegral.Cadlag
 import BrownianMotion.StochasticIntegral.UniformIntegrable
 
@@ -21,7 +22,13 @@ variable {ι Ω E : Type*} [TopologicalSpace ι] [LinearOrder ι] [OrderTopology
 
 /-- Given a random time `τ`, a discrete approximation sequence `τn` of `τ` is a sequence of
 stopping times with countable range that converges to `τ` from above almost surely. -/
-@[ext]
+@[ext, blueprint
+  "def:approxSeq"
+  (title := "Discrete approximation sequence")
+  (statement := /-- Given a stopping time \(\tau : \Omega \to T \cup \{\infty\}\), a sequence of
+    stopping times \((\tau_n)_{n \in \mathbb{N}}\) is called an
+    discrete approximation of \(\tau\) if \(\tau_n(\Omega)\) is countable for each \(n\) and
+    \(\tau_n \downarrow \tau\) a.s. as \(n \to \infty\). -/)]
 structure DiscreteApproxSequence (𝓕 : Filtration ι mΩ) (τ : Ω → WithTop ι)
     (μ : Measure Ω := by volume_tac) where
   /-- The sequence of stopping times approximating `τ`. -/
@@ -48,6 +55,12 @@ theorem isStoppingTime_const' {ι : Type*} [Preorder ι] (f : Filtration ι mΩ)
 
 /-- A time index `ι` is said to be approximable if for any stopping time `τ` on `ι`, there exists
 a discrete approximation sequence of `τ`. -/
+@[blueprint
+  "def:approximableTimeIndex"
+  (title := "Approximable time index")
+  (statement := /-- A time index set \(T\) is said to be approximable if for any stopping time
+    \(\tau : \Omega \to T \cup \{\infty\}\), there exists a discrete approximation sequence
+    \((\tau_n)\) of \(\tau\). -/)]
 class Approximable {ι Ω : Type*} {mΩ : MeasurableSpace Ω} [TopologicalSpace ι] [LinearOrder ι]
     [OrderTopology ι] (𝓕 : Filtration ι mΩ) (μ : Measure Ω := by volume_tac) where
   /-- For any stopping time `τ`, there exists a discrete approximation sequence of `τ`. -/
@@ -60,8 +73,26 @@ def IsStoppingTime.discreteApproxSequence
     (h : IsStoppingTime 𝓕 τ) (μ : Measure Ω) [Approximable 𝓕 μ] :
     DiscreteApproxSequence 𝓕 τ μ := Approximable.approxSeq τ h
 
+@[blueprint
+  "lem:stoppingTime_approximationNat"
+  (statement := /-- $T = \mathbb{N}$ is an approximable time index. -/)
+  (proof := /-- Immediate as we can take \(\tau_n = \tau\) for all \(n\). -/)
+  (latexEnv := "lemma")]
 instance _root_.Nat.approximable {𝓕 : Filtration ℕ mΩ} : Approximable 𝓕 μ := sorry
 
+@[blueprint
+  "lem:stoppingTime_approximation"
+  (statement := /-- $T = \mathbb{R}_+$ is an approximable time index. In particular,
+    for any stopping time $\tau$ on $\overline{\mathbb{R}_+}$, defining $\tau_n =  2^{-n} \lceil 2^n
+    \tau \rceil$,
+    we have that $(\tau_n)$ is a discrete approximation sequence of $\tau$. -/)
+  (proof := /-- Clearly $\tau_n \downarrow \tau$ as $n \to \infty$ and so it remains to show that
+    each $\tau_n$ is a stopping time.
+    Indeed,
+    \[\{\tau_n \le t\} = \{\tau \le 2^{-n} \lfloor 2^n t\rfloor\}
+      \in \mathcal{F}_{2^{-n} \lfloor 2^n t\rfloor} \subseteq \mathcal{F}_t\]
+    where the last inclusion follows as \(2^{-n} \lfloor 2^n t\rfloor \le t\). -/)
+  (latexEnv := "lemma")]
 instance _root_.NNReal.approximable {𝓕 : Filtration ℝ≥0 mΩ} : Approximable 𝓕 μ := sorry
 
 /-- The constant discrete approximation sequence. -/
@@ -79,6 +110,14 @@ def discreteApproxSequence_const (𝓕 : Filtration ι mΩ) (i : WithTop ι) :
   le := fun n ω ↦ le_rfl
   tendsto := by simp
 
+@[blueprint
+  "lem:tendsto_stoppedValue_discreteApproxSequence"
+  (statement := /-- Given a right continuous process \(X\) and a discrete approximation sequence
+    \((\tau_n)\) of the stopping time \(\tau\), we have that
+    \[\lim_{n \to \infty} X_{\tau_n} = X_\tau \text{ a.s.}\] -/)
+  (proof := /-- This follows directly as \(X\) is right continuous and \(\tau_n \downarrow \tau\)
+    a.s. -/)
+  (latexEnv := "lemma")]
 lemma tendsto_stoppedValue_discreteApproxSequence [Nonempty ι] [TopologicalSpace E]
     (τn : DiscreteApproxSequence 𝓕 τ μ) (hX : ∀ ω, RightContinuous (X · ω)) :
     ∀ᵐ ω ∂μ, Tendsto (fun n ↦ stoppedValue X (τn.seq n) ω) atTop (𝓝 (stoppedValue X τ ω)) := by
@@ -86,6 +125,13 @@ lemma tendsto_stoppedValue_discreteApproxSequence [Nonempty ι] [TopologicalSpac
 
 /-- For `τ` a time bounded by `i` and `τn` a discrete approximation sequence of `τ`,
 `discreteApproxSequence_of` is the discrete approximation sequence of `τ` defined by `τn ∧ i`. -/
+@[blueprint
+  "lem:discreteApproxSequence_of"
+  (statement := /-- Let \(\tau\) be a stopping time bounded by \(t \in T\) and \((\tau_n)\) be a
+    discrete approximation sequence of \(\tau\).
+    Then, the sequence of stopping times \(\tau_n \wedge t\) is also a discrete approximation
+    sequence of \(\tau\). -/)
+  (latexEnv := "lemma")]
 def discreteApproxSequence_of {i : ι}
     (𝓕 : Filtration ι mΩ) (hτ : ∀ ω, τ ω ≤ i) (τn : DiscreteApproxSequence 𝓕 τ μ) :
     DiscreteApproxSequence 𝓕 τ μ where
@@ -184,6 +230,16 @@ lemma uniformIntegrable_stoppedValue_discreteApproxSequence_of_le
   h.uniformIntegrable_stoppedValue_of_countable_range _
     (τn.isStoppingTime) (fun n ω ↦ hτn_le n ω) (τn.countable)
 
+@[blueprint
+  "lem:uniformIntegrable_stoppedValue_discreteApproxSequence"
+  (statement := /-- Let \(\tau\) be a stopping time bounded by \(t \in T\) and \((\tau_n)\) be a
+    discrete approximation sequence of \(\tau\).
+    Then, for any martingale \(X\), the sequence of stopped values \((X_{\tau_n \wedge t})\) is
+    uniformly integrable. -/)
+  (proof := /-- Follows directly by
+    Lemma~\ref{lem:uniformIntegrable_stoppedValue_martingale_of_countable_range} and
+    Lemma~\ref{lem:discreteApproxSequence_of}. -/)
+  (latexEnv := "lemma")]
 lemma uniformIntegrable_stoppedValue_discreteApproxSequence
     (h : Martingale X 𝓕 μ) (hτ_le : ∀ ω, τ ω ≤ i) (τn : DiscreteApproxSequence 𝓕 τ μ) :
     UniformIntegrable (fun m ↦ stoppedValue X (discreteApproxSequence_of 𝓕 hτ_le τn m)) 1 μ :=
@@ -212,6 +268,30 @@ theorem stoppedValue_ae_eq_condExp_discreteApproxSequence_of
       (DiscreteApproxSequence.isStoppingTime _ m)
       (fun ω ↦ discreteApproxSequence_of_le hτ_le τn m ω) (DiscreteApproxSequence.countable _ m)
 
+attribute [blueprint
+  "lem:vitali"
+  (title := "Vitali convergence theorem")
+  (statement := /-- A sequence of functions converges in $L^1$ if and only if it converges in
+    probability and is uniformly integrable. -/)
+  (latexEnv := "lemma")]
+  MeasureTheory.tendstoInMeasure_iff_tendsto_Lp_finite
+
+@[blueprint
+  "lem:tendsto_eLpNorm_stoppedValue_discreteApproxSequence"
+  (statement := /-- Let \(\tau\) be a stopping time bounded by \(t \in T\) and \((\tau_n)\) be a
+    discrete approximation sequence of \(\tau\).
+    Then, for any right continuous martingale \(X\), \(X_{\tau} \in L^1\) and \(X_{\tau_n \wedge t}
+    \to X_{\tau}\) in \(L^1\) as \(n \to \infty\). -/)
+  (proof := /-- By Lemma~\ref{lem:tendsto_stoppedValue_discreteApproxSequence}, as \(X\) is right
+    continuous we have that \(X_{\tau_n \wedge t} \to X_{\tau}\) a.s. and so,
+    also in probability. Moreover, by
+    Lemma~\ref{lem:uniformIntegrable_stoppedValue_discreteApproxSequence}, the sequence \((X_{\tau_n
+    \wedge t})\) is uniformly integrable.
+    Thus, by Lemma~\ref{lem:memLp_of_tendstoInMeasure} and the Vitali convergence theorem
+    (Lemma~\ref{lem:vitali}), it
+    follows that \(X_{\tau} \in L^1\) and \(X_{\tau_n \wedge t} \to X_{\tau}\) in \(L^1\) as \(n \to
+    \infty\). -/)
+  (latexEnv := "lemma")]
 lemma tendsto_eLpNorm_stoppedValue_of_discreteApproxSequence
     (h : Martingale X 𝓕 μ) (hRC : ∀ ω, RightContinuous (X · ω))
     (hτ_le : ∀ ω, τ ω ≤ i) (τn : DiscreteApproxSequence 𝓕 τ μ) :

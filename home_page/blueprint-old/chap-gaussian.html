@@ -1,0 +1,2804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Gaussian distributions</title>
+<link rel="next" href="chap-projective_family.html" title="Projective family of the Brownian motion" />
+<link rel="prev" href="chap-process.html" title="Stochastic processes" />
+<link rel="up" href="sect0001.html" title="Brownian motion" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of a Brownian motion and of stochastic integrals in Lean</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class=" active">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Characteristic function and covariance</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#sec:characteristic_function"><span class="toc_ref">1.1</span> <span class="toc_entry">Characteristic functions</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#sec:covariance"><span class="toc_ref">1.2</span> <span class="toc_entry">Covariance</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-process.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic processes</span></a>
+ </li>
+<li class=" active current">
+  <a href="chap-gaussian.html"><span class="toc_ref">3</span> <span class="toc_entry">Gaussian distributions</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-2 active">
+     <li class="">
+  <a href="chap-gaussian.html#sec:gaussian_measures"><span class="toc_ref">3.1</span> <span class="toc_entry">Gaussian measures</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html#sec:gaussian_processes"><span class="toc_ref">3.2</span> <span class="toc_entry">Gaussian processes</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html"><span class="toc_ref">4</span> <span class="toc_entry">Projective family of the Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-projective_family.html#a0000000029"><span class="toc_ref">4.1</span> <span class="toc_entry">Kolmogorov extension theorem</span></a>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html#a0000000030"><span class="toc_ref">4.2</span> <span class="toc_entry">Projective family of Gaussian measures</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html"><span class="toc_ref">5</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000031"><span class="toc_ref">5.1</span> <span class="toc_entry">Covers and covering numbers</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000032"><span class="toc_ref">5.2</span> <span class="toc_entry">Chaining</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000033"><span class="toc_ref">5.3</span> <span class="toc_entry">Chaining for stochastic processes under Kolmogorov conditions</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000034"><span class="toc_ref">5.4</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-brownian.html"><span class="toc_ref">6</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-brownian.html#a0000000035"><span class="toc_ref">6.1</span> <span class="toc_entry">Stochastic process with continuous paths</span></a>
+ </li>
+<li class="">
+  <a href="chap-brownian.html#a0000000036"><span class="toc_ref">6.2</span> <span class="toc_entry">Wiener measure on the continuous functions</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0003.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="chap-filtration_martingale.html"><span class="toc_ref">7</span> <span class="toc_entry">Filtrations, processes and martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-filtration_martingale.html#a0000000037"><span class="toc_ref">7.1</span> <span class="toc_entry">Basic definitions</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000038"><span class="toc_ref">7.2</span> <span class="toc_entry">Right-continuous filtrations</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000039"><span class="toc_ref">7.3</span> <span class="toc_entry">Predictable processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000040"><span class="toc_ref">7.4</span> <span class="toc_entry">Uniformly integrable</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000041"><span class="toc_ref">7.5</span> <span class="toc_entry">Optional sampling</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000042"><span class="toc_ref">7.6</span> <span class="toc_entry">Martingale convergence</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000043"><span class="toc_ref">7.7</span> <span class="toc_entry">Doob’s Lp inequality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-debut_theorem.html"><span class="toc_ref">8</span> <span class="toc_entry">Debut Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-debut_theorem.html#a0000000044"><span class="toc_ref">8.1</span> <span class="toc_entry">Corollaries</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">9</span> <span class="toc_entry">Local martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000045"><span class="toc_ref">9.1</span> <span class="toc_entry">Local properties</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000046"><span class="toc_ref">9.2</span> <span class="toc_entry">Locally Cadlag</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000047"><span class="toc_ref">9.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000048"><span class="toc_ref">9.4</span> <span class="toc_entry">Doob-Meyer class</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0005.html"><span class="toc_ref">10</span> <span class="toc_entry">Simple processes and elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">11</span> <span class="toc_entry">Modifications with cadlag paths</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000049"><span class="toc_ref">11.1</span> <span class="toc_entry">Preliminaries</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000050"><span class="toc_ref">11.2</span> <span class="toc_entry">Cadlag modifications of martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000051"><span class="toc_ref">11.3</span> <span class="toc_entry">Cadlag modifications of (local) martingales</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html"><span class="toc_ref">12</span> <span class="toc_entry">Doob-Meyer Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-doob_meyer.html#a0000000052"><span class="toc_ref">12.1</span> <span class="toc_entry">Doob decomposition in discrete time</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000053"><span class="toc_ref">12.2</span> <span class="toc_entry">Komlòs Lemma</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000054"><span class="toc_ref">12.3</span> <span class="toc_entry">Doob-Meyer decomposition</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000055"><span class="toc_ref">12.4</span> <span class="toc_entry">Local version of the Doob-Meyer decomposition</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">13</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0007.html#a0000000056"><span class="toc_ref">13.1</span> <span class="toc_entry">Total variation and Lebesgue-Stieltjes integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000057"><span class="toc_ref">13.2</span> <span class="toc_entry">Square integrable martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000058"><span class="toc_ref">13.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000059"><span class="toc_ref">13.4</span> <span class="toc_entry">Stochastic integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000060"><span class="toc_ref">13.5</span> <span class="toc_entry">Itô formula</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">14</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="chap:gaussian">3 Gaussian distributions</h1>
+
+<h1 id="sec:gaussian_measures">3.1 Gaussian measures</h1>
+
+<h2 id="a0000000066">3.1.1 Real Gaussian measures</h2>
+<div class="definition_thmwrapper theorem-style-definition" id="def:gaussianReal">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3.1</span>
+    <span class="definition_thmtitle">Real Gaussian measure</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#def:gaussianReal">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.gaussianReal" class="lean_decl">ProbabilityTheory.gaussianReal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  The real Gaussian measure with mean \(\mu \in \mathbb {R}\) and variance \(\sigma ^2 {\gt} 0\) is the measure on \(\mathbb {R}\) with density \(\frac{1}{\sqrt{2 \pi \sigma ^2}} \exp \left(-\frac{(x - \mu )^2}{2 \sigma ^2}\right)\) with respect to the Lebesgue measure. The real Gaussian measure with mean \(\mu \in \mathbb {R}\) and variance \(0\) is the Dirac measure \(\delta _\mu \). We denote this measure by \(\mathcal{N}(\mu , \sigma ^2)\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:charFun_gaussianReal">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.2</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:charFun_gaussianReal">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000067"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:gaussianReal">Definition 3.1</a></li>
+          
+          <li><a href="sect0002.html#def:charFun">Definition 1.3</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.charFun_gaussianReal" class="lean_decl">ProbabilityTheory.charFun_gaussianReal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The characteristic function of a real Gaussian measure with mean \(\mu \) and variance \(\sigma ^2\) is given by \(x \mapsto \exp \left(i \mu x - \frac{\sigma ^2 x^2}{2}\right)\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000067">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:centralMoment_two_mul_gaussianReal">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.3</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:centralMoment_two_mul_gaussianReal">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000068"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:gaussianReal">Definition 3.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.centralMoment_two_mul_gaussianReal" class="lean_decl">ProbabilityTheory.centralMoment_two_mul_gaussianReal</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The central moment of order \(2n\) of a real Gaussian measure \(\mathcal{N}(\mu , \sigma ^2)\) is given by </p>
+<div class="displaymath" id="a0000000069">
+  \begin{align*}  \mathbb {E}[(X - \mu )^{2n}] = \sigma ^{2n} (2n - 1)!! \:  , \end{align*}
+</div>
+<p> in which \((2n - 1)!! = (2n - 1)(2n - 3) \cdots 3 \cdot 1\) is the double factorial of \(2n - 1\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000068">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+<div class="displaymath" id="a0000000070">
+  \begin{align*}  \mathbb {E}[(X - \mu )^{2n}] & = \int _{-\infty }^\infty (x - \mu )^{2n} \frac{1}{\sqrt{2 \pi \sigma ^2}} e^{-\frac{(x - \mu )^2}{2 \sigma ^2}} \mathrm dx \\ & = \int _{-\infty }^\infty x^{2n} \frac{1}{\sqrt{2 \pi \sigma ^2}} e^{-\frac{x^2}{2 \sigma ^2}} \mathrm dx \\ & = 2 \int _{0}^\infty x^{2n} \frac{1}{\sqrt{2 \pi \sigma ^2}} e^{-\frac{x^2}{2 \sigma ^2}} \mathrm dx \\ & = 2 \int _{0}^\infty {\sqrt{2 \sigma ^2 x}}^{2n} \frac{1}{\sqrt{2 \pi \sigma ^2}} e^{-x)} \frac{\sigma ^2}{\sqrt{2 \sigma ^2 x'}} \mathrm dx \\ & = \frac{\sigma ^{2n} 2^n}{\sqrt{\pi }} \int _{0}^\infty x^{n - 1/2} e{-x} \mathrm dx \\ & = \frac{\sigma ^{2n} 2^n}{\sqrt{\pi }} \Gamma (n + 1/2) \\ & = \frac{\sigma ^{2n} 2^n}{\Gamma (1/2)} \left( \prod _{k=0}^{n-1} (k + 1/2) \right) \Gamma (1/2) \\ & = \sigma ^{2n} \prod _{k=0}^{n-1} (2k + 1) \\ & = \sigma ^{2n} (2n - 1)!! \end{align*}
+</div>
+
+  </div>
+</div>
+<h2 id="a0000000071">3.1.2 Gaussian measures on a Banach space</h2>
+<p>That kind of generality is not needed for this project, but we happen to have results about Gaussian measures on a Banach space in Mathlib, so we will use them. The main reference for this section is <span class="cite">
+	[
+</span>. </p>
+<p>Let \(F\) be a separable Banach space. </p>
+<div class="definition_thmwrapper theorem-style-definition" id="def:IsGaussian">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3.4</span>
+    <span class="definition_thmtitle">Gaussian measure</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#def:IsGaussian">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:gaussianReal">Definition 3.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussian" class="lean_decl">ProbabilityTheory.IsGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A measure \(\mu \) on \(F\) is Gaussian if for every continuous linear form \(L \in F^*\), the pushforward measure \(L_* \mu \) is a Gaussian measure on \(\mathbb {R}\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsGaussian.IsProbabilityMeasure">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.5</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:IsGaussian.IsProbabilityMeasure">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000072"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  A Gaussian measure is a probability measure. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000072">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:isGaussian_iff_charFunDual_eq">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">3.6</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#thm:isGaussian_iff_charFunDual_eq">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000073"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="sect0002.html#def:charFunDual">Definition 1.1</a></li>
+          
+          <li><a href="sect0002.html#thm:ext_of_charFunDual">Theorem 1.2</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:charFun_gaussianReal">Lemma 3.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isGaussian_iff_charFunDual_eq" class="lean_decl">ProbabilityTheory.isGaussian_iff_charFunDual_eq</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   A finite measure \(\mu \) on \(F\) is Gaussian if and only if for every continuous linear form \(L \in F^*\), the characteristic function of \(\mu \) at \(L\) is </p>
+<div class="displaymath" id="a0000000074">
+  \begin{align*}  \hat{\mu }(L) = \exp \left(i \mu [L] - \mathbb {V}_\mu [L] / 2\right) \:  , \end{align*}
+</div>
+<p> in which \(\mathbb {V}_\mu [L]\) is the variance of \(L\) with respect to \(\mu \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000073">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<h4 id="a0000000075">Transformations of Gaussian measures</h4>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isGaussian_map">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.7</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isGaussian_map">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000076"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isGaussian_map" class="lean_decl">ProbabilityTheory.isGaussian_map</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(F, G\) be two Banach spaces, let \(\mu \) be a Gaussian measure on \(F\) and let \(T : F \to G\) be a continuous linear map. Then \(T_*\mu \) is a Gaussian measure on \(G\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000076">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isGaussian_add_const">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.8</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isGaussian_add_const">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000077"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(\mu \) be a Gaussian measure on \(F\) and let \(c \in F\). Then the measure \(\mu \) translated by \(c\) (the map of \(\mu \) by \(x \mapsto x + c\)) is a Gaussian measure on \(F\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000077">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isGaussian_conv">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.9</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isGaussian_conv">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000078"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isGaussian_conv" class="lean_decl">ProbabilityTheory.isGaussian_conv</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The convolution of two Gaussian measures is a Gaussian measure. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000078">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<h4 id="a0000000079">Fernique’s theorem</h4>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:exists_integrable_exp_sq_of_map_rotation_eq_self">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">3.10</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#thm:exists_integrable_exp_sq_of_map_rotation_eq_self">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000080"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.exists_integrable_exp_sq_of_map_rotation_eq_self" class="lean_decl">ProbabilityTheory.exists_integrable_exp_sq_of_map_rotation_eq_self</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>  Let \(\mu \) be a finite measure on \(F\) such that \(\mu \times \mu \) is invariant under the rotation of angle \(-\frac{\pi }{4}\). Then there exists \(C {\gt} 0\) such that the function \(x \mapsto \exp (C \Vert x \Vert ^2)\) is integrable with respect to \(\mu \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000080">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsGaussian.map_rotation_eq_self">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.11</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:IsGaussian.map_rotation_eq_self">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000081"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isGaussian_conv">Lemma 3.9</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussian.map_rotation_eq_self_of_forall_strongDual_eq_zero" class="lean_decl">ProbabilityTheory.IsGaussian.map_rotation_eq_self_of_forall_strongDual_eq_zero</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   For a centered Gaussian measure \(\mu \), \(\mu \times \mu \) is invariant by rotation. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000081">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:IsGaussian.exists_integrable_exp_sq">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">3.12</span>
+    <span class="theorem_thmtitle">Fernique’s theorem</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#thm:IsGaussian.exists_integrable_exp_sq">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000082"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="chap-gaussian.html#thm:isGaussian_iff_charFunDual_eq">Theorem 3.6</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:IsGaussian.IsProbabilityMeasure">Lemma 3.5</a></li>
+          
+          <li><a href="chap-gaussian.html#thm:exists_integrable_exp_sq_of_map_rotation_eq_self">Theorem 3.10</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:IsGaussian.map_rotation_eq_self">Lemma 3.11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussian.exists_integrable_exp_sq" class="lean_decl">ProbabilityTheory.IsGaussian.exists_integrable_exp_sq</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   For a Gaussian measure, there exists \(C {\gt} 0\) such that the function \(x \mapsto \exp (C \Vert x \Vert ^2)\) is integrable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000082">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsGaussian.memLp_id">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.13</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:IsGaussian.memLp_id">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000083"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="chap-gaussian.html#thm:IsGaussian.exists_integrable_exp_sq">Theorem 3.12</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussian.memLp_id" class="lean_decl">ProbabilityTheory.IsGaussian.memLp_id</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A Gaussian measure \(\mu \) has finite moments of all orders. In particular, there is a well defined mean \(m_\mu := \mu [\mathrm{id}]\), and for all \(L \in F^*\), \(\mu [L] = L(m_\mu )\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000083">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<p>A Gaussian measure has finite second moment by Lemma&#160;<a href="chap-gaussian.html#lem:IsGaussian.memLp_id">3.13</a>, hence its covariance bilinear form is well defined. </p>
+<h2 id="a0000000084">3.1.3 Gaussian measures on a finite dimensional Hilbert space</h2>
+<p>We specialize directly from Banach space to finite dimensional Hilbert space since that’s what we need in this project, although there are results for Gaussian measures on infinite dimensional Hilbert spaces that would worth stating. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isGaussian_iff_charFun_eq">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.14</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isGaussian_iff_charFun_eq">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000085"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="sect0002.html#def:charFunDual">Definition 1.1</a></li>
+          
+          <li><a href="sect0002.html#def:charFun">Definition 1.3</a></li>
+          
+          <li><a href="chap-gaussian.html#thm:isGaussian_iff_charFunDual_eq">Theorem 3.6</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isGaussian_iff_charFun_eq" class="lean_decl">ProbabilityTheory.isGaussian_iff_charFun_eq</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A finite measure \(\mu \) on a Hilbert space \(E\) is Gaussian if and only if for every \(t \in E\), the characteristic function of \(\mu \) at \(t\) is </p>
+<div class="displaymath" id="a0000000086">
+  \begin{align*}  \hat{\mu }(t) = \exp \left(i \mu [\langle t, \cdot \rangle ] - \mathbb {V}_\mu [\langle t, \cdot \rangle ] / 2\right) \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000085">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By Theorem&#160;<a href="chap-gaussian.html#thm:isGaussian_iff_charFunDual_eq">3.6</a>, \(\mu \) is Gaussian iff for every continuous linear form \(L \in E^*\), the characteristic function of \(\mu \) at \(L\) is </p>
+<div class="displaymath" id="a0000000087">
+  \begin{align*}  \hat{\mu }(L) = \exp \left(i \mu [L] - \mathbb {V}_\mu [L] / 2\right) \:  . \end{align*}
+</div>
+<p> Every continuous linear form \(L \in E^*\) can be written as \(L(x) = \langle t, x \rangle \) for some \(t \in E\), hence we have that \(\mu \) is Gaussian iff for every \(t \in E\), </p>
+<div class="displaymath" id="a0000000088">
+  \begin{align*}  \hat{\mu }(t) = \exp \left(i \mu [\langle t, \cdot \rangle ] - \mathbb {V}_\mu [\langle t, \cdot \rangle ] / 2\right) \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<p>Let \(E\) be a separable Hilbert space. We denote by \(\langle \cdot , \cdot \rangle \) the inner product on \(E\) and by \(\Vert \cdot \Vert \) the associated norm. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsGaussian.charFun_eq">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.15</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:IsGaussian.charFun_eq">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000089"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="sect0002.html#def:charFun">Definition 1.3</a></li>
+          
+          <li><a href="sect0002.html#def:covInnerBilin">Definition 1.9</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isGaussian_iff_charFun_eq">Lemma 3.14</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:IsGaussian.memLp_id">Lemma 3.13</a></li>
+          
+          <li><a href="sect0002.html#lem:covarianceBilin_same_eq_variance">Lemma 1.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussian.charFun_eq" class="lean_decl">ProbabilityTheory.IsGaussian.charFun_eq</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The characteristic function of a Gaussian measure \(\mu \) on \(E\) is given by </p>
+<div class="displaymath" id="a0000000090">
+  \begin{align*}  \hat{\mu }(t) = \exp \left(i \langle t, m_\mu \rangle - \frac{1}{2} C’_\mu (t, t)\right) \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000089">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> By Lemma&#160;<a href="chap-gaussian.html#lem:isGaussian_iff_charFun_eq">3.14</a>, for every \(t \in E\), </p>
+<div class="displaymath" id="a0000000091">
+  \begin{align*}  \hat{\mu }(t) = \exp \left(i \mu [\langle t, \cdot \rangle ] - \mathbb {V}_\mu [\langle t, \cdot \rangle ] / 2\right) \:  . \end{align*}
+</div>
+<p> By Lemma&#160;<a href="chap-gaussian.html#lem:IsGaussian.memLp_id">3.13</a>, \(\mu \) has finite first moment and \(\mu [\langle t, \cdot \rangle ] = \langle t, m_\mu \rangle \). By the same lemma, \(\mu \) has finite second moment and for any \(t\) we have \(\mathbb {V}_\mu [\langle t, \cdot \rangle ] = C'_\mu (t, t)\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isGaussian_iff_gaussian_charFun">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.16</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isGaussian_iff_gaussian_charFun">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000092"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="sect0002.html#def:charFun">Definition 1.3</a></li>
+          
+          <li><a href="sect0002.html#def:covMatrix">Definition 1.11</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:IsGaussian.charFun_eq">Lemma 3.15</a></li>
+          
+          <li><a href="sect0002.html#lem:charFun_map_eq_charFunDual_smul">Lemma 1.5</a></li>
+          
+          <li><a href="sect0002.html#thm:ext_of_charFun">Theorem 1.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isGaussian_iff_gaussian_charFun" class="lean_decl">ProbabilityTheory.isGaussian_iff_gaussian_charFun</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.gaussian_charFun_congr" class="lean_decl">ProbabilityTheory.gaussian_charFun_congr</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A finite measure \(\mu \) on \(E\) is Gaussian if and only if there exists \(m \in E\) and \(C\) positive semidefinite such that for all \(t \in E\), the characteristic function of \(\mu \) at \(t\) is </p>
+<div class="displaymath" id="a0000000093">
+  \begin{align*}  \hat{\mu }(t) = \exp \left(i \langle t, m \rangle - \frac{1}{2} C(t, t)\right) \:  , \end{align*}
+</div>
+<p> If that’s the case, then \(m = m_\mu \) and \(C = C'_\mu \). </p>
+
+  </div>
+</div>
+<p>Note that this lemma does not say that there exists a Gaussian measure for any such \(m\) and \(C\). We will prove that later. </p>
+<div class="proof_wrapper" id="a0000000092">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Lemma&#160;<a href="chap-gaussian.html#lem:IsGaussian.charFun_eq">3.15</a> states that the characteristic function of a Gaussian measure has the wanted form. </p>
+<p>Suppose now that there exists \(m \in E\) and \(C\) positive semidefinite such that for all \(t \in E\), \(\hat{\mu }(t) = \exp \left(i \langle t, m \rangle - \frac{1}{2} C(t, t)\right)\). </p>
+<p>We need to show that for all \(L \in E^*\), \(L_*\mu \) is a Gaussian measure on \(\mathbb {R}\). Such an \(L\) can be written as \(\langle u, \cdot \rangle \) for some \(u \in E\). Let then \(u \in E\). We compute the characteristic function of \(\langle u, \cdot \rangle _*\mu \) at \(x \in \mathbb {R}\) with Lemma&#160;<a href="sect0002.html#lem:charFun_map_eq_charFunDual_smul">1.5</a>: </p>
+<div class="displaymath" id="a0000000094">
+  \begin{align*}  \widehat{\langle u, \cdot \rangle _*\mu }(x) & = \hat{\mu }(x \cdot u) \\ & = \exp \left(i x \langle u, m \rangle - \frac{1}{2} x^2 C(u, u)\right) \:  . \end{align*}
+</div>
+<p> This is the characteristic function of a Gaussian measure on \(\mathbb {R}\) with mean \(\langle u, m \rangle \) and variance \(C(u, u)\). By Theorem&#160;<a href="sect0002.html#thm:ext_of_charFun">1.4</a>, \(\langle u, \cdot \rangle _*\mu \) is Gaussian, hence \(\mu \) is Gaussian. </p>
+<p>By Lemma&#160;<a href="chap-gaussian.html#lem:IsGaussian.charFun_eq">3.15</a>, we deduce that for any \(t \in E\) we have </p>
+<div class="displaymath" id="a0000000095">
+  \[ \exp \left(i\langle t, m \rangle - \frac{1}{2} C(t, t)\right) = \exp \left(i\langle t, m_\mu \rangle - \frac{1}{2} C'_\mu (t, t)\right). \]
+</div>
+<p> In particular, for any \(t\) there exists \(n_t \in \mathbb {Z}\) such that </p>
+<div class="displaymath" id="a0000000096">
+  \[ i\langle t, m \rangle - \frac{1}{2} C(t, t) = i\langle t, m_\mu \rangle - \frac{1}{2} C'_\mu (t, t) + 2i\pi n_t. \]
+</div>
+<p> We deduce that \(n\) is a continuous map from \(E\) to \(\mathbb {Z}\), and thus must be constant because \(E\) is connected. By looking at the value at \(t = 0\), we deduce that for any \(t\), \(n_t = 0\). Looking at real and imaginary parts we obtain that for any \(t\), </p>
+<div class="displaymath" id="a0000000097">
+  \[ \langle t, m \rangle = \langle t, m_\mu \rangle \quad \text{and} \quad C(t, t) = C'_\mu (t, t). \]
+</div>
+<p> We immediately deduce that \(m = m_\mu \). Moreover, because \(C\) and \(C'_\mu \) are symmetric, they are characterized by their values on the diagonal. Indeed, for any \(x, y\), </p>
+<div class="displaymath" id="a0000000098">
+  \[ C(x, y) = \frac{1}{2} (C(x + y, x + y) - C(x, x) - C(y, y)). \]
+</div>
+<p> We deduce that \(C = C'_\mu \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:IsGaussian.ext_iff">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.17</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:IsGaussian.ext_iff">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000099"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="sect0002.html#def:covInnerBilin">Definition 1.9</a></li>
+          
+          <li><a href="sect0002.html#thm:ext_of_charFun">Theorem 1.4</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:IsGaussian.charFun_eq">Lemma 3.15</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussian.ext" class="lean_decl">ProbabilityTheory.IsGaussian.ext</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussian.ext_iff" class="lean_decl">ProbabilityTheory.IsGaussian.ext_iff</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Two Gaussian measures \(\mu \) and \(\nu \) on a separable Hilbert space are equal if and only if they have same mean and same covariance. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000099">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The forward direction is immediate. </p>
+<p>For the converse direction, it is enough to show that \(\mu \) and \(\nu \) have the same characteristic function by Theorem&#160;<a href="sect0002.html#thm:ext_of_charFun">1.4</a>. As they are both Gaussian, their characteristic functions only depend on their mean and covariance by Lemma&#160;<a href="chap-gaussian.html#lem:IsGaussian.charFun_eq">3.15</a>. Thus they are equal. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:stdGaussian">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3.18</span>
+    <span class="definition_thmtitle">Standard Gaussian measure</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#def:stdGaussian">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:gaussianReal">Definition 3.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.stdGaussian" class="lean_decl">ProbabilityTheory.stdGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Let \((e_1, \ldots , e_d)\) be an orthonormal basis of \(E\) and let \(\mu \) be the standard Gaussian measure on \(\mathbb {R}\). The standard Gaussian measure on \(E\) is the pushforward measure of the product measure \(\mu \times \ldots \times \mu \) by the map \(x \mapsto \sum _{i=1}^d x_i \cdot e_i\). </p>
+
+  </div>
+</div>
+<p>The fact that this definition does not depend on the choice of basis will be a consequence of the fact that its characteristic function does not depend on the basis. </p>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:integral_eval_pi">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.19</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:integral_eval_pi">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000100"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/MeasureTheory.integral_comp_eval" class="lean_decl">MeasureTheory.integral_comp_eval</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  For \(\mu _1, \ldots , \mu _d\) probability measures on \(\mathbb {R}\) and \(f : \mathbb {R} \to \mathbb {R}\) integrable with respect to \(\mu _i\), we have </p>
+<div class="displaymath" id="a0000000101">
+  \begin{align*}  \int _x f(x_i) \,  d(\mu _1 \times \ldots \times \mu _d)(x) = \int _x f(x) \,  d\mu _i \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000100">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>As \(f\) is integrable, we can use Fubini theorem to obtain that </p>
+<div class="displaymath" id="a0000000102">
+  \[ \int f(x_i) \,  d(\mu _1 \times \ldots \times \mu _d)(x) = \int f(x) \,  d\mu _i(x) \times \prod _{j \ne i} \int 1 \,  d\mu _j(x) = \int f(x) \,  d\mu _i(x) \]
+</div>
+<p> because the \(\mu _j\)s are probability measures. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isCentered_stdGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.20</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isCentered_stdGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000103"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:stdGaussian">Definition 3.18</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:integral_eval_pi">Lemma 3.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isCentered_stdGaussian" class="lean_decl">ProbabilityTheory.isCentered_stdGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The standard Gaussian measure on \(E\) is centered, i.e., \(\mu [L] = 0\) for every \(L \in E^*\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000103">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isProbabilityMeasure_stdGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.21</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isProbabilityMeasure_stdGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000104"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:stdGaussian">Definition 3.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isProbabilityMeasure_stdGaussian" class="lean_decl">ProbabilityTheory.isProbabilityMeasure_stdGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The standard Gaussian measure is a probability measure. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000104">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:charFun_stdGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.22</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:charFun_stdGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000105"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:stdGaussian">Definition 3.18</a></li>
+          
+          <li><a href="sect0002.html#def:charFun">Definition 1.3</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:charFun_gaussianReal">Lemma 3.2</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.charFun_stdGaussian" class="lean_decl">ProbabilityTheory.charFun_stdGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The characteristic function of the standard Gaussian measure on \(E\) is given by </p>
+<div class="displaymath" id="a0000000106">
+  \begin{align*}  \hat{\mu }(t) = \exp \left(-\frac{1}{2} \Vert t \Vert ^2 \right) \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000105">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Denote by \(\nu \) the standard Gaussian measure on \(\mathbb {R}\). This is a straightforward computation: </p>
+<div class="displaymath" id="a0000000107">
+  \begin{align*}  \hat{\mu }(t) = \int \exp \left(i\langle t, \sum _{j=1}^d x_j \cdot e_j \rangle \right) d(\nu \times \ldots \times \nu )(dx) & = \int \exp \left(\sum _{j=1}^d ix_j\langle t, e_j \rangle \right) d(\nu \times \ldots \times \nu )(dx) \\ & = \int \prod _{j=1}^d \exp \left(ix_j\langle t, e_j \rangle \right) d(\nu \times \ldots \times \nu )(dx) \\ & = \prod _{j=1}^d \int \exp \left(ix\langle t, e_j \rangle \right) d\nu (x) \\ & = \prod _{j=1}^d \exp \left(-\frac{\langle t, e_j \rangle ^2}{2}\right) \\ & = \exp \left(-\frac{1}{2} \Vert t \Vert ^2 \right). \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isGaussian_stdGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.23</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isGaussian_stdGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000108"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:stdGaussian">Definition 3.18</a></li>
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isGaussian_iff_gaussian_charFun">Lemma 3.16</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:charFun_stdGaussian">Lemma 3.22</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isProbabilityMeasure_stdGaussian">Lemma 3.21</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isGaussian_stdGaussian" class="lean_decl">ProbabilityTheory.isGaussian_stdGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The standard Gaussian measure on \(E\) is a Gaussian measure. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000108">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Since the standard Gaussian is a probability measure (hence finite), we can apply Lemma&#160;<a href="chap-gaussian.html#lem:isGaussian_iff_gaussian_charFun">3.16</a> that states that it suffices to show that the characteristic function has a particular form. That form is given by Lemma&#160;<a href="chap-gaussian.html#lem:charFun_stdGaussian">3.22</a>, taking \(m=0\) and \(C = \langle \cdot , \cdot \rangle \). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:integral_id_stdGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.24</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:integral_id_stdGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000109"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:stdGaussian">Definition 3.18</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:integral_eval_pi">Lemma 3.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.integral_id_stdGaussian" class="lean_decl">ProbabilityTheory.integral_id_stdGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The mean of the standard Gaussian measure is \(0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000109">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:covMatrix_stdGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.25</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:covMatrix_stdGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000110"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:stdGaussian">Definition 3.18</a></li>
+          
+          <li><a href="sect0002.html#def:covMatrix">Definition 1.11</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isGaussian_iff_gaussian_charFun">Lemma 3.16</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:charFun_stdGaussian">Lemma 3.22</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.covMatrix_stdGaussian" class="lean_decl">ProbabilityTheory.covMatrix_stdGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The covariance matrix of the standard Gaussian measure is the identity matrix. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000110">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> From Lemma&#160;<a href="chap-gaussian.html#lem:charFun_stdGaussian">3.22</a>, we know that for all \(t \in \mathbb {R}\), </p>
+<div class="displaymath" id="a0000000111">
+  \[ \hat{\mu }(t) = \exp \left(-\frac{\| t\| ^2}{2}\right) = \exp \left(-\frac{\langle t, \mathrm{I}t\rangle }{2}\right). \]
+</div>
+<p> As the identity is positive semidefinite, we deduce from Lemma&#160;<a href="chap-gaussian.html#lem:isGaussian_iff_gaussian_charFun">3.16</a> that \(\Sigma _\mu \) is the identity matrix. </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:multivariateGaussian">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3.26</span>
+    <span class="definition_thmtitle">Multivariate Gaussian</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#def:multivariateGaussian">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:stdGaussian">Definition 3.18</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.multivariateGaussian" class="lean_decl">ProbabilityTheory.multivariateGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   The multivariate Gaussian measure on \(\mathbb {R}^d\) with mean \(m \in \mathbb {R}^d\) and covariance matrix \(\Sigma \in \mathbb {R}^{d \times d}\), with \(\Sigma \) positive semidefinite, is the pushforward measure of the standard Gaussian measure on \(\mathbb {R}^d\) by the map \(x \mapsto m + \Sigma ^{1/2} x\). We denote this measure by \(\mathcal{N}(m, \Sigma )\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:integral_id_multivariateGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.27</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:integral_id_multivariateGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000112"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:multivariateGaussian">Definition 3.26</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:integral_id_stdGaussian">Lemma 3.24</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.integral_id_multivariateGaussian" class="lean_decl">ProbabilityTheory.integral_id_multivariateGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The mean of the multivariate Gaussian measure \(\mathcal{N}(m, \Sigma )\) is \(m\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000112">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:covMatrix_multivariateGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.28</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:covMatrix_multivariateGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000113"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:multivariateGaussian">Definition 3.26</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:covMatrix_stdGaussian">Lemma 3.25</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.covInnerBilin_multivariateGaussian" class="lean_decl">ProbabilityTheory.covInnerBilin_multivariateGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The covariance matrix of the multivariate Gaussian measure \(\mathcal{N}(m, \Sigma )\) is \(\Sigma \). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000113">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isGaussian_multivariateGaussian">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.29</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isGaussian_multivariateGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000114"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:multivariateGaussian">Definition 3.26</a></li>
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isGaussian_stdGaussian">Lemma 3.23</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isGaussian_add_const">Lemma 3.8</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isGaussian_map">Lemma 3.7</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.isGaussian_multivariateGaussian" class="lean_decl">ProbabilityTheory.isGaussian_multivariateGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A multivariate Gaussian measure is a Gaussian measure. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000114">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> The multivariate Gaussian measure is the pushforward of the standard Gaussian measure by an affine map, and is thus Gaussian by Lemma&#160;<a href="chap-gaussian.html#lem:isGaussian_add_const">3.8</a> and Lemma&#160;<a href="chap-gaussian.html#lem:isGaussian_map">3.7</a>. </p>
+
+  </div>
+</div>
+<div class="theorem_thmwrapper theorem-style-plain" id="thm:charFun_multivariateGaussian">
+  <div class="theorem_thmheading">
+    <span class="theorem_thmcaption">
+    Theorem
+    </span>
+    <span class="theorem_thmlabel">3.30</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#thm:charFun_multivariateGaussian">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000115"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:multivariateGaussian">Definition 3.26</a></li>
+          
+          <li><a href="sect0002.html#def:charFun">Definition 1.3</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:isGaussian_multivariateGaussian">Lemma 3.29</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:IsGaussian.charFun_eq">Lemma 3.15</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:integral_id_multivariateGaussian">Lemma 3.27</a></li>
+          
+          <li><a href="chap-gaussian.html#lem:covMatrix_multivariateGaussian">Lemma 3.28</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.charFun_multivariateGaussian" class="lean_decl">ProbabilityTheory.charFun_multivariateGaussian</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="theorem_thmcontent">
+  <p>   The characteristic function of a multivariate Gaussian measure \(\mathcal{N}(m, \Sigma )\) is given by </p>
+<div class="displaymath" id="a0000000116">
+  \begin{align*}  \hat{\mu }(t) = \exp \left(i \langle m, t \rangle - \frac{1}{2} \langle t, \Sigma t \rangle \right) \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000115">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Since the multivariate Gaussian measure is a Gaussian measure, we can apply Lemma&#160;<a href="chap-gaussian.html#lem:IsGaussian.charFun_eq">3.15</a> to it. It suffices then to show that the mean and the covariance matrix of the multivariate Gaussian measure are equal to \(m\) and \(\Sigma \), respectively. This is given by Lemma&#160;<a href="chap-gaussian.html#lem:integral_id_multivariateGaussian">3.27</a> and Lemma&#160;<a href="chap-gaussian.html#lem:covMatrix_multivariateGaussian">3.28</a>. </p>
+
+  </div>
+</div>
+<h1 id="sec:gaussian_processes">3.2 Gaussian processes</h1>
+
+<div class="definition_thmwrapper theorem-style-definition" id="def:IsGaussianProcess">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">3.31</span>
+    <span class="definition_thmtitle">Gaussian process</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#def:IsGaussianProcess">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussian">Definition 3.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussianProcess" class="lean_decl">ProbabilityTheory.IsGaussianProcess</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   A process \(X : T \to \Omega \to E\) is Gaussian if for every finite subset \(t_1, \ldots , t_n \in T\), the random vector \((X_{t_1}, \ldots , X_{t_n})\) has a Gaussian distribution. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:isGaussianProcess_of_modification">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">3.32</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="chap-gaussian.html#lem:isGaussianProcess_of_modification">#</a>
+    
+    <a class="icon proof" href="chap-gaussian.html#a0000000117"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-gaussian.html#def:IsGaussianProcess">Definition 3.31</a></li>
+          
+          <li><a href="chap-process.html#lem:map_eq_of_modification">Lemma 2.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.IsGaussianProcess.modification" class="lean_decl">ProbabilityTheory.IsGaussianProcess.modification</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Let \(X, Y : T \to \Omega \to E\) be two stochastic processes that are modifications of each other (that is, for all \(t \in T\), \(X_t =_{a.e.} Y_t\)). If \(X\) is a Gaussian process, then \(Y\) is a Gaussian process as well. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000117">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Being a Gaussian process is defined in terms of the distribution of finite-dimensional random vectors. By Lemma&#160;<a href="chap-process.html#lem:map_eq_of_modification">2.5</a>, the random vector \((Y_{t_1}, \ldots , Y_{t_n})\) has the same distribution as the random vector \((X_{t_1}, \ldots , X_{t_n})\) for all \(t_1, \ldots , t_n \in T\). </p>
+
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="chap-process.html" title="Stochastic processes"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0001.html" title="Brownian motion"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="chap-projective_family.html" title="Projective family of the Brownian motion"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

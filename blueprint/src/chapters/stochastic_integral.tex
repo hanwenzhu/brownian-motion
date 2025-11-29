@@ -45,25 +45,12 @@ The space $\mathcal{M}^2$ is a Hilbert space with the inner product defined by
 TODO: filtrations should be assumed right-continuous and complete whenever needed.
 
 
-\begin{lemma}\label{lem:IsLocalMartingale.isLocalSubmartingale_sq_norm}
-  \uses{def:IsLocalMartingale, def:IsLocalSubmartingale}
-  \leanok
-  \lean{ProbabilityTheory.IsLocalMartingale.isLocalSubmartingale_sq_norm}
-If $M$ is a cadlag local martingale, then $\Vert M \Vert^2$ is a cadlag local sub-martingale.
-\end{lemma}
-
-\begin{proof}
-
-\end{proof}
+\inputleannode{lem:IsLocalMartingale.isLocalSubmartingale_sq_norm}
 
 
-\begin{definition}[Quadratic variation]\label{def:quadraticVariation}
-  \uses{def:IsLocalMartingale, thm:local_doobMeyer, lem:IsLocalMartingale.isLocalSubmartingale_sq_norm}
-  \leanok
-  \lean{ProbabilityTheory.quadraticVariation}
-For any continuous local martingale $M$, there exists a continuous process $[M]$ with $[M]_0 = 0$ such that $\Vert M \Vert^2 - [M]$ is a local martingale. That process is a.s. unique and is called the \emph{quadratic variation} of $M$.
-$[M]$ is defined as the predictable part of the Doob-Meyer decomposition of the local sub-martingale $\Vert M \Vert^2$~.
-\end{definition}
+
+
+\inputleannode{def:quadraticVariation}
 
 
 \begin{definition}[Covariation]\label{def:covariation}
@@ -83,9 +70,7 @@ Let $M$ and $N$ be continuous square integrable martingales. Then
 \end{align*}
 \end{lemma}
 
-\begin{proof}
 
-\end{proof}
 
 
 \begin{lemma}\label{lem:quadraticVariation_brownian}
@@ -93,9 +78,7 @@ Let $M$ and $N$ be continuous square integrable martingales. Then
 Let $B$ be a standard Brownian motion. Then the quadratic variation of $B$ is given by $[B]_t = t$~.
 \end{lemma}
 
-\begin{proof}
 
-\end{proof}
 
 
 \begin{definition}[Continuous semi-martingale]\label{def:continuousSemiMartingale}
@@ -249,9 +232,7 @@ Let $M \in \mathcal{M}^2$. Then the elementary stochastic integral map $\mathcal
 $\langle X \cdot M, Y \cdot M \rangle_{\mathcal{M}^2} = (XY) \cdot \langle M, N \rangle_{\mathcal{M}^2}$.
 \end{lemma}
 
-\begin{proof}
 
-\end{proof}
 
 
 \subsection{Local martingales}
@@ -306,9 +287,7 @@ Let $X$ and $Y$ be two continuous semi-martingales. Then we have almost surely
 \end{align*}
 \end{theorem}
 
-\begin{proof}
 
-\end{proof}
 
 
 \begin{theorem}[Itô's formula]\label{thm:Ito_formula}

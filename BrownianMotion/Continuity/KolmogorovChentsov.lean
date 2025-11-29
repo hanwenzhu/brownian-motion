@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Continuity.KolmogorovChentsovInequality
 
 /-!
@@ -1101,6 +1102,53 @@ lemma exists_modification_holder_aux' (hT : HasBoundedInternalCoveringNumber U c
       refine (edist_triangle _ (Y t ω) _).trans ?_
       simpa [hZ_edist]
 
+@[blueprint
+  "lem:holder_modification_single"
+  (statement := /-- Under the assumptions of Theorem~\ref{thm:countable_set_bound}, for $E$ a
+    complete space and $\beta \in (0, (q - d)/p)$, there exists a modification $Y$ of $X$ (i.e., a
+    process $Y$ with $\mathbb{P}(Y_t \ne X_t) = 0$ for all $t$) such that the paths of $Y$ are
+    Hölder continuous of order $\beta$. -/)
+  (proof := /-- Let $T'$ be a countable dense subset of $T$.
+    Let $A$ be the event
+    \begin{align*}
+      \left\{\sup_{s, t \in T';\: s \ne t} \frac{d_E(X_s, X_t)^p}{d_T(s, t)^{\beta p}} < \infty
+      \right\}
+      \: .
+    \end{align*}
+    As a consequence of Theorem~\ref{thm:countable_set_bound}, we have $\mathbb{P}(A) = 1$.
+    
+    On the event $A$, $(X_t)_{t \in T'}$ has Hölder continuous paths of order $\beta$.
+    Let $x_0 \in E$ be arbitrary and let $Y: T \to \Omega \to E$ be the process defined by
+    \begin{align*}
+      Y_t(\omega)
+      &= \begin{cases}
+        \lim_{s \to t, s \in T'} X_s(\omega) & \text{if } \omega \in A \\
+        x_0 & \text{otherwise}
+      \end{cases}
+      \: .
+    \end{align*}
+    Then $Y$ has Hölder continuous paths of order $\beta$ almost surely.
+    
+    We can show that $(Y_s, Y_t)$ is $\mathbb{P}$-a.e. measurable for all $s, t \in T$.
+    
+    It remains to show that $Y$ is a modification of $X$.
+    Let then $t \in T$ and let $(t_n)_{n \in \mathbb{N}}$ be a sequence in $T'$ that converges to
+    $t$.
+    We want to show that $\mathbb{P}(Y_t \ne X_t) = 0$.
+    It suffices to show that $\mathbb{P}(d_E(Y_t, X_t) > 0) = 0$, which itself would follow from
+    $\mathbb{P}(d_E(Y_t, X_t) > \varepsilon) = 0$ for all $\varepsilon > 0$.
+    
+    \begin{align*}
+      \mathbb{P}(d_E(Y_t, X_t) > \varepsilon)
+      &\le \mathbb{P}(d_E(Y_t, X_{t_n}) + d_E(X_{t_n}, X_t) > \varepsilon)
+      \\
+      &\le \mathbb{P}(d_E(Y_t, X_{t_n}) > \varepsilon/2) + \mathbb{P}(d_E(X_{t_n}, X_t) >
+      \varepsilon/2)
+      \: .
+    \end{align*}
+    
+    TODO -/)
+  (latexEnv := "lemma")]
 lemma exists_modification_holder_aux (hT : HasBoundedInternalCoveringNumber U c d)
     [DecidablePred (· ∈ U)] (hU : IsOpen U)
     (hX : IsAEKolmogorovProcess X P p q M)
@@ -1213,6 +1261,25 @@ lemma exists_modification_holder'' (hT : HasBoundedInternalCoveringNumber U c d)
     exact hC
   · exact IsLimitOfIndicator.indicatorProcess (hZ_isLimit 0) A hA hA_ae
 
+@[blueprint
+  "thm:holder_modification"
+  (statement := /-- Under the assumptions of Theorem~\ref{thm:countable_set_bound}, for $E$ a
+    complete space, there exists a modification $Y$ of $X$ (i.e., a process $Y$ with $\mathbb{P}(Y_t
+    \ne X_t) = 0$ for all $t$) such that the paths of $Y$ are Hölder continuous of all orders
+    $\gamma \in (0, (q - d)/p)$. -/)
+  (proof := /-- Let $(\beta_n)$ be an increasing sequence of numbers in $(0, (q - d)/p)$ such that
+    $\beta_n \to (q - d)/p$.
+    For each $n$, let $Y^n$ be the modification of $X$ given by
+    Lemma~\ref{lem:holder_modification_single} for $\beta = \beta_n$.
+    Then by Lemma~\ref{lem:indistinguishable_of_modification_of_continuous}, the processes $Y^0$ and
+    $Y^n$ are indistinguishable for all $n$.
+    That is, there exists an event $A_n$ such that $\mathbb{P}(A_n) = 1$ and such that for all
+    $\omega \in A_n$, $Y^0_t(\omega) = Y^n_t(\omega)$ for all $t \in T$.
+    
+    Let $A = \bigcap_{n \in \mathbb{N}} A_n$ and let $x_0 \in E$ be arbitrary.
+    Then $\mathbb{P}(A) = 1$ and the process $Y(\omega) = Y^0(\omega)$ for $\omega \in A$ and
+    $Y(\omega) = x_0$ for $\omega \notin A$ has paths that are Hölder continuous of all orders
+    $\gamma \in (0, (q - d)/p)$. -/)]
 lemma exists_modification_holder (hT : HasBoundedInternalCoveringNumber U c d)
     [DecidablePred (· ∈ U)] (hU : IsOpen U)
     (hX : IsAEKolmogorovProcess X P p q M)
@@ -1347,6 +1414,34 @@ lemma exists_modification_holder''' {C : ℕ → Set T} {c : ℕ → ℝ≥0∞}
       exact hω.2 _
     · simp
 
+@[blueprint
+  "thm:localized_holder_modification"
+  (statement := /-- Let $T$ be a metric space with a cover $(T_n)$ with bounded covering numbers
+    with constants $c_n$ and the same exponent $d$.
+    Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov condition with exponents
+    $(p, q)$ with $q > d$.
+    Then $X$ has a modification $Y$ such that almost surely the paths of $Y$ are locally Hölder
+    continuous of all orders $\gamma \in (0, (q - d)/p)$. -/)
+  (proof := /-- For each $n$, by Theorem~\ref{thm:holder_modification} there is a modification $Y_n$
+    of $X$ seen as a process on $T_n$ such that the paths of $Y_n$ are Hölder continuous of all
+    orders $\gamma \in (0, (q - d)/p)$.
+    By Lemma~\ref{lem:indistinguishable_of_modification_of_continuous}, $Y_n$ and $Y_{n+1}$ are
+    indistinguishable on $T_n$.
+    That is, almost surely $Y_n = Y_{n+1}$ on $T_n$.
+    Since there are countably many such almost sure equalities, we get that almost surely there is
+    equality for all $n$.
+    Let $A$ be the event that this happens, let $x_0 \in E$ be arbitrary and define a process $Y : T
+    \to \Omega \to E$ by
+    \begin{align*}
+      Y(t, \omega)
+      &= \begin{cases}
+        Y_n(t, \omega) & \text{if } \omega \in A \: , \: t \in T_n \setminus T_{n-1} \: ,
+        \\
+        x_0 & \text{if } \omega \notin A \: .
+      \end{cases}
+    \end{align*}
+    Then $Y$ is a modification of $X$ and has paths that are locally Hölder continuous of all orders
+    $\gamma \in (0, (q - d)/p)$ almost surely. -/)]
 lemma exists_modification_holder' {C : ℕ → Set T} {c : ℕ → ℝ≥0∞}
     (hC : IsCoverWithBoundedCoveringNumber C (Set.univ : Set T) c (fun _ ↦ d))
     (hX : IsAEKolmogorovProcess X P p q M) (hc : ∀ n, c n ≠ ∞)
@@ -1421,6 +1516,30 @@ lemma exists_modification_holder_iSup' {C : ℕ → Set T} {c : ℕ → ℝ≥0�
     refine hC.congr_edist fun s t hs ht ↦ ?_
     rw [edist_congr_right (hω n s), edist_congr_left (hω n t)]
 
+@[blueprint
+  "thm:localized_holder_modification_sup"
+  (statement := /-- Let $T$ be a metric space with a cover $(T_n)$ with bounded covering numbers
+    with constants $c_n$ and the same exponent $d$.
+    Let $(p_n, q_n)_{n \in \mathbb{N}}$ be a sequence of pairs of positive numbers such that $q_n >
+    d$ for all $n \in \mathbb{N}$.
+    Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov condition with exponents
+    $(p_n, q_n)$ for all $n \in \mathbb{N}$.
+    Then $X$ has a modification $Y$ such that almost surely the paths of $Y$ are locally Hölder
+    continuous of all orders $\gamma \in (0, \sup_n (q_n - d)/p_n)$. -/)
+  (proof := /-- For each $n$, by Theorem~\ref{thm:localized_holder_modification} there is a
+    modification $Y_n$ of $X$ such that the paths of $Y_n$ are locally Hölder continuous of all
+    orders $\gamma \in (0, (q_n - d)/p_n)$.
+    By Lemma~\ref{lem:indistinguishable_of_modification_of_continuous}, any two processes $Y_n, Y_m$
+    are indistinguishable.
+    That is, almost surely $Y_n = Y_m$.
+    Since there are countably many such almost sure equalities, we get that almost surely there is
+    equality for all $n, m$.
+    Let then $Y$ be the process equal to $Y_0$ on the event that the equalities hold, and equal to
+    an arbitrary point $x_0 \in E$ otherwise.
+    Then first, $Y$ is a modification of $X$.
+    Then for any $\gamma < \sup_n (q_n - d)/p_n$ there is $n$ such that $\gamma < (q_n - d)/p_n$ and
+    thus since $Y = Y_n$ the paths of $Y$ are locally Hölder continuous of order $\gamma$ almost
+    surely. -/)]
 lemma exists_modification_holder_iSup {C : ℕ → Set T} {c : ℕ → ℝ≥0∞} {p q : ℕ → ℝ} {M : ℕ → ℝ≥0}
     (hC : IsCoverWithBoundedCoveringNumber C (Set.univ : Set T) c (fun _ ↦ d))
     (hX : ∀ n, IsAEKolmogorovProcess X P (p n) (q n) (M n)) (hc : ∀ n, c n ≠ ∞)

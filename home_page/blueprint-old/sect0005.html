@@ -1,0 +1,1525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script>
+  MathJax = { 
+    tex: {
+		    inlineMath: [['$','$'], ['\\(','\\)']]
+	} }
+</script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+</script>
+<meta name="generator" content="plasTeX" />
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple processes and elementary integrals</title>
+<link rel="next" href="sect0006.html" title="Modifications with cadlag paths" />
+<link rel="prev" href="sect0004.html" title="Local martingales" />
+<link rel="up" href="sect0003.html" title="Stochastic integral" />
+<link rel="stylesheet" href="styles/theme-white.css" />
+<link rel="stylesheet" href="styles/amsthm.css" />
+<link rel="stylesheet" href="styles/showmore.css" />
+<link rel="stylesheet" href="styles/blueprint.css" />
+<link rel="stylesheet" href="styles/extra_styles.css" />
+</head>
+
+<body>
+<header>
+<svg  id="toc-toggle" class="icon icon-list-numbered "><use xlink:href="symbol-defs.svg#icon-list-numbered"></use></svg>
+<h1 id="doc_title"><a href="index.html">Formalization of a Brownian motion and of stochastic integrals in Lean</a></h1>
+</header>
+
+<div class="wrapper">
+<nav class="toc">
+<ul class="sub-toc-0">
+<li class="">
+  <a href="sect0001.html"><span class="toc_ref">1</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-1">
+     <li class="">
+  <a href="sect0002.html"><span class="toc_ref">1</span> <span class="toc_entry">Characteristic function and covariance</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0002.html#sec:characteristic_function"><span class="toc_ref">1.1</span> <span class="toc_entry">Characteristic functions</span></a>
+ </li>
+<li class="">
+  <a href="sect0002.html#sec:covariance"><span class="toc_ref">1.2</span> <span class="toc_entry">Covariance</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-process.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html"><span class="toc_ref">3</span> <span class="toc_entry">Gaussian distributions</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-gaussian.html#sec:gaussian_measures"><span class="toc_ref">3.1</span> <span class="toc_entry">Gaussian measures</span></a>
+ </li>
+<li class="">
+  <a href="chap-gaussian.html#sec:gaussian_processes"><span class="toc_ref">3.2</span> <span class="toc_entry">Gaussian processes</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html"><span class="toc_ref">4</span> <span class="toc_entry">Projective family of the Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-projective_family.html#a0000000029"><span class="toc_ref">4.1</span> <span class="toc_entry">Kolmogorov extension theorem</span></a>
+ </li>
+<li class="">
+  <a href="chap-projective_family.html#a0000000030"><span class="toc_ref">4.2</span> <span class="toc_entry">Projective family of Gaussian measures</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html"><span class="toc_ref">5</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000031"><span class="toc_ref">5.1</span> <span class="toc_entry">Covers and covering numbers</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000032"><span class="toc_ref">5.2</span> <span class="toc_entry">Chaining</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000033"><span class="toc_ref">5.3</span> <span class="toc_entry">Chaining for stochastic processes under Kolmogorov conditions</span></a>
+ </li>
+<li class="">
+  <a href="chap-kolmogorov_chentsov.html#a0000000034"><span class="toc_ref">5.4</span> <span class="toc_entry">Kolmogorov-Chentsov Theorem</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-brownian.html"><span class="toc_ref">6</span> <span class="toc_entry">Brownian motion</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-brownian.html#a0000000035"><span class="toc_ref">6.1</span> <span class="toc_entry">Stochastic process with continuous paths</span></a>
+ </li>
+<li class="">
+  <a href="chap-brownian.html#a0000000036"><span class="toc_ref">6.2</span> <span class="toc_entry">Wiener measure on the continuous functions</span></a>
+ </li>
+
+  </ul>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active">
+  <a href="sect0003.html"><span class="toc_ref">2</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▼</span>
+  <ul class="sub-toc-1 active">
+     <li class="">
+  <a href="chap-filtration_martingale.html"><span class="toc_ref">7</span> <span class="toc_entry">Filtrations, processes and martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-filtration_martingale.html#a0000000037"><span class="toc_ref">7.1</span> <span class="toc_entry">Basic definitions</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000038"><span class="toc_ref">7.2</span> <span class="toc_entry">Right-continuous filtrations</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000039"><span class="toc_ref">7.3</span> <span class="toc_entry">Predictable processes</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000040"><span class="toc_ref">7.4</span> <span class="toc_entry">Uniformly integrable</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000041"><span class="toc_ref">7.5</span> <span class="toc_entry">Optional sampling</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000042"><span class="toc_ref">7.6</span> <span class="toc_entry">Martingale convergence</span></a>
+ </li>
+<li class="">
+  <a href="chap-filtration_martingale.html#a0000000043"><span class="toc_ref">7.7</span> <span class="toc_entry">Doob’s Lp inequality</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-debut_theorem.html"><span class="toc_ref">8</span> <span class="toc_entry">Debut Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-debut_theorem.html#a0000000044"><span class="toc_ref">8.1</span> <span class="toc_entry">Corollaries</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0004.html"><span class="toc_ref">9</span> <span class="toc_entry">Local martingales</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0004.html#a0000000045"><span class="toc_ref">9.1</span> <span class="toc_entry">Local properties</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000046"><span class="toc_ref">9.2</span> <span class="toc_entry">Locally Cadlag</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000047"><span class="toc_ref">9.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0004.html#a0000000048"><span class="toc_ref">9.4</span> <span class="toc_entry">Doob-Meyer class</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class=" active current">
+  <a href="sect0005.html"><span class="toc_ref">10</span> <span class="toc_entry">Simple processes and elementary integrals</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html"><span class="toc_ref">11</span> <span class="toc_entry">Modifications with cadlag paths</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0006.html#a0000000049"><span class="toc_ref">11.1</span> <span class="toc_entry">Preliminaries</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000050"><span class="toc_ref">11.2</span> <span class="toc_entry">Cadlag modifications of martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0006.html#a0000000051"><span class="toc_ref">11.3</span> <span class="toc_entry">Cadlag modifications of (local) martingales</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html"><span class="toc_ref">12</span> <span class="toc_entry">Doob-Meyer Theorem</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="chap-doob_meyer.html#a0000000052"><span class="toc_ref">12.1</span> <span class="toc_entry">Doob decomposition in discrete time</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000053"><span class="toc_ref">12.2</span> <span class="toc_entry">Komlòs Lemma</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000054"><span class="toc_ref">12.3</span> <span class="toc_entry">Doob-Meyer decomposition</span></a>
+ </li>
+<li class="">
+  <a href="chap-doob_meyer.html#a0000000055"><span class="toc_ref">12.4</span> <span class="toc_entry">Local version of the Doob-Meyer decomposition</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0007.html"><span class="toc_ref">13</span> <span class="toc_entry">Stochastic integral</span></a>
+  <span class="expand-toc">▶</span>
+  <ul class="sub-toc-2">
+     <li class="">
+  <a href="sect0007.html#a0000000056"><span class="toc_ref">13.1</span> <span class="toc_entry">Total variation and Lebesgue-Stieltjes integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000057"><span class="toc_ref">13.2</span> <span class="toc_entry">Square integrable martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000058"><span class="toc_ref">13.3</span> <span class="toc_entry">Local martingales</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000059"><span class="toc_ref">13.4</span> <span class="toc_entry">Stochastic integral</span></a>
+ </li>
+<li class="">
+  <a href="sect0007.html#a0000000060"><span class="toc_ref">13.5</span> <span class="toc_entry">Itô formula</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li class="">
+  <a href="sect0008.html"><span class="toc_ref">14</span> <span class="toc_entry">Bibliography</span></a>
+ </li>
+
+  </ul>
+ </li>
+<li ><a href="dep_graph_document.html">Dependency graph</a></li>
+</ul>
+</nav>
+
+<div class="content">
+<div class="content-wrapper">
+
+
+<div class="main-text">
+<h1 id="a0000000006">10 Simple processes and elementary integrals</h1>
+<div class="definition_thmwrapper theorem-style-definition" id="def:simpleProcess">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">10.1</span>
+    <span class="definition_thmtitle">Simple process</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#def:simpleProcess">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess" class="lean_decl">ProbabilityTheory.SimpleProcess</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  Let \((s_k {\lt} t_k)_{k \in \{ 1, ..., n\} }\) be points in a linear order \(T\) with a bottom element 0. Let \((\eta _k)_{0 \le k \le n}\) be random variables with values in a normed space \(F\) such that \(\eta _0\) is \(\mathcal{F}_0\)-measurable and \(\eta _k\) is \(\mathcal{F}_{s_k}\)-measurable for \(k \ge 1\). Then the simple process for that sequence is the process \(V : T \to \Omega \to F\) defined by </p>
+<div class="displaymath" id="a0000000499">
+  \begin{align*}  V_t = \eta _0 \mathbb {1}_{\{ 0\} }(t) + \sum _{k=1}^{n} \eta _k \mathbb {1}_{(s_k, t_k]}(t) \:  . \end{align*}
+</div>
+<p> Let \(\mathcal{E}_{T, F}\) be the set of simple processes indexed by \(T\) with value in \(F\). </p>
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:elementaryPredictableSet">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">10.2</span>
+    <span class="definition_thmtitle">Elementary predictable set</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#def:elementaryPredictableSet">#</a>
+    
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.ElementaryPredictableSet" class="lean_decl">ProbabilityTheory.ElementaryPredictableSet</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>  A set \(A \subseteq T \times \Omega \) is an <em>elementary predictable set</em> if it is a finite union of sets of the form \({0} \times B\) for \(B \in \mathcal{F}_0\) or of the form \((s, t] \times B\) with \(0 \le s {\lt} t\) in \(T\) and \(B \in \mathcal{F}_s\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:predictableSet_elementaryPredictableSet">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.3</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:predictableSet_elementaryPredictableSet">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000500"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elementaryPredictableSet">Definition 10.2</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:predictableMeasurableSpace">Definition 7.42</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#lem:predictable_Ioc_prod">Lemma 7.45</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.ElementaryPredictableSet.measurableSet_predictable" class="lean_decl">ProbabilityTheory.ElementaryPredictableSet.measurableSet_predictable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   An elementary predictable set is measurable with respect to the predictable \(\sigma \)-algebra. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000500">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> It is a union of sets of the form \({0} \times B\) with \(B \in \mathcal{F}_0\) or of the form \((s, t] \times B\) with \(B \in \mathcal{F}_s\), which are measurable by Lemma&#160;<a href="chap-filtration_martingale.html#lem:predictable_Ioc_prod">7.45</a>. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:predictable_simpleProcess">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.4</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:predictable_simpleProcess">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000501"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="chap-filtration_martingale.html#def:predictable">Definition 7.43</a></li>
+          
+          <li><a href="sect0005.html#def:simpleProcess">Definition 10.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.isPredictable" class="lean_decl">ProbabilityTheory.SimpleProcess.isPredictable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A simple process is predictable. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000501">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:iSup_comap_simpleProcess">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.5</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:iSup_comap_simpleProcess">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000502"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:simpleProcess">Definition 10.1</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:predictableMeasurableSpace">Definition 7.42</a></li>
+          
+          <li><a href="sect0005.html#lem:predictable_simpleProcess">Lemma 10.4</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.iSup_comap_eq_predictable" class="lean_decl">ProbabilityTheory.SimpleProcess.iSup_comap_eq_predictable</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   Real simple processes generate the predictable \(\sigma \)-algebra, i.e., the predictable \(\sigma \)-algebra is the supremum of the comaps by simple processes (seen as maps from \(T \times \Omega \) to \(\mathbb {R}\)) of the Borel \(\sigma \)-algebra. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000502">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:elementaryPredictableSet_iff_indicator">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.6</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:elementaryPredictableSet_iff_indicator">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000503"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elementaryPredictableSet">Definition 10.2</a></li>
+          
+          <li><a href="sect0005.html#def:simpleProcess">Definition 10.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.ElementaryPredictableSet.indicator" class="lean_decl">ProbabilityTheory.ElementaryPredictableSet.indicator</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   A set \(A \subseteq T \times \Omega \) is an elementary predictable set if and only if the indicator function \(\mathbb {1}_A\) is a simple process. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000503">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>Currently only proved the forward direction, because the backward direction is not easy to state. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:addCommGroup_simpleProcess">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.7</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:addCommGroup_simpleProcess">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000504"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:simpleProcess">Definition 10.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.instAddCommGroup" class="lean_decl">ProbabilityTheory.SimpleProcess.instAddCommGroup</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The simple processes \(\mathcal{E}_{T, F}\) form an additive commutative group. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000504">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:module_simpleProcess">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.8</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:module_simpleProcess">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000505"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:simpleProcess">Definition 10.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.instModule" class="lean_decl">ProbabilityTheory.SimpleProcess.instModule</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The simple processes \(\mathcal{E}_{T, F}\) form a module over the scalars \(\mathbb {R}\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000505">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+
+  </div>
+</div>
+<div class="definition_thmwrapper theorem-style-definition" id="def:elemStochIntegral">
+  <div class="definition_thmheading">
+    <span class="definition_thmcaption">
+    Definition
+    </span>
+    <span class="definition_thmlabel">10.9</span>
+    <span class="definition_thmtitle">Elementary stochastic integral</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#def:elemStochIntegral">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:simpleProcess">Definition 10.1</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral" class="lean_decl">ProbabilityTheory.SimpleProcess.integral</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="definition_thmcontent">
+  <p>   Let \(V \in \mathcal{E}_{T, F}\) be a simple process and let \(X\) be a stochastic process with values in a normed space \(E\). Let \(B\) be a continuous bilinear map from \(E \times F\) to another normed space \(G\). The <em>elementary stochastic integral</em> process \(V \bullet X : T \to \Omega \to G\) is defined by </p>
+<div class="displaymath" id="a0000000506">
+  \begin{align*}  (V \bullet X)_t & = \sum _{k=1}^{n} B (X^t_{t_k} - X^t_{s_k}, \eta _k) \:  . \end{align*}
+</div>
+<p> An important example is \(G = E\), \(F = \mathbb {R}\) and \(B(x, r) = r \cdot x\) the scalar multiplication. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:elemStochIntegral_linear">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.10</span>
+    <div class="thm_header_extras">
+
+    
+    ✓
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:elemStochIntegral_linear">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000507"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="sect0005.html#lem:addCommGroup_simpleProcess">Lemma 10.7</a></li>
+          
+          <li><a href="sect0005.html#lem:module_simpleProcess">Lemma 10.8</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+    <button class="modal lean">L∃∀N</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Lean declarations</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral_add_left" class="lean_decl">ProbabilityTheory.SimpleProcess.integral_add_left</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral_smul_left" class="lean_decl">ProbabilityTheory.SimpleProcess.integral_smul_left</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral_add_right" class="lean_decl">ProbabilityTheory.SimpleProcess.integral_add_right</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral_smul_right" class="lean_decl">ProbabilityTheory.SimpleProcess.integral_smul_right</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral_sub_left" class="lean_decl">ProbabilityTheory.SimpleProcess.integral_sub_left</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral_sub_right" class="lean_decl">ProbabilityTheory.SimpleProcess.integral_sub_right</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral_zero_left" class="lean_decl">ProbabilityTheory.SimpleProcess.integral_zero_left</a></li>
+          
+          <li><a href="https://RemyDegenne.github.io/brownian-motion/docs/find/#doc/ProbabilityTheory.SimpleProcess.integral_zero_right" class="lean_decl">ProbabilityTheory.SimpleProcess.integral_zero_right</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>   The elementary stochastic integral is linear in both arguments. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000507">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>(In Lean, this is split into several lemmas about each argument and add/sub/smul.) </p>
+<p>Immediate from the definition. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:elemStochIntegral_assoc">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.11</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:elemStochIntegral_assoc">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000508"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="sect0005.html#lem:elemStochIntegral_linear">Lemma 10.10</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  \(V \bullet (W \bullet X) = (V \times W) \bullet X\) for simple processes \(V, W\) and stochastic process \(X\). </p>
+<p>TODO: that’s for \(B\) the scalar multiplication. What is the right statement for general \(B\)? </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000508">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> Unfold definitions, use linearity. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:elemStochIntegral_stoppedProcess">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.12</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:elemStochIntegral_stoppedProcess">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000509"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:stoppedProcess">Definition 7.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X\) be a stochastic process, \(V\) a simple process and \(τ\) a stopping time. Then </p>
+<div class="displaymath" id="a0000000510">
+  \begin{align*}  (V \bullet X)^τ = V \bullet (X^τ) \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000509">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>TODO: we are probably missing properties of stopped processes to make the following proof easy in Lean. </p>
+<div class="displaymath" id="a0000000511">
+  \begin{align*}  (V \bullet X)^\tau _t & = (V \bullet X)_{t \wedge \tau } \\ & = \sum _{k=1}^{n} B (X^{t \wedge \tau }_{t_k} - X^{t \wedge \tau }_{s_k}, \eta _k) \\ & = \sum _{k=1}^{n} B ((X^{\tau })^t_{t_k} - (X^{\tau })^t_{s_k}, \eta _k) \\ & = (V \bullet (X^{\tau }))_t \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:tendsto_elemStochIntegral_limitProcess">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.13</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:tendsto_elemStochIntegral_limitProcess">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000512"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:limitProcess">Definition 7.76</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  For \(V\) a simple process and \(X\) a stochastic process, \((V \bullet X)_t\) tends to its limit process \((V \bullet X)_\infty \) as \(t\) goes to infinity. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000512">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p>That process is eventually constant. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:submartingale_iff_integral_elemStochIntegral_nonneg">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.14</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:submartingale_iff_integral_elemStochIntegral_nonneg">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000513"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:limitProcess">Definition 7.76</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0005.html#lem:tendsto_elemStochIntegral_limitProcess">Lemma 10.13</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  An adapted integrable process \(X\) is a submartingale if and only if for every bounded simple process \(V\) with values in \(\mathbb {R}_+\), \(\mathbb {E}[(V \bullet X)_\infty ] \ge 0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000513">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> First suppose that \(X\) is a submartingale. The simple process \(V\) can be written as \(V_t = \eta _0 \mathbb {1}_{\{ 0\} }(t) + \sum _{k=1}^{n} \eta _k \mathbb {1}_{(s_k, t_k]}(t)\) for nonnegative \(\eta _k\). Then </p>
+<div class="displaymath" id="a0000000514">
+  \begin{align*}  \mathbb {E}[(V \bullet X)_\infty ] & = \mathbb {E}\left[\sum _{k=1}^{n} \eta _k (X_{t_k} - X_{s_k})\right] \\ & = \sum _{k=1}^{n} \mathbb {E}[\eta _k (X_{t_k} - X_{s_k})] \:  . \end{align*}
+</div>
+<p> It suffices to show that each term of the sum is nonnegative. Since \(\eta _k\) is \(\mathcal{F}_{s_k}\)-measurable and nonnegative, by the submartingale property we have </p>
+<div class="displaymath" id="a0000000515">
+  \begin{align*}  \mathbb {E}[\eta _k (X_{t_k} - X_{s_k})] & = \mathbb {E}[\eta _k \mathbb {E}[X_{t_k} - X_{s_k} \mid \mathcal{F}_{s_k}]] \ge 0 \:  . \end{align*}
+</div>
+<p> This concludes the proof in one direction. Suppose now that for every bounded simple process \(V\) with values in \(\mathbb {R}_+\), \(\mathbb {E}[(V \bullet X)_\infty ] \ge 0\). To show that \(X\) is a submartingale, let \(s {\lt} t\) in \(T\) and let \(A = \{ \mathbb {E}[X_t \mid \mathcal{F}_s] {\lt} X_s\}  \in \mathcal{F}_s\). Define the simple process \(V\) by \(V_r = \mathbb {1}_A \mathbb {1}_{(s, t]}(r)\). Then </p>
+<div class="displaymath" id="a0000000516">
+  \begin{align*}  \mathbb {E}[\mathbb {1}_A (X_t - X_s)] & = \mathbb {E}[(V \bullet X)_\infty ] \ge 0 \:  . \end{align*}
+</div>
+<p> But we also have </p>
+<div class="displaymath" id="a0000000517">
+  \begin{align*}  \mathbb {E}[\mathbb {1}_A (X_t - X_s)] & = \mathbb {E}[\min \{ \mathbb {E}[X_t \mid \mathcal{F}_s] - X_s, 0\} ] \le 0 \:  . \end{align*}
+</div>
+<p> Combining both inequalities, we get \(\mathbb {E}[\min \{ \mathbb {E}[X_t \mid \mathcal{F}_s] - X_s, 0\} ] = 0\). Since \(\min \{ \mathbb {E}[X_t \mid \mathcal{F}_s] - X_s, 0\} \) is nonpositive and has expectation zero, it is almost surely zero. Thus \(\mathbb {E}[X_t \mid \mathcal{F}_s] \ge X_s\) almost surely, which concludes the proof. </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:martingale_iff_integral_elemStochIntegral_eq_zero">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.15</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:martingale_iff_integral_elemStochIntegral_eq_zero">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000518"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0005.html#lem:tendsto_elemStochIntegral_limitProcess">Lemma 10.13</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  An adapted integrable process \(X\) is a martingale if and only if for every bounded simple process \(V\) with values in \(\mathbb {R}\), \(\mathbb {E}[(V \bullet X)_\infty ] = 0\). </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000518">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> There might not be an order on the type \(E\) of values of \(X\), so we cannot just say that \(X\) is a martingale if and only if both \(X\) and \(-X\) are submartingales and conclude with Lemma&#160;<a href="sect0005.html#lem:submartingale_iff_integral_elemStochIntegral_nonneg">10.14</a>. But we can use almost the same proof as in Lemma&#160;<a href="sect0005.html#lem:submartingale_iff_integral_elemStochIntegral_nonneg">10.14</a>, replacing inequalities by equalities? </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Submartingale.elemStochIntegral">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.16</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:Submartingale.elemStochIntegral">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000519"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Submartingale">Definition 7.6</a></li>
+          
+          <li><a href="sect0005.html#lem:submartingale_iff_integral_elemStochIntegral_nonneg">Lemma 10.14</a></li>
+          
+          <li><a href="sect0005.html#lem:elemStochIntegral_assoc">Lemma 10.11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X\) be a submartingale and \(V\) be a nonnegative bounded simple process. Then the elementary stochastic integral \(V \bullet X\) is a submartingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000519">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> We use Lemma&#160;<a href="sect0005.html#lem:submartingale_iff_integral_elemStochIntegral_nonneg">10.14</a> and have to show that for every nonnegative bounded simple process \(W\), \(\mathbb {E}[(W \bullet (V \bullet X))_\infty ] \ge 0\). By Lemma&#160;<a href="sect0005.html#lem:elemStochIntegral_assoc">10.11</a>, this is \(\mathbb {E}[((W \times V) \bullet X)_\infty ]\). Since \(W \times V\) is a nonnegative bounded simple process, this is nonnegative by Lemma&#160;<a href="sect0005.html#lem:submartingale_iff_integral_elemStochIntegral_nonneg">10.14</a> applied to \(X\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:Martingale.elemStochIntegral">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.17</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:Martingale.elemStochIntegral">#</a>
+    
+    <a class="icon proof" href="sect0005.html#a0000000520"><svg  class="icon icon-cogs "><use xlink:href="symbol-defs.svg#icon-cogs"></use></svg>
+</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:Martingale">Definition 7.5</a></li>
+          
+          <li><a href="sect0005.html#lem:martingale_iff_integral_elemStochIntegral_eq_zero">Lemma 10.15</a></li>
+          
+          <li><a href="sect0005.html#lem:elemStochIntegral_assoc">Lemma 10.11</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X\) be a martingale and \(V\) be a bounded simple process. Then the elementary stochastic integral \(V \bullet X\) is a martingale. </p>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000520">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  <p> We use Lemma&#160;<a href="sect0005.html#lem:martingale_iff_integral_elemStochIntegral_eq_zero">10.15</a> and have to show that for every bounded simple process \(W\), \(\mathbb {E}[(W \bullet (V \bullet X))_\infty ] = 0\). By Lemma&#160;<a href="sect0005.html#lem:elemStochIntegral_assoc">10.11</a>, this is \(\mathbb {E}[((W \times V) \bullet X)_\infty ]\). Since \(W \times V\) is a bounded simple process, this is zero by Lemma&#160;<a href="sect0005.html#lem:martingale_iff_integral_elemStochIntegral_eq_zero">10.15</a> applied to \(X\). </p>
+
+  </div>
+</div>
+<div class="lemma_thmwrapper theorem-style-plain" id="lem:stoppedProcess_eq_elemStochIntegral">
+  <div class="lemma_thmheading">
+    <span class="lemma_thmcaption">
+    Lemma
+    </span>
+    <span class="lemma_thmlabel">10.18</span>
+    <div class="thm_header_extras">
+
+        </div>
+    <div class="thm_header_hidden_extras">
+
+    <a class="icon proof" href="sect0005.html#lem:stoppedProcess_eq_elemStochIntegral">#</a>
+    
+    
+    <button class="modal"><svg  class="icon icon-mindmap "><use xlink:href="symbol-defs.svg#icon-mindmap"></use></svg>
+</button>
+        <div class="modal-container">
+      <div class="modal-content">
+        <header>
+          <h1>Uses</h1>
+          <button class="closebtn"><svg  class="icon icon-cross "><use xlink:href="symbol-defs.svg#icon-cross"></use></svg>
+</button>
+        </header>
+        
+        <ul class="uses">
+          
+          <li><a href="sect0005.html#def:elemStochIntegral">Definition 10.9</a></li>
+          
+          <li><a href="chap-filtration_martingale.html#def:stoppedProcess">Definition 7.19</a></li>
+          
+        </ul>
+    
+      </div>
+    </div>
+
+    
+    
+        </div>
+  </div>
+  <div class="lemma_thmcontent">
+  <p>  Let \(X\) be a stochastic process and \(τ\) be a stopping time taking finitely many values. Then \(\mathbb {1}_{[0, τ]}\) is a simple process and </p>
+<div class="displaymath" id="a0000000521">
+  \begin{align*}  X^τ = X_0 + \mathbb {1}_{[0, τ]} \bullet X \:  . \end{align*}
+</div>
+
+  </div>
+</div>
+<div class="proof_wrapper" id="a0000000522">
+  <div class="proof_heading">
+    <span class="proof_caption">
+    Proof
+    </span>
+    <span class="expand-proof">▶</span>
+  </div>
+  <div class="proof_content">
+  
+  </div>
+</div>
+
+</div> <!--main-text -->
+</div> <!-- content-wrapper -->
+</div> <!-- content -->
+</div> <!-- wrapper -->
+
+<nav class="prev_up_next">
+  <svg  id="showmore-minus" class="icon icon-eye-minus showmore"><use xlink:href="symbol-defs.svg#icon-eye-minus"></use></svg>
+
+  <svg  id="showmore-plus" class="icon icon-eye-plus showmore"><use xlink:href="symbol-defs.svg#icon-eye-plus"></use></svg>
+
+  <a href="sect0004.html" title="Local martingales"><svg  class="icon icon-arrow-left "><use xlink:href="symbol-defs.svg#icon-arrow-left"></use></svg>
+</a>
+  <a href="sect0003.html" title="Stochastic integral"><svg  class="icon icon-arrow-up "><use xlink:href="symbol-defs.svg#icon-arrow-up"></use></svg>
+</a>
+  <a href="sect0006.html" title="Modifications with cadlag paths"><svg  class="icon icon-arrow-right "><use xlink:href="symbol-defs.svg#icon-arrow-right"></use></svg>
+</a>
+</nav>
+
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/plastex.js"></script>
+<script type="text/javascript" src="js/svgxuse.js"></script>
+<script type="text/javascript" src="js/js.cookie.min.js"></script>
+<script type="text/javascript" src="js/showmore.js"></script>
+</body>
+</html>

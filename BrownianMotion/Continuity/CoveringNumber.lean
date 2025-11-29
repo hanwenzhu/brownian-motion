@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Auxiliary.ENNReal
 import BrownianMotion.Auxiliary.MeasureTheory
 import BrownianMotion.Auxiliary.Nat
@@ -26,17 +27,47 @@ variable [EDist E]
 
 /-- A set `C` is an `r`-cover of another set `A` if every point in `A` belongs to a ball with radius
 `r` around a point of `C`. -/
+@[blueprint
+  "def:IsCover"
+  (title := "$\\varepsilon$-cover")
+  (statement := /-- A set $C \subseteq E$ is an $\varepsilon$-cover of a set $A \subseteq E$ if for
+    every $x \in A$, there exists $y \in C$ such that $d_E(x, y) \le \varepsilon$. -/)]
 def IsCover (C : Set E) (ε : ℝ≥0∞) (A : Set E) : Prop :=
   ∀ a ∈ A, ∃ c ∈ C, edist a c ≤ ε
 
+@[blueprint
+  "def:externalCoveringNumber"
+  (title := "External covering number")
+  (statement := /-- The external covering number of a set $A \subseteq E$ for $\varepsilon \ge 0$ is
+    the smallest cardinality of an $\varepsilon$-cover of $A$.
+    Denote it by $N^{ext}_\varepsilon(A)$. -/)]
 noncomputable
 def externalCoveringNumber (r : ℝ≥0∞) (A : Set E) : ENat :=
   ⨅ (C : Finset E) (_ : IsCover C r A), C.card
 
+@[blueprint
+  "def:internalCoveringNumber"
+  (title := "Internal covering number")
+  (statement := /-- The internal covering number of a set $A \subseteq E$ for $\varepsilon \ge 0$ is
+    the smallest cardinality of an $\varepsilon$-cover of $A$ which is a subset of $A$.
+    Denote it by $N^{int}_\varepsilon(A)$. -/)]
 noncomputable
 def internalCoveringNumber (r : ℝ≥0∞) (A : Set E) : ENat :=
   ⨅ (C : Finset E) (_ : ↑C ⊆ A) (_ : IsCover C r A), C.card
 
+attribute [blueprint
+  "def:IsSeparated"
+  (title := "Separated set")
+  (statement := /-- A set $c \subseteq E$ is $\varepsilon$-separated if for all $x, y \in c$,
+    $d_E(x, y) > \varepsilon$. -/)]
+  Metric.IsSeparated
+
+@[blueprint
+  "def:packingNumber"
+  (title := "Packing number")
+  (statement := /-- The packing number of a set $A \subseteq E$ for $\varepsilon > 0$ is the largest
+    cardinality of an $\varepsilon$-separated subset of $A$.
+    Denote it by $P_\varepsilon(A)$. -/)]
 noncomputable
 def packingNumber [PseudoEMetricSpace E] (r : ℝ≥0∞) (A : Set E) : ENat :=
   ⨆ (C : Finset E) (_ : ↑C ⊆ A) (_ : IsSeparated r (C : Set E)), C.card
@@ -158,6 +189,11 @@ lemma internalCoveringNumber_anti [EDist E] {r r' : ℝ≥0∞} {A : Set E} (h :
   gcongr
   exact iInf_const_mono (IsCover.mono h)
 
+@[blueprint
+  "lem:internalCoveringNumber_eq_one_of_diam_le"
+  (statement := /-- If $\mathrm{diam}(A) \le \varepsilon$ and $A$ is nonempty, then
+    $N^{int}_\varepsilon(A) = 1$. -/)
+  (latexEnv := "lemma")]
 lemma internalCoveringNumber_eq_one_of_diam_le [PseudoEMetricSpace E] {r : ℝ≥0∞} {A : Set E}
     (h_nonempty : A.Nonempty) (hA : EMetric.diam A ≤ r) :
     internalCoveringNumber r A = 1 := by
@@ -366,6 +402,10 @@ end maximalSeparatedSet
 
 section comparisons
 
+@[blueprint
+  "lem:internalCoveringNumber_le_packingNumber"
+  (statement := /-- $N^{int}_\varepsilon(A) \le P_\varepsilon(A)$. -/)
+  (latexEnv := "lemma")]
 theorem internalCoveringNumber_le_packingNumber [PseudoEMetricSpace E] (r : ℝ≥0∞) (A : Set E) :
     internalCoveringNumber r A ≤ packingNumber r A := by
   by_cases h_top : packingNumber r A < ⊤
@@ -375,6 +415,10 @@ theorem internalCoveringNumber_le_packingNumber [PseudoEMetricSpace E] (r : ℝ�
   · rw [not_lt_top_iff] at h_top
     simp [h_top]
 
+@[blueprint
+  "lem:packingNumber_two_le_externalCoveringNumber"
+  (statement := /-- $P_{2\varepsilon}(A) \le N^{ext}_\varepsilon(A)$. -/)
+  (latexEnv := "lemma")]
 theorem packingNumber_two_le_externalCoveringNumber [PseudoEMetricSpace E] {r : ℝ≥0∞} (A : Set E)
     (hr : r ≠ ∞) :
     packingNumber (2 * r) A ≤ externalCoveringNumber r A := by
@@ -420,6 +464,10 @@ theorem packingNumber_two_le_externalCoveringNumber [PseudoEMetricSpace E] {r : 
     rw [← hfxy]
     exact hx_ne_top
 
+@[blueprint
+  "lem:externalCoveringNumber_le_internalCoveringNumber"
+  (statement := /-- $N^{ext}_\varepsilon(A) \le N^{int}_\varepsilon(A)$. -/)
+  (latexEnv := "lemma")]
 theorem externalCoveringNumber_le_internalCoveringNumber [EDist E] (r : ℝ≥0∞) (A : Set E) :
     externalCoveringNumber r A ≤ internalCoveringNumber r A := by
   simp only [externalCoveringNumber, internalCoveringNumber, le_iInf_iff]
@@ -437,11 +485,27 @@ theorem internalCoveringNumber_two_le_externalCoveringNumber [PseudoEMetricSpace
   refine (internalCoveringNumber_le_packingNumber _ A).trans ?_
   exact packingNumber_two_le_externalCoveringNumber A hr
 
+@[blueprint
+  "lem:externalCoveringNumber_mono"
+  (statement := /-- For $B \subseteq A$, $N^{ext}_\varepsilon(B) \le N^{ext}_{\varepsilon}(A)$. -/)
+  (latexEnv := "lemma")]
 lemma externalCoveringNumber_mono_set [EDist E] {r : ℝ≥0∞} {A B : Set E} (h : A ⊆ B) :
     externalCoveringNumber r A ≤ externalCoveringNumber r B := by
   simp only [externalCoveringNumber, le_iInf_iff]
   exact fun C hC ↦ iInf_le_of_le C <| iInf_le_of_le (hC.subset h) le_rfl
 
+@[blueprint
+  "lem:internalCoveringNumber_subset_le"
+  (statement := /-- For $B \subseteq A$, $N^{int}_\varepsilon(B) \le N^{int}_{\varepsilon/2}(A)$. -/)
+  (proof := /-- \begin{align*}
+      N^{int}_\varepsilon(B)
+      &\le P_{\varepsilon}(B)
+      \le N^{ext}_{\varepsilon/2}(B)
+      \le N^{ext}_{\varepsilon/2}(A)
+      \le N^{int}_{\varepsilon/2}(A)
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma internalCoveringNumber_subset_le [PseudoEMetricSpace E] {r : ℝ≥0∞} (hr : r ≠ ∞)
     {A B : Set E} (h : A ⊆ B) :
     internalCoveringNumber r A ≤ internalCoveringNumber (r / 2) B := by
@@ -522,6 +586,12 @@ lemma Isometry.internalCoveringNumber_image
     internalCoveringNumber r (f '' A) = internalCoveringNumber r A :=
   hf.internalCoveringNumber_image' hf.injective.injOn
 
+@[blueprint
+  "lem:hasBoundedInternalCoveringNumber_unitInterval"
+  (statement := /-- The unit interval $I = [0, 1] \subseteq \mathbb{R}$ has bounded internal
+    covering number with constant $1$ and exponent $1$: for $\varepsilon \le 1$,
+    $N^{int}_\varepsilon(I) \le 1/\varepsilon$. -/)
+  (latexEnv := "lemma")]
 theorem internalCoveringNumber_Icc_zero_one_le_one_div {ε : ℝ≥0∞} (hε : ε ≤ 1) :
     internalCoveringNumber ε (Set.Icc (0 : ℝ) 1) ≤ 1 / ε := by
   obtain rfl | ε_pos := eq_zero_or_pos ε
@@ -611,6 +681,21 @@ variable [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDimensional ℝ
   [MeasurableSpace E] [BorelSpace E]
   {A : Set E} {C : Finset E} {ε : ℝ≥0∞}
 
+@[blueprint
+  "lem:volume_le_of_isCover"
+  (statement := /-- Let $A \subseteq E$ and $C \subseteq E$ be a finite $\varepsilon$-cover of $A$.
+    Denote by $V(A)$ the volume of $A$.
+    Then $V(A) \le \vert C \vert V(B_\varepsilon)$, in which $B_\varepsilon$ is the closed ball of
+    radius $\varepsilon$ in $E$. -/)
+  (proof := /-- Since $C$ is a cover of $A$, $A$ is a subset of the union of the closed balls
+    $B_\varepsilon(c)$ for $c \in C$. Then
+    \begin{align*}
+      V(A) \le V(\bigcup_{c \in C} B_\varepsilon(c))
+      &\le \sum_{c \in C} V(B_\varepsilon(c))
+      = \vert C \vert V(B_\varepsilon)
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma volume_le_of_isCover (hC : IsCover C ε A) :
     volume A ≤ C.card * volume (EMetric.closedBall (0 : E) ε) := by
   have : A ⊆ ⋃ x ∈ C, EMetric.closedBall x ε := by rwa [EMetric.isCover_iff] at hC
@@ -621,6 +706,16 @@ lemma volume_le_of_isCover (hC : IsCover C ε A) :
     simp_rw [fun x ↦ Measure.IsAddLeftInvariant.measure_closedBall_const' volume x (0 : E) ε,
       Finset.sum_const, nsmul_eq_mul]
 
+@[blueprint
+  "lem:volume_le_externalCoveringNumber_mul"
+  (statement := /-- If $0 < \varepsilon$ then $V(A) \le N^{ext}_\varepsilon(A) V(B_\varepsilon)$. -/)
+  (proof := /-- If $A$ has no $\varepsilon$-cover, then $N^{ext}_\varepsilon(A) = \infty$, and
+    because $0 < \varepsilon$, we have that $0 < V(B_\varepsilon)$, so the right-hand side is
+    infinite and the inequality follows.
+    
+    Otherwise there exists an $\varepsilon$-cover which realizes $N^{ext}_\varepsilon(A)$. We can
+    conclude by Lemma~\ref{lem:volume_le_of_isCover}. -/)
+  (latexEnv := "lemma")]
 lemma volume_le_externalCoveringNumber_mul (A : Set E) {ε : ℝ≥0∞} (hε : 0 < ε) :
     volume A ≤ externalCoveringNumber ε A * volume (EMetric.closedBall (0 : E) ε) := by
   rw [externalCoveringNumber]
@@ -635,6 +730,22 @@ lemma volume_le_externalCoveringNumber_mul (A : Set E) {ε : ℝ≥0∞} (hε : 
   norm_cast
 
 open scoped Pointwise in
+@[blueprint
+  "lem:le_volume_of_isSeparated"
+  (statement := /-- Let $A \subseteq E$ and let $S \subseteq A$ be an $\varepsilon$-separated set.
+    Then $\vert S \vert V(B_{\varepsilon/2}) \le V(A + B_{\varepsilon/2})$. -/)
+  (proof := /-- Since $S$ is $\varepsilon$-separated, the closed balls $B_{\varepsilon/2}(s)$ for $s
+    \in S$ are pairwise disjoint.
+    Furthermore, these balls are contained in $A + B_{\varepsilon/2}$.
+    Thus, we have
+    \begin{align*}
+      \vert S \vert V(B_{\varepsilon/2})
+      &= \sum_{s \in S} V(B_{\varepsilon/2}(s))
+      = V(\bigcup_{s \in S} B_{\varepsilon/2}(s))
+      \le V(A + B_{\varepsilon/2})
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma le_volume_of_isSeparated (hC : IsSeparated ε (C : Set E)) (h_subset : ↑C ⊆ A) :
     C.card * volume (EMetric.closedBall (0 : E) (ε / 2))
       ≤ volume (A + EMetric.closedBall (0 : E) (ε / 2)) := by
@@ -668,6 +779,12 @@ lemma volume_eq_top_of_packingNumber (A : Set E) {ε : ℝ≥0∞} (hε : 0 < ε
   exact iSup_le fun C ↦ iSup₂_le fun hC₁ hC₂ ↦ le_volume_of_isSeparated hC₂ hC₁
 
 open scoped Pointwise in
+@[blueprint
+  "lem:packingNumber_mul_le_volume"
+  (statement := /-- $P_\varepsilon(A) V(B_{\varepsilon/2}) \le V(A + B_{\varepsilon/2})$. -/)
+  (proof := /-- Use Lemma~\ref{lem:le_volume_of_isSeparated} with $S$ an $\varepsilon$-separated set
+    of maximal cardinality. -/)
+  (latexEnv := "lemma")]
 lemma packingNumber_mul_le_volume (A : Set E) (ε : ℝ≥0∞) :
     packingNumber ε A * volume (EMetric.closedBall (0 : E) (ε / 2))
       ≤ volume (A + EMetric.closedBall (0 : E) (ε / 2)) := by
@@ -684,6 +801,14 @@ lemma packingNumber_mul_le_volume (A : Set E) (ε : ℝ≥0∞) :
   norm_cast
   exact le_volume_of_isSeparated isSeparated_maximalSeparatedSet maximalSeparatedSet_subset
 
+@[blueprint
+  "lem:volume_div_le_internalCoveringNumber"
+  (statement := /-- If $0 < \varepsilon$ then $\frac{V(A)}{V(B_\varepsilon)} \le
+    N^{int}_\varepsilon(A)$. -/)
+  (proof := /-- We have $\frac{V(A)}{V(B_\varepsilon)} \le N^{ext}_\varepsilon(A)$ by
+    Lemma~\ref{lem:volume_le_externalCoveringNumber_mul} and $N^{ext}_\varepsilon(A) \le
+    N^{int}_\varepsilon(A)$ by Lemma~\ref{lem:externalCoveringNumber_le_internalCoveringNumber}. -/)
+  (latexEnv := "lemma")]
 lemma volume_div_le_internalCoveringNumber (A : Set E) {ε : ℝ≥0∞} (hε : 0 < ε) :
     volume A / volume (EMetric.closedBall (0 : E) ε) ≤ internalCoveringNumber ε A := by
   obtain rfl | hε' := eq_top_or_lt_top ε
@@ -700,6 +825,14 @@ lemma volume_div_le_internalCoveringNumber (A : Set E) {ε : ℝ≥0∞} (hε : 
     exact ProperSpace.isCompact_closedBall _ _ |>.measure_ne_top
 
 open scoped Pointwise in
+@[blueprint
+  "lem:internalCoveringNumber_le_volume_div"
+  (statement := /-- If $0 < \varepsilon < \infty$ then $N^{int}_\varepsilon(A) \le \frac{V(A +
+    B_{\varepsilon/2})}{V(B_{\varepsilon/2})}$. -/)
+  (proof := /-- We have $N^{int}_\varepsilon(A) \le P_\varepsilon(A)$ by
+    Lemma~\ref{lem:internalCoveringNumber_le_packingNumber} and $P_\varepsilon(A) \le \frac{V(A +
+    B_{\varepsilon/2})}{V(B_{\varepsilon/2})}$ by Lemma~\ref{lem:packingNumber_mul_le_volume}. -/)
+  (latexEnv := "lemma")]
 lemma internalCoveringNumber_le_volume_div (A : Set E) {ε : ℝ≥0∞} (hε₁ : 0 < ε) (hε₂ : ε < ∞) :
     internalCoveringNumber ε A
       ≤ volume (A + EMetric.closedBall (0 : E) (ε / 2))
@@ -712,6 +845,17 @@ lemma internalCoveringNumber_le_volume_div (A : Set E) {ε : ℝ≥0∞} (hε₁
     rw [show (ε : ℝ≥0∞) / 2 = ↑(ε / 2) by simp, Metric.emetric_closedBall_nnreal]
     exact Or.inl <| ProperSpace.isCompact_closedBall _ _ |>.measure_ne_top
 
+@[blueprint
+  "lem:internalCoveringNumber_closedBall_ge"
+  (statement := /-- $N_\varepsilon^{int}(B_1) \ge \frac{1}{\varepsilon^d}$. -/)
+  (proof := /-- By Lemma~\ref{lem:volume_div_le_internalCoveringNumber},
+    \begin{align*}
+      N^{int}_\varepsilon(B_1)
+      &\ge \frac{V(B_1)}{V(B_\varepsilon)}
+      = \frac{1}{\varepsilon^d}
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma internalCoveringNumber_closedBall_ge (ε : ℝ≥0∞) (x : E) {r : ℝ≥0∞} (hr : 0 < r) :
     (r / ε) ^ (Module.finrank ℝ E) ≤ internalCoveringNumber ε (EMetric.closedBall x r) := by
   obtain _ | _ := subsingleton_or_nontrivial E
@@ -731,6 +875,18 @@ lemma internalCoveringNumber_closedBall_one_ge (ε : ℝ≥0∞) (x : E) :
     ε⁻¹ ^ (Module.finrank ℝ E) ≤ internalCoveringNumber ε (EMetric.closedBall x 1) :=
   le_of_eq_of_le (by simp) (internalCoveringNumber_closedBall_ge _ _ (by norm_num))
 
+@[blueprint
+  "lem:internalCoveringNumber_closedBall_le"
+  (statement := /-- $N_\varepsilon^{int}(B_1) \le \left(\frac{2}{\varepsilon} + 1\right)^d$. -/)
+  (proof := /-- By Lemma~\ref{lem:internalCoveringNumber_le_volume_div},
+    \begin{align*}
+      N^{int}_\varepsilon(B_1)
+      &\le \frac{V(B_1 + B_{\varepsilon/2})}{V(B_{\varepsilon/2})}
+      = \frac{V(B_{1 + \varepsilon/2})}{V(B_{\varepsilon/2})}
+      = \frac{(1 + \varepsilon/2)^d}{(\varepsilon/2)^d}
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma internalCoveringNumber_closedBall_le (ε : ℝ≥0∞) (x : E) (r : ℝ≥0∞) :
     internalCoveringNumber ε (EMetric.closedBall x r)
       ≤ (2 * r / ε + 1) ^ (Module.finrank ℝ E) := by

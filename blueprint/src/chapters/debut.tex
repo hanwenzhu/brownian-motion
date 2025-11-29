@@ -19,15 +19,7 @@ If $X : T \to \Omega \to E$ is a progressively measurable process with respect t
 TODO: need to generalize the \texttt{leastGE} definition to general index sets that are not necessarily $\mathbb{N}$.
 
 
-\begin{definition}\label{def:leastGE}
-  \mathlibok
-  \lean{MeasureTheory.leastGE}
-For a process $X : ι \to Ω \to ℝ$ and a real number $a$, define the random time
-\begin{align*}
-  \tau_{X \ge a} = \inf\{t \in ι \mid X_t \ge a\} \: ,
-\end{align*}
-in which the infimum is infinite if the set is empty.
-\end{definition}
+\inputleannode{def:leastGE}
 
 
 \begin{lemma}\label{lem:isStoppingTime_leastGE}

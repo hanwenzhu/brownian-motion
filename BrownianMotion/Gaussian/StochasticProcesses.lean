@@ -1,3 +1,4 @@
+import Architect
 import Mathlib.MeasureTheory.Measure.MeasureSpaceDef
 
 open MeasureTheory
@@ -5,12 +6,34 @@ open MeasureTheory
 variable {T Ω E : Type*} {mΩ : MeasurableSpace Ω} {P : Measure Ω}
     {X Y : T → Ω → E}
 
+@[blueprint
+  "lem:Indistinguishable.Modification"
+  (statement := /-- If $Y$ is indistinguishable from $X$, then $Y$ is a modification of $X$. -/)
+  (proof := /-- Obvious. -/)
+  (latexEnv := "lemma")]
 lemma modification_of_indistinguishable (h : ∀ᵐ ω ∂P, ∀ t, X t ω = Y t ω) :
     ∀ t, X t =ᵐ[P] Y t := by
   intro t
   filter_upwards [h] with ω hω using hω t
 
 open TopologicalSpace in
+@[blueprint
+  "lem:indistinguishable_of_modification_of_continuous"
+  (statement := /-- Let $T$ and $E$ be topological spaces and suppose that $T$ is separable
+    Hausdorff.
+    Let $X, Y : T \to \Omega \to E$ be two stochastic processes that are modifications of each other
+    and are almost surely continuous.
+    Then $X$ and $Y$ are indistinguishable. -/)
+  (proof := /-- Since $T$ is separable, it has a countable dense subset $D$.
+    Since $D$ is countable,
+    \begin{align*}
+      (\forall t \in D, \mathbb{P}\text{-a.e.}, X_t = Y_t)
+      \iff (\mathbb{P}\text{-a.e.}, \forall t \in D, X_t = Y_t)
+    \end{align*}
+    Hence by the modification property we have that almost surely, for all $t \in D$, $X_t = Y_t$.
+    Then almost surely $X$ and $Y$ are continuous functions which are equal on a dense subset of
+    $T$: those two functions are equal everywhere. -/)
+  (latexEnv := "lemma")]
 lemma indistinguishable_of_modification [TopologicalSpace E] [TopologicalSpace T]
     [SeparableSpace T] [T2Space E]
     (hX : ∀ᵐ ω ∂P, Continuous fun t ↦ X t ω) (hY : ∀ᵐ ω ∂P, Continuous fun t ↦ Y t ω)

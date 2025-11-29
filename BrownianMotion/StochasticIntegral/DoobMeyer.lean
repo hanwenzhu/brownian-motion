@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.StochasticIntegral.Cadlag
 import BrownianMotion.StochasticIntegral.ClassD
 import BrownianMotion.StochasticIntegral.LocalMartingale
@@ -22,6 +23,14 @@ variable {ι Ω : Type*} [LinearOrder ι] [OrderBot ι] [TopologicalSpace ι] [O
 namespace IsLocalSubmartingale
 
 -- the sorry is locally integrable
+@[blueprint
+  "thm:local_doobMeyer"
+  (title := "Doob-Meyer decomposition")
+  (statement := /-- An adapted process $X$ is a cadlag local submartingale iff $X = M + A$ where $M$
+    is a cadlag local martingale and $A$ is a predictable, cadlag, locally integrable and increasing
+    process starting at $0$.
+    The processes $M$ and $A$ are uniquely determined by $X$ a.s. -/)
+  (proofUses := ["thm:Doob_Meyer", "lem:IsLocalSubmartingale.locally_classD"])]
 theorem doob_meyer (hX : IsLocalSubmartingale X 𝓕 P) (hX_cadlag : ∀ ω, IsCadlag (X · ω)) :
     ∃ (M A : ι → Ω → ℝ), X = M + A ∧ IsLocalMartingale M 𝓕 P ∧ (∀ ω, IsCadlag (M · ω)) ∧
       IsPredictable 𝓕 A ∧ (∀ ω, IsCadlag (A · ω)) ∧ (HasLocallyIntegrableSup A 𝓕 P)

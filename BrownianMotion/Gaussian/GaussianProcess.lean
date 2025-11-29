@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Auxiliary.HasGaussianLaw
 import Mathlib.Probability.Independence.Process
 import Mathlib.Probability.Process.FiniteDimensionalLaws
@@ -26,6 +27,12 @@ variable [MeasurableSpace E] [TopologicalSpace E] [AddCommMonoid E] [Module ℝ 
 
 /-- A stochastic process is a Gaussian process if all its finite dimensional distributions are
 Gaussian. -/
+@[blueprint
+  "def:IsGaussianProcess"
+  (title := "Gaussian process")
+  (statement := /-- A process $X : T \to \Omega \to E$ is Gaussian if for every finite subset $t_1,
+    \ldots, t_n \in T$, the random vector $(X_{t_1}, \ldots, X_{t_n})$ has a Gaussian distribution.
+    -/)]
 class IsGaussianProcess (X : T → Ω → E) (P : Measure Ω := by volume_tac) : Prop where
   hasGaussianLaw : ∀ I : Finset T, HasGaussianLaw (fun ω ↦ I.restrict (X · ω)) P
 
@@ -45,6 +52,31 @@ lemma IsGaussianProcess.aemeasurable [hX : IsGaussianProcess X P] (t : T) :
     push_neg
     exact ⟨⟨t, by simp⟩, h⟩
 
+attribute [blueprint
+  "lem:map_eq_of_modification"
+  (statement := /-- Let $X, Y : T \to \Omega \to E$ be two stochastic processes that are
+    modifications of each other.
+    Then for all $t_1, \ldots, t_n \in T$, the random vector $(X_{t_1}, \ldots, X_{t_n})$ has the
+    same distribution as the random vector $(Y_{t_1}, \ldots, Y_{t_n})$.
+    That is, $X$ and $Y$ have same finite-dimensional distributions. -/)
+  (proof := /-- By the modification property, almost surely $X_{t_i} = Y_{t_i}$ for all $i \in [n]$.
+    Thus the function $\omega \mapsto (X_{t_1}(\omega), \ldots, X_{t_n}(\omega))$ is equal to
+    $\omega \mapsto (Y_{t_1}(\omega), \ldots, Y_{t_n}(\omega))$ almost surely, hence the maps of
+    $\mathbb{P}$ by these two functions are equal. -/)
+  (latexEnv := "lemma")]
+  ProbabilityTheory.map_eq_of_forall_ae_eq
+
+@[blueprint
+  "lem:isGaussianProcess_of_modification"
+  (statement := /-- Let $X, Y : T \to \Omega \to E$ be two stochastic processes that are
+    modifications of each other (that is, for all $t \in T$, $X_t =_{a.e.} Y_t$).
+    If $X$ is a Gaussian process, then $Y$ is a Gaussian process as well. -/)
+  (proof := /-- Being a Gaussian process is defined in terms of the distribution of
+    finite-dimensional random vectors.
+    By Lemma~\ref{lem:map_eq_of_modification}, the random vector $(Y_{t_1}, \ldots, Y_{t_n})$ has
+    the same distribution as the random vector $(X_{t_1}, \ldots, X_{t_n})$ for all $t_1, \ldots,
+    t_n \in T$. -/)
+  (latexEnv := "lemma")]
 lemma IsGaussianProcess.modification [IsGaussianProcess X P] (hXY : ∀ t, X t =ᵐ[P] Y t) :
     IsGaussianProcess Y P where
   hasGaussianLaw I := by

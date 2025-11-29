@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Auxiliary.Topology
 import BrownianMotion.Continuity.IsKolmogorovProcess
 import BrownianMotion.Gaussian.StochasticProcesses
@@ -157,6 +158,35 @@ section PseudoEMetricSpace
 
 variable [PseudoEMetricSpace T] [PseudoEMetricSpace E] [MeasurableSpace E] [BorelSpace E]
 
+@[blueprint
+  "lem:integral_div_dist_le_sum_integral_dist_le"
+  (statement := /-- Let $J \subseteq T$ be a finite set and suppose that $T$ has finite diameter.
+    For $k \in \mathbb{N}$, let $\eta_k = 2^{-k}(\mathrm{diam}(T) + 1)$.
+    For $X : T \to \Omega \to E$ a stochastic process and $\beta \in(0, (q - d)/p)$,
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t} \frac{d_E(X_s, X_t)^p}{d_T(s, t)^{\beta p}}
+      \right]
+      &\le \sum_{k=0}^\infty 2^{k \beta p} \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t, \: d_T(s,
+      t) \le 2 \eta_k} d_E(X_s, X_t)^p \right]
+      \: .
+    \end{align*} -/)
+  (proof := /-- We introduce for each $k \in \mathbb{N}$ the set of pairs $(s, t)$ such that $\eta_k
+    < d_T(s, t) \le 2 \eta_k$.
+    Note that $\eta_k \ge 2^{-k}$.
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t} \frac{d_E(X_s, X_t)^p}{d_T(s, t)^{\beta p}}
+      \right]
+      &\le \sum_{k=0}^\infty \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t, \: \eta_k < d_T(s, t) \le
+      2 \eta_k} \frac{d_E(X_s, X_t)^p}{d_T(s, t)^{\beta p}} \right]
+      \\
+      &\le \sum_{k=0}^\infty \eta_k^{-\beta p} \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t, \:
+      d_T(s, t) \le 2 \eta_k} d_E(X_s, X_t)^p \right]
+      \\
+      &\le \sum_{k=0}^\infty 2^{k \beta p} \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t, \: d_T(s,
+      t) \le 2 \eta_k} d_E(X_s, X_t)^p \right]
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma lintegral_div_edist_le_sum_integral_edist_le (hT : EMetric.diam U < ∞)
     (hX : IsAEKolmogorovProcess X P p q M)
     (hβ : 0 < β) {J : Set T} [Countable J] (hJU : J ⊆ U) :
@@ -216,6 +246,17 @@ lemma lintegral_div_edist_le_sum_integral_edist_le (hT : EMetric.diam U < ∞)
   apply le_iSup_of_le (i := ⟨s, hs⟩)
   exact le_iSup_of_le (i := ⟨⟨t, ht⟩, by rwa [mul_assoc]⟩) (le_refl _)
 
+@[blueprint
+  "def:L"
+  (statement := /-- We introduce the constant
+    \begin{align*}
+      L(T, c_1, d, p, q, \beta)
+      &= 2^{2p+5q+1} c_1 (\mathrm{diam}(T)+1)^{q-d}
+      \\&\quad \times \sum_{k=0}^\infty 2^{k (\beta p - (q-d))}\left(4^d \left(\max\left\{0,
+      \log_2(c_1) + (k + 2)d \right\}\right)^q
+        + C_p\right)
+      \: .
+    \end{align*} -/)]
 noncomputable
 -- the `max 0 ...` in the blueprint is performed by `ENNReal.ofReal` here
 def constL (T : Type*) [PseudoEMetricSpace T] (c : ℝ≥0∞) (d p q β : ℝ) (U : Set T) : ℝ≥0∞ :=
@@ -223,6 +264,24 @@ def constL (T : Type*) [PseudoEMetricSpace T] (c : ℝ≥0∞) (d p q β : ℝ) 
   * ∑' (k : ℕ), 2 ^ (k * (β * p - (q - d)))
       * (4 ^ d * (ENNReal.ofReal (Real.logb 2 c.toReal + (k + 2) * d)) ^ q + Cp d p q)
 
+@[blueprint
+  "lem:L_lt_top"
+  (statement := /-- For $\mathrm{diam}(T) < \infty$, $p> 0$, $q > d > 0$ and $\beta \in (0,
+    (q-d)/p)$, the constant $L(T, c_1, d, p, q, \beta)$ is finite. -/)
+  (proof := /-- Let $a_k = 2^{2p+5q+1} M c_1 (\mathrm{diam}(T)+1)^{q-d} 2^{k (\beta p - (q-d))}
+    \left(4^d \left(\max\left\{0, \log_2(c_1) + (k + 2)d \right\}\right)^q
+        + C_p\right)$.
+    Then $L(T, c_1, d, p, q, \beta) = \sum_{k=0}^\infty a_k$.
+    To show that the sum is finite, we can use the ratio test.
+    \begin{align*}
+      \frac{\vert a_{k+1} \vert}{\vert a_k \vert}
+      &= 2^{\beta p - (q - d)}
+        \frac{\left(4^d \left(\max\left\{0, \log_2(c_1) + (k + 3)d \right\}\right)^q + C_p\right)}
+        {\left(4^d \left(\max\left\{0, \log_2(c_1) + (k + 2)d \right\}\right)^q + C_p\right)}
+    \end{align*}
+    The limit at infinity of that ratio is $2^{\beta p - (q - d)} < 1$, hence the series
+    $\sum_{k=0}^\infty a_k$ converges. -/)
+  (latexEnv := "lemma")]
 lemma constL_lt_top (hT : EMetric.diam U < ∞)
     (hc : c ≠ ∞) (hd_pos : 0 < d) (hp_pos : 0 < p) (hdq_lt : d < q) (hβ_lt : β < (q - d) / p) :
     constL T c d p q β U < ∞ := by
@@ -305,6 +364,52 @@ lemma constL_lt_top (hT : EMetric.diam U < ∞)
   refine (Asymptotics.IsEquivalent.add_const_of_norm_tendsto_atTop .refl ?_).symm
   exact Tendsto.comp tendsto_norm_atTop_atTop (tendsto_natCast_atTop_iff.mpr tendsto_id)
 
+@[blueprint
+  "lem:finite_set_bound"
+  (statement := /-- Suppose that $J \subseteq T$ is a finite set and that $T$ has bounded internal
+    covering number with constant $c_1>0$ and exponent $d > 0$.
+    Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov condition for exponents
+    $(p,q)$ with constant $M$, with $q > d$ and $p > 0$.
+    Let $\beta \in(0, (q - d)/p)$.
+    Then
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t} \frac{d_E(X_s, X_t)^p}{d_T(s, t)^{\beta p}}
+      \right]
+      \le M L(T, c_1, d, p, q, \beta)
+      \: .
+    \end{align*} -/)
+  (proof := /-- Since $J \subseteq T$, $J$ has bounded internal covering number with constant $2^d
+    c_1$ and exponent $d$ (Lemma~\ref{lem:hasBoundedInternalCoveringNumber_subset}).
+    
+    Let $\eta_k = 2^{-k}(\mathrm{diam}(T) + 1)$ for $k \in \mathbb{N}$.
+    By Lemma~\ref{lem:integral_div_dist_le_sum_integral_dist_le}, we have
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t} \frac{d_E(X_s, X_t)^p}{d_T(s, t)^{\beta p}}
+      \right]
+      &\le \sum_{k=0}^\infty 2^{k \beta p} \mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t, \: d_T(s,
+      t) \le 2 \eta_k} d_E(X_s, X_t)^p \right]
+      \: .
+    \end{align*}
+    We apply Corollary~\ref{cor:finite_set_bound_of_dist_le} to bound each expectation in the sum.
+    \begin{align*}
+      &\mathbb{E}\left[ \sup_{s, t \in J;\: s \ne t, \: d_T(s, t) \le 2 \eta_k} d_E(X_s, X_t)^p
+      \right]
+      \\
+      &\le 2^{2p+4q+1} M 2^d c_1 (2 \eta_k)^{q-d} \left(4^d \left(\max\left\{0, \log_2 \left(2^d c_1
+      (2 \eta_k)^{-d} 4^d \right) \right\} \right)^q
+        + C_p\right)
+      \\
+      &\le 2^{2p+5q+1} M c_1 (\mathrm{diam}(T)+1)^{q-d} 2^{-k(q-d)} \left(4^d \left(\max\left\{0,
+      \log_2 \left(c_1 2^{(k + 2)d} \right) \right\} \right)^q
+        + C_p\right)
+      \\
+      &= 2^{2p+5q+1} M c_1 (\mathrm{diam}(T)+1)^{q-d} 2^{-k(q-d)} \left(4^d \left(\max\left\{0,
+      \log_2(c_1) + (k + 2)d \right\} \right)^q
+        + C_p\right)
+      \: .
+    \end{align*}
+    The sum is then less than $M$ times $L(T, c_1, d, p, q, \beta)$. -/)
+  (latexEnv := "lemma")]
 theorem finite_kolmogorov_chentsov
     (hT : HasBoundedInternalCoveringNumber U c d)
     (hX : IsAEKolmogorovProcess X P p q M)
@@ -402,6 +507,23 @@ theorem finite_kolmogorov_chentsov
     ring
   · norm_num
 
+@[blueprint
+  "thm:countable_set_bound"
+  (statement := /-- Suppose that $T$ has bounded internal covering number with constant $c_1>0$ and
+    exponent $d > 0$.
+    Let $X : T \to \Omega \to E$ be a process that satisfies the Kolmogorov condition for exponents
+    $(p,q)$ with constant $M$, with $q > d$ and $p > 0$.
+    Let $\beta \in(0, (q - d)/p)$.
+    Then for every countable subset $T' \subseteq T$ with positive diameter,
+    \begin{align*}
+      \mathbb{E}\left[ \sup_{s, t \in T';\: s \ne t} \frac{d_E(X_s, X_t)^p}{d_T(s, t)^{\beta p}}
+      \right]
+      \le M L(T, c_1, d, p, q, \beta)
+      \: .
+    \end{align*} -/)
+  (proof := /-- Build a monotone sequence of finite sets $T_n \subseteq T'$, use
+    Lemma~\ref{lem:finite_set_bound} to obtain a bound for each $T_n$ that does not depend on $T_n$,
+    and then use monotone convergence. -/)]
 theorem countable_kolmogorov_chentsov (hT : HasBoundedInternalCoveringNumber U c d)
     (hX : IsAEKolmogorovProcess X P p q M)
     (hd_pos : 0 < d) (hdq_lt : d < q) (hβ_pos : 0 < β)

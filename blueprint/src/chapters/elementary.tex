@@ -1,131 +1,48 @@
 \chapter{Simple processes and elementary integrals}
 
 
-\begin{definition}[Simple process]\label{def:simpleProcess}
-  \leanok
-  \lean{ProbabilityTheory.SimpleProcess}
-Let $(s_k < t_k)_{k \in \{1, ..., n\}}$ be points in a linear order $T$ with a bottom element 0.
-Let $(\eta_k)_{0 \le k \le n}$ be random variables with values in a normed space $F$ such that $\eta_0$ is $\mathcal{F}_0$-measurable and $\eta_k$ is $\mathcal{F}_{s_k}$-measurable for $k \ge 1$.
-Then the simple process for that sequence is the process $V : T \to \Omega \to F$ defined by
-\begin{align*}
-  V_t = \eta_0 \mathbb{1}_{\{0\}}(t) + \sum_{k=1}^{n} \eta_k \mathbb{1}_{(s_k, t_k]}(t)
-  \: .
-\end{align*}
-Let $\mathcal{E}_{T, F}$ be the set of simple processes indexed by $T$ with value in $F$.
-\end{definition}
+\inputleannode{def:simpleProcess}
 
 
-\begin{definition}[Elementary predictable set]\label{def:elementaryPredictableSet}
-  \leanok
-  \lean{ProbabilityTheory.ElementaryPredictableSet}
-A set $A \subseteq T \times \Omega$ is an \emph{elementary predictable set} if it is a finite union of sets of the form ${0} \times B$ for $B \in \mathcal{F}_0$ or of the form $(s, t] \times B$ with $0 \le s < t$ in $T$ and $B \in \mathcal{F}_s$.
-\end{definition}
+\inputleannode{def:elementaryPredictableSet}
 
 
-\begin{lemma}\label{lem:predictableSet_elementaryPredictableSet}
-  \uses{def:elementaryPredictableSet, def:predictableMeasurableSpace}
-  \leanok
-  \lean{ProbabilityTheory.ElementaryPredictableSet.measurableSet_predictable}
-An elementary predictable set is measurable with respect to the predictable $\sigma$-algebra.
-\end{lemma}
-
-\begin{proof}
-  \uses{lem:predictable_Ioc_prod}
-  \leanok
-It is a union of sets of the form ${0} \times B$ with $B \in \mathcal{F}_0$ or of the form $(s, t] \times B$ with $B \in \mathcal{F}_s$, which are measurable by Lemma~\ref{lem:predictable_Ioc_prod}.
-\end{proof}
+\inputleannode{lem:predictableSet_elementaryPredictableSet}
 
 
-\begin{lemma}\label{lem:predictable_simpleProcess}
-  \uses{def:predictable, def:simpleProcess}
-  \leanok
-  \lean{ProbabilityTheory.SimpleProcess.isPredictable}
-A simple process is predictable.
-\end{lemma}
-
-\begin{proof}
-  \leanok
-\end{proof}
 
 
-\begin{lemma}\label{lem:iSup_comap_simpleProcess}
-  \uses{def:simpleProcess, def:predictableMeasurableSpace}
-  \leanok
-  \lean{ProbabilityTheory.SimpleProcess.iSup_comap_eq_predictable}
-Real simple processes generate the predictable $\sigma$-algebra, i.e., the predictable $\sigma$-algebra is the supremum of the comaps by simple processes (seen as maps from $T \times \Omega$ to $\mathbb{R}$) of the Borel $\sigma$-algebra.
-\end{lemma}
-
-\begin{proof}
-  \uses{lem:predictable_simpleProcess}
-  \leanok
-\end{proof}
+\inputleannode{lem:predictable_simpleProcess}
 
 
-\begin{lemma}\label{lem:elementaryPredictableSet_iff_indicator}
-  \uses{def:elementaryPredictableSet, def:simpleProcess}
-  \leanok
-  \lean{ProbabilityTheory.ElementaryPredictableSet.indicator}
-A set $A \subseteq T \times \Omega$ is an elementary predictable set if and only if the indicator function $\mathbb{1}_A$ is a simple process.
-\end{lemma}
-
-\begin{proof}
-  Currently only proved the forward direction, because the backward direction is not easy to state.
-\end{proof}
 
 
-\begin{lemma}\label{lem:addCommGroup_simpleProcess}
-  \uses{def:simpleProcess}
-  \leanok
-  \lean{ProbabilityTheory.SimpleProcess.instAddCommGroup}
-The simple processes $\mathcal{E}_{T, F}$ form an additive commutative group.
-\end{lemma}
-
-\begin{proof}
-  \leanok
-\end{proof}
+\inputleannode{lem:iSup_comap_simpleProcess}
 
 
-\begin{lemma}\label{lem:module_simpleProcess}
-  \uses{def:simpleProcess}
-  \leanok
-  \lean{ProbabilityTheory.SimpleProcess.instModule}
-The simple processes $\mathcal{E}_{T, F}$ form a module over the scalars $\mathbb{R}$.
-\end{lemma}
-
-\begin{proof}
-  \leanok
-\end{proof}
 
 
-\begin{definition}[Elementary stochastic integral]\label{def:elemStochIntegral}
-  \uses{def:simpleProcess}
-  \leanok
-  \lean{ProbabilityTheory.SimpleProcess.integral}
-Let $V \in \mathcal{E}_{T, F}$ be a simple process and let $X$ be a stochastic process with values in a normed space $E$.
-Let $B$ be a continuous bilinear map from $E \times F$ to another normed space $G$.
-The \emph{elementary stochastic integral} process $V \bullet X : T \to \Omega \to G$ is defined by
-\begin{align*}
-  (V \bullet X)_t
-  &= \sum_{k=1}^{n} B (X^t_{t_k} - X^t_{s_k}, \eta_k)
-  \: .
-\end{align*}
-An important example is $G = E$, $F = \mathbb{R}$ and $B(x, r) = r \cdot x$ the scalar multiplication.
-\end{definition}
+\inputleannode{lem:elementaryPredictableSet_iff_indicator}
 
 
-\begin{lemma}\label{lem:elemStochIntegral_linear}
-  \uses{def:elemStochIntegral, lem:addCommGroup_simpleProcess, lem:module_simpleProcess}
-  \leanok
-  \lean{ProbabilityTheory.SimpleProcess.integral_add_left, ProbabilityTheory.SimpleProcess.integral_smul_left, ProbabilityTheory.SimpleProcess.integral_add_right, ProbabilityTheory.SimpleProcess.integral_smul_right, ProbabilityTheory.SimpleProcess.integral_sub_left, ProbabilityTheory.SimpleProcess.integral_sub_right, ProbabilityTheory.SimpleProcess.integral_zero_left, ProbabilityTheory.SimpleProcess.integral_zero_right}
-The elementary stochastic integral is linear in both arguments.
-\end{lemma}
 
-\begin{proof}
-  \leanok
-(In Lean, this is split into several lemmas about each argument and add/sub/smul.)
 
-Immediate from the definition.
-\end{proof}
+\inputleannode{lem:addCommGroup_simpleProcess}
+
+
+
+
+\inputleannode{lem:module_simpleProcess}
+
+
+
+
+\inputleannode{def:elemStochIntegral}
+
+
+\inputleannode{lem:elemStochIntegral_linear}
+
+
 
 
 \begin{lemma}\label{lem:elemStochIntegral_assoc}
@@ -275,6 +192,4 @@ Then $\mathbb{1}_{[0, τ]}$ is a simple process and
 \end{align*}
 \end{lemma}
 
-\begin{proof}
 
-\end{proof}

@@ -3,6 +3,7 @@ Copyright (c) 2025 Rémy Degenne. All rights reserved.
 Released under Apache 2.0 license as described in the file LICENSE.
 Authors: Rémy Degenne
 -/
+import Architect
 import BrownianMotion.Continuity.CoveringNumber
 import Mathlib.Analysis.SpecialFunctions.Pow.Continuity
 
@@ -22,6 +23,12 @@ variable {E : Type*} {x y : E} {A : Set E} {C C₁ C₂ : Finset E} {ε ε₁ ε
 
 open Classical in
 /-- Closest point to `x` in the finite set `s`. -/
+@[blueprint
+  "def:nearestPt"
+  (statement := /-- Let $S$ be a finite set of $E$ and $x \in E$.
+    We denote by $\pi(x, S)$ the point in $S$ which is closest to $x$, i.e. a point such that
+    $d_E(x, S) = \min_{y \in S} d_E(x, y)$ (chosen arbitrarily among the minima if there are
+    several). -/)]
 noncomputable
 def nearestPt [EDist E] (s : Finset E) (x : E) : E :=
   if hs : s.Nonempty then (Finset.exists_min_image s (fun y ↦ edist x y) hs).choose else x
@@ -32,6 +39,12 @@ lemma nearestPt_mem [EDist E] {s : Finset E} (hs : s.Nonempty) : nearestPt s x �
 
 variable [PseudoEMetricSpace E]
 
+@[blueprint
+  "lem:dist_nearestPt_le"
+  (statement := /-- Let $S$ be a finite set of $E$ and $x \in E$.
+    Then for all $y \in S$, $d_E(x, \pi(x, S)) \le d_E(x, y)$. -/)
+  (proof := /-- By definition. -/)
+  (latexEnv := "lemma")]
 lemma edist_nearestPt_le {s : Finset E} (hy : y ∈ s) :
     edist x (nearestPt s x) ≤ edist x y := by
   by_cases hs : s.Nonempty
@@ -39,6 +52,12 @@ lemma edist_nearestPt_le {s : Finset E} (hy : y ∈ s) :
     exact (Finset.exists_min_image s (fun y' ↦ edist x y') hs).choose_spec.2 y hy
   · simp [nearestPt, dif_neg hs]
 
+@[blueprint
+  "lem:dist_nearestPt_of_isCover"
+  (statement := /-- Let $C_\varepsilon$ be a finite $\varepsilon$-cover of $A \subseteq E$ (assuming
+    such a finite cover exists).
+    Then for all $x \in A$, $d_E(x, \pi(x, C_\varepsilon)) \le \varepsilon$. -/)
+  (latexEnv := "lemma")]
 lemma edist_nearestPt_of_isCover (hC : IsCover C ε A) (hxA : x ∈ A) :
     edist x (nearestPt C x) ≤ ε := by
   obtain ⟨y, hy⟩ := hC x hxA
@@ -104,6 +123,14 @@ lemma chainingSequenceReverse_mem (hC : ∀ i, IsCover (C i) (ε i) A) (hA : A.N
     refine nearestPt_mem ?_
     exact (hC _).Nonempty hA
 
+@[blueprint
+  "def:chainingSequence"
+  (title := "Chaining sequence")
+  (statement := /-- Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers,
+    $C_n$ a finite $\varepsilon_n$-cover of $A \subseteq E$ with $C_n \subseteq A$ and $x \in C_k$
+    for some $k \in \mathbb{N}$.
+    We define the chaining sequence of $x$, denoted $(\bar{x}_i)_{i \le k}$, recursively as follows:
+    $\bar{x}_k = x$ and for $i < k$, $\bar{x}_i = \pi(\bar{x}_{i+1}, C_i)$. -/)]
 noncomputable
 def chainingSequence (C : ℕ → Finset E) (x : E) (k n : ℕ) : E :=
   if n ≤ k then chainingSequenceReverse C x k (k - n) else x
@@ -119,6 +146,14 @@ lemma chainingSequence_of_lt (hkn : n < k) :
   congr 2
   omega
 
+@[blueprint
+  "lem:chainingSequence_mem"
+  (statement := /-- Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers,
+    $C_n$ a finite $\varepsilon_n$-cover of $A \subseteq E$ with $C_n \subseteq A$ and $x \in C_k$
+    for some $k \in \mathbb{N}$.
+    Then for all $i \le k$, $\bar{x}_i\in C_i$. -/)
+  (proof := /-- By definition. -/)
+  (latexEnv := "lemma")]
 lemma chainingSequence_mem (hC : ∀ i, IsCover (C i) (ε i) A) (hA : A.Nonempty) (hxA : x ∈ C k)
     (n : ℕ) (hn : n ≤ k) :
     chainingSequence C x k n ∈ C n := by
@@ -141,6 +176,15 @@ lemma chainingSequence_chainingSequence (n : ℕ) (hn : n ≤ k) (m : ℕ) (hm :
       ring
     ring
 
+@[blueprint
+  "lem:dist_chainingSequence_add_one"
+  (statement := /-- Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers,
+    $C_n$ a finite $\varepsilon_n$-cover of $A \subseteq E$ with $C_n \subseteq A$ and $x \in C_k$
+    for some $k \in \mathbb{N}$.
+    Then for all $i < k$, $d_E(\bar{x}_i, \bar{x}_{i+1}) \le \varepsilon_i$. -/)
+  (proof := /-- Apply Lemma~\ref{lem:dist_nearestPt_of_isCover} with $S = C_i$ and $x =
+    \bar{x}_{i+1}$. -/)
+  (latexEnv := "lemma")]
 lemma edist_chainingSequence_add_one (hC : ∀ i, IsCover (C i) (ε i) A)
     (hCA : ∀ i, (C i : Set E) ⊆ A) (hxA : x ∈ C k) (n : ℕ) (hn : n < k) :
     edist (chainingSequence C x k (n + 1)) (chainingSequence C x k n) ≤ ε n := by
@@ -172,6 +216,20 @@ lemma edist_chainingSequence_le_sum_edist' {T : Type*} [PseudoEMetricSpace T] (f
   convert edist_chainingSequence_le_sum_edist f hm using 2
   rw [edist_comm]
 
+@[blueprint
+  "lem:dist_chainingSequence_le_sum"
+  (statement := /-- Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers,
+    $C_n$ a finite $\varepsilon_n$-cover of $A \subseteq E$ with $C_n \subseteq A$ and $x \in C_k$
+    for some $k \in \mathbb{N}$.
+    Then for $m \le k$, $d_E(\bar{x}_m, x) \le \sum_{i=m}^{k-1} \varepsilon_i$. -/)
+  (proof := /-- By the triangle inequality and Lemma~\ref{lem:dist_chainingSequence_add_one},
+    \begin{align*}
+      d_E(\bar{x}_m, x)
+      \le \sum_{i=m}^{k-1} d_E(\bar{x}_i, \bar{x}_{i+1})
+      \le \sum_{i=m}^{k-1} \varepsilon_i
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma edist_chainingSequence_le_sum (hC : ∀ i, IsCover (C i) (ε i) A) (hCA : ∀ i, (C i : Set E) ⊆ A)
     (hxA : x ∈ C k) (m : ℕ) (hm : m ≤ k) :
     edist (chainingSequence C x k m) x ≤ ∑ i ∈ Finset.range (k - m), ε (m + i) := by
@@ -181,6 +239,19 @@ lemma edist_chainingSequence_le_sum (hC : ∀ i, IsCover (C i) (ε i) A) (hCA : 
   · simp only [Finset.mem_range] at hi
     omega
 
+@[blueprint
+  "lem:dist_chainingSequence_le"
+  (statement := /-- Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers,
+    $C_n$ a finite $\varepsilon_n$-cover of $A \subseteq E$ with $C_n \subseteq A$.
+    Let $m, k, \ell \in \mathbb{N}$ with $m \le k$ and $m \le \ell$ and let $x \in C_k$ and $y \in
+    C_\ell$.
+    Then
+    \begin{align*}
+      d_E(\bar{x}_m, \bar{y}_m)
+      &\le d_E(x, y) + \sum_{i=m}^{k-1} \varepsilon_i + \sum_{j=m}^{\ell-1} \varepsilon_j
+    \end{align*} -/)
+  (proof := /-- Triangle inequality and Lemma~\ref{lem:dist_chainingSequence_le_sum}. -/)
+  (latexEnv := "lemma")]
 lemma edist_chainingSequence_le (hC : ∀ i, IsCover (C i) (ε i) A) (hCA : ∀ i, (C i : Set E) ⊆ A)
     (hxA : x ∈ C k) (hyA : y ∈ C n) (m : ℕ) (hm : m ≤ k) (hn : m ≤ n) :
     edist (chainingSequence C x k m) (chainingSequence C y n m)
@@ -198,6 +269,16 @@ lemma edist_chainingSequence_le (hC : ∀ i, IsCover (C i) (ε i) A) (hCA : ∀ 
           + ∑ j ∈ Finset.range (n - m), ε (m + j) := by
         gcongr <;> (try rw [edist_comm y]) <;> apply edist_chainingSequence_le_sum <;> assumption
 
+@[blueprint
+  "cor:dist_chainingSequence_pow_two_le"
+  (statement := /-- For $\varepsilon_n = \varepsilon_0 2^{-n}$, with the hypothesis of
+    Lemma~\ref{lem:dist_chainingSequence_le}, we have
+    \begin{align*}
+      d_E(\bar{x}_m, \bar{y}_m)
+      &\le d_E(x, y) + \varepsilon_0 2^{-m+2}
+      \: .
+    \end{align*} -/)
+  (latexEnv := "corollary")]
 lemma edist_chainingSequence_pow_two_le {ε₀ : ℝ≥0∞} (hC : ∀ i, IsCover (C i) (ε₀ * 2⁻¹ ^ i) A)
     (hCA : ∀ i, (C i : Set E) ⊆ A) (hxA : x ∈ C k) (hyA : y ∈ C n) (m : ℕ) (hm : m ≤ k)
     (hn : m ≤ n) : edist (chainingSequence C x k m) (chainingSequence C y n m)
@@ -208,6 +289,25 @@ lemma edist_chainingSequence_pow_two_le {ε₀ : ℝ≥0∞} (hC : ∀ i, IsCove
     ← mul_assoc ε₀, (by norm_num : (4 : ENNReal) = 2 + 2)]
   gcongr <;> simpa only [inv_eq_one_div] using ENNReal.sum_geometric_two_le _
 
+@[blueprint
+  "lem:scale_change"
+  (statement := /-- Let $X : T \to E$.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers, $C_n$ a finite
+    $\varepsilon_n$-cover of $J \subseteq T$ with $C_n \subseteq J$.
+    For $m \le k$,
+    \begin{align*}
+      \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_s, X_t)
+      &\le \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_{\bar{s}_m}, X_{\bar{t}_m})
+        + 2 \sup_{s \in C_k} d_E(X_s, X_{\bar{s}_m})
+      \: .
+    \end{align*} -/)
+  (proof := /-- By the triangle inequality,
+    \begin{align*}
+      d_E(X_s, X_t)
+      &\le d_E(X_s, X_{\bar{s}_m}) + d(X_{\bar{s}_m}, X_{\bar{t}_m}) + d_E(X_{\bar{t}_m}, X_t)
+      \: .
+    \end{align*} -/)
+  (latexEnv := "lemma")]
 lemma scale_change {F : Type*} [PseudoEMetricSpace F] (m : ℕ) (X : E → F) (δ : ℝ≥0∞) :
     ⨆ (s : C k) (t : { t : C k // edist s t ≤ δ }), edist (X s) (X t)
     ≤ (⨆ (s : C k) (t : { t : C k // edist s t ≤ δ }),
@@ -254,6 +354,24 @@ lemma scale_change {F : Type*} [PseudoEMetricSpace F] (m : ℕ) (X : E → F) (�
     conv_rhs => left; congr; ext s; congr; ext t; rw [edist_comm]
     ring
 
+@[blueprint
+  "cor:scale_change_rpow"
+  (statement := /-- Let $X : T \to E$.
+    Let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive numbers, $C_n$ a finite
+    $\varepsilon_n$-cover of $J \subseteq T$ with $C_n \subseteq J$.
+    For $m \le k$,
+    \begin{align*}
+      \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_s, X_t)^p
+      &\le 2^p \sup_{s, t \in C_k; d_T(s, t) \le \delta} d_E(X_{\bar{s}_m}, X_{\bar{t}_m})^p
+        + 4^p \sup_{s \in C_k} d_E(X_s, X_{\bar{s}_m})^p
+      \: .
+    \end{align*} -/)
+  (proof := /-- This is Lemma~\ref{lem:scale_change}, together with the fact that for $a, b \ge 0$,
+    \begin{align*}
+      (a + b)^p \le (2\max(a,b))^p = 2^p \max(a^p,b^p) \le 2^p (a^p + b^p)
+      \: .
+    \end{align*} -/)
+  (latexEnv := "corollary")]
 lemma scale_change_rpow {F : Type*} [PseudoEMetricSpace F] (m : ℕ) (X : E → F)
     (δ : ℝ≥0∞) (p : ℝ) (hp : 0 ≤ p) :
     ⨆ (s : C k) (t : { t : C k // edist s t ≤ δ }), edist (X s) (X t) ^ p
