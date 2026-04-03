@@ -46,13 +46,29 @@ lemma memSigma_of_mem (hs : s ∈ p) : s ∈ memSigma p := ⟨fun _ ↦ s, by si
 
 lemma memSigma.iUnion {s : ℕ → Set 𝓧} (hs : ∀ n, s n ∈ memSigma p) :
     ⋃ n, s n ∈ memSigma p := by
-  sorry
+  choose A hA h_eq using hs
+  refine ⟨fun n : ℕ ↦ A n.unpair.1 n.unpair.2, fun n ↦ hA n.unpair.1 n.unpair.2, ?_⟩
+  rw [Set.iUnion_congr h_eq]
+  exact?
 
 lemma memSigma.union (hs : s ∈ memSigma p) (ht : t ∈ memSigma p) :
     s ∪ t ∈ memSigma p := by
-  obtain ⟨A, hA, rfl⟩ := hs
-  obtain ⟨B, hB, rfl⟩ := ht
-  sorry
+  have h_main : (⋃ n : ℕ, (if n = 0 then s else t)) = s ∪ t := by
+    ext x
+    simp
+    <;> constructor
+    · rintro ⟨i, hi⟩
+      by_cases h : i = 0 <;> simp [h] at hi ⊢ <;> tauto
+    · rintro (h | h)
+      · refine ⟨0, ?_⟩
+        simpa using h
+      · refine ⟨1, ?_⟩
+        simpa using h
+  have h : ∀ n : ℕ, (if n = 0 then s else t) ∈ memSigma p := by
+    intro n
+    by_cases hn : n = 0 <;> simp [hn, hs, ht]
+  have h_iUnion : (⋃ n : ℕ, (if n = 0 then s else t)) ∈ memSigma p := memSigma.iUnion h
+  rwa [h_main] at h_iUnion
 
 /-- The set is a countable intersection of sets that satisfy the property. -/
 def memDelta (p : Set (Set 𝓧)) : Set (Set 𝓧) :=
@@ -63,11 +79,28 @@ lemma memDelta_of_mem (hs : s ∈ p) : s ∈ memDelta p :=
 
 lemma memDelta.iInter {s : ℕ → Set 𝓧} (hs : ∀ n, s n ∈ memDelta p) :
     ⋂ n, s n ∈ memDelta p := by
-  sorry
+  choose A hA h_eq using hs
+  refine ⟨fun n : ℕ ↦ A n.unpair.1 n.unpair.2, fun n ↦ hA n.unpair.1 n.unpair.2, ?_⟩
+  rw [Set.iInter_congr h_eq]
+  exact?
 
 lemma memDelta.inter (hs : s ∈ memDelta p) (ht : t ∈ memDelta p) :
     s ∩ t ∈ memDelta p := by
-  sorry
+  have h_main : (⋂ n : ℕ, (if n = 0 then s else t)) = s ∩ t := by
+    ext x
+    simp
+    <;> constructor
+    · intro h
+      have h0 := h 0
+      have h1 := h 1
+      simp at h0 h1 ⊢ <;> tauto
+    · rintro ⟨hs, ht⟩ i
+      by_cases h : i = 0 <;> simp [h] <;> tauto
+  have h : ∀ n : ℕ, (if n = 0 then s else t) ∈ memDelta p := by
+    intro n
+    by_cases hn : n = 0 <;> simp [hn, hs, ht]
+  have h_iInter : (⋂ n : ℕ, (if n = 0 then s else t)) ∈ memDelta p := memDelta.iInter h
+  rwa [h_main] at h_iInter
 
 /-- The set is a countable intersection of countable unions of sets that can be written as a
 product of two sets, each satisfying a property. -/
@@ -85,7 +118,86 @@ lemma memFiniteInter.inter (hs : s ∈ memFiniteInter p) (ht : t ∈ memFiniteIn
     s ∩ t ∈ memFiniteInter p := by
   obtain ⟨S, A, hA, rfl⟩ := hs
   obtain ⟨T, B, hB, rfl⟩ := ht
-  sorry
+  let C : ℕ → Set 𝓧 := fun n ↦ if n % 2 = 0 then A (n / 2) else B (n / 2)
+  refine ⟨S.image (fun x ↦ 2 * x) ∪ T.image (fun x ↦ 2 * x + 1), C, ?_, ?_⟩
+  · intro n hn
+    simp only [Finset.mem_union, Finset.mem_image] at hn
+    rcases hn with (⟨a, haS, rfl⟩ | ⟨b, hbT, rfl⟩)
+    · have h : (2 * a) % 2 = 0 := by omega
+      have h4 : (2 * a) / 2 = a := by omega
+      have h5 : C (2 * a) = A a := by
+        simp [C, h, h4]
+      rw [h5]
+      exact hA a haS
+    · have h : (2 * b + 1) % 2 ≠ 0 := by omega
+      have h2 : (2 * b + 1) / 2 = b := by omega
+      have h5 : C (2 * b + 1) = B b := by
+        simp [C, h, h2]
+      rw [h5]
+      exact hB b hbT
+  · have h1 : (⋂ n ∈ S.image (fun x ↦ 2 * x) ∪ T.image (fun x ↦ 2 * x + 1), C n) =
+        (⋂ n ∈ S.image (fun x ↦ 2 * x), C n) ∩ (⋂ n ∈ T.image (fun x ↦ 2 * x + 1), C n) := by
+      apply Set.ext
+      intro y
+      simp only [Set.mem_inter_iff, Finset.mem_union, Set.mem_iInter]
+      <;> constructor
+      · intro h
+        constructor
+        · intro i hi
+          exact h i (Or.inl hi)
+        · intro i hi
+          exact h i (Or.inr hi)
+      · rintro ⟨h1, h2⟩ i (hi | hi)
+        · exact h1 i hi
+        · exact h2 i hi
+    rw [h1]
+    have h2 : (⋂ n ∈ S.image (fun x ↦ 2 * x), C n) = ⋂ k ∈ S, A k := by
+      apply Set.ext
+      intro y
+      simp only [Set.mem_iInter]
+      constructor
+      · intro h k hk
+        have h_eq : C (2 * k) = A k := by
+          have h5 : (2 * k) % 2 = 0 := by omega
+          have h6 : (2 * k) / 2 = k := by omega
+          dsimp only [C]
+          rw [if_pos h5, h6]
+        have h7 := h (2 * k) (Finset.mem_image.mpr ⟨k, hk, rfl⟩)
+        rw [h_eq] at h7
+        exact h7
+      · intro h n hn
+        rcases Finset.mem_image.mp hn with ⟨k, hk, rfl⟩
+        have h_eq : C (2 * k) = A k := by
+          have h5 : (2 * k) % 2 = 0 := by omega
+          have h6 : (2 * k) / 2 = k := by omega
+          dsimp only [C]
+          rw [if_pos h5, h6]
+        rw [h_eq]
+        exact h k hk
+    have h3 : (⋂ n ∈ T.image (fun x ↦ 2 * x + 1), C n) = ⋂ k ∈ T, B k := by
+      apply Set.ext
+      intro y
+      simp only [Set.mem_iInter]
+      constructor
+      · intro h k hk
+        have h_eq : C (2 * k + 1) = B k := by
+          have h5 : (2 * k + 1) % 2 ≠ 0 := by omega
+          have h6 : (2 * k + 1) / 2 = k := by omega
+          dsimp only [C]
+          rw [if_neg h5, h6]
+        have h7 := h (2 * k + 1) (Finset.mem_image.mpr ⟨k, hk, rfl⟩)
+        rw [h_eq] at h7
+        exact h7
+      · intro h n hn
+        rcases Finset.mem_image.mp hn with ⟨k, hk, rfl⟩
+        have h_eq : C (2 * k + 1) = B k := by
+          have h5 : (2 * k + 1) % 2 ≠ 0 := by omega
+          have h6 : (2 * k + 1) / 2 = k := by omega
+          dsimp only [C]
+          rw [if_neg h5, h6]
+        rw [h_eq]
+        exact h k hk
+    rw [h2, h3]
 
 /-- The set is a finite union of sets that satisfy the property. -/
 def memFiniteUnion (p : Set (Set 𝓧)) : Set (Set 𝓧) :=
@@ -98,7 +210,85 @@ lemma memFiniteUnion.union (hs : s ∈ memFiniteUnion p) (ht : t ∈ memFiniteUn
     s ∪ t ∈ memFiniteUnion p := by
   obtain ⟨S, A, hA, rfl⟩ := hs
   obtain ⟨T, B, hB, rfl⟩ := ht
-  sorry
+  let C : ℕ → Set 𝓧 := fun n ↦ if n % 2 = 0 then A (n / 2) else B (n / 2)
+  refine ⟨S.image (fun x ↦ 2 * x) ∪ T.image (fun x ↦ 2 * x + 1), C, ?_, ?_⟩
+  · intro n hn
+    simp only [Finset.mem_union, Finset.mem_image] at hn
+    rcases hn with (⟨a, haS, rfl⟩ | ⟨b, hbT, rfl⟩)
+    · have h : (2 * a) % 2 = 0 := by omega
+      have h4 : (2 * a) / 2 = a := by omega
+      have h5 : C (2 * a) = A a := by
+        simp [C, h, h4]
+      rw [h5]
+      exact hA a haS
+    · have h : (2 * b + 1) % 2 ≠ 0 := by omega
+      have h2 : (2 * b + 1) / 2 = b := by omega
+      have h5 : C (2 * b + 1) = B b := by
+        simp [C, h, h2]
+      rw [h5]
+      exact hB b hbT
+  · have h1 : (⋃ n ∈ S.image (fun x ↦ 2 * x) ∪ T.image (fun x ↦ 2 * x + 1), C n) =
+        (⋃ n ∈ S.image (fun x ↦ 2 * x), C n) ∪ (⋃ n ∈ T.image (fun x ↦ 2 * x + 1), C n) := by
+      apply Set.ext
+      intro y
+      simp only [Set.mem_union, Finset.mem_union, Set.mem_iUnion]
+      <;> constructor
+      · rintro ⟨i, hi | hi, hy⟩
+        · left
+          exact ⟨i, hi, hy⟩
+        · right
+          exact ⟨i, hi, hy⟩
+      · rintro (⟨i, hi, hy⟩ | ⟨i, hi, hy⟩)
+        · refine ⟨i, Or.inl hi, hy⟩
+        · refine ⟨i, Or.inr hi, hy⟩
+    rw [h1]
+    have h2 : (⋃ n ∈ S.image (fun x ↦ 2 * x), C n) = ⋃ k ∈ S, A k := by
+      apply Set.ext
+      intro y
+      simp only [Set.mem_iUnion]
+      constructor
+      · rintro ⟨n, hn, hy⟩
+        rcases Finset.mem_image.mp hn with ⟨k, hk, rfl⟩
+        have h_eq : C (2 * k) = A k := by
+          have h5 : (2 * k) % 2 = 0 := by omega
+          have h6 : (2 * k) / 2 = k := by omega
+          dsimp only [C]
+          rw [if_pos h5, h6]
+        rw [h_eq] at hy
+        exact ⟨k, hk, hy⟩
+      · rintro ⟨k, hk, hy⟩
+        have h_eq : C (2 * k) = A k := by
+          have h5 : (2 * k) % 2 = 0 := by omega
+          have h6 : (2 * k) / 2 = k := by omega
+          dsimp only [C]
+          rw [if_pos h5, h6]
+        refine ⟨2 * k, Finset.mem_image.mpr ⟨k, hk, rfl⟩, ?_⟩
+        rw [h_eq] at *
+        exact hy
+    have h3 : (⋃ n ∈ T.image (fun x ↦ 2 * x + 1), C n) = ⋃ k ∈ T, B k := by
+      apply Set.ext
+      intro y
+      simp only [Set.mem_iUnion]
+      constructor
+      · rintro ⟨n, hn, hy⟩
+        rcases Finset.mem_image.mp hn with ⟨k, hk, rfl⟩
+        have h_eq : C (2 * k + 1) = B k := by
+          have h5 : (2 * k + 1) % 2 ≠ 0 := by omega
+          have h6 : (2 * k + 1) / 2 = k := by omega
+          dsimp only [C]
+          rw [if_neg h5, h6]
+        rw [h_eq] at hy
+        exact ⟨k, hk, hy⟩
+      · rintro ⟨k, hk, hy⟩
+        have h_eq : C (2 * k + 1) = B k := by
+          have h5 : (2 * k + 1) % 2 ≠ 0 := by omega
+          have h6 : (2 * k + 1) / 2 = k := by omega
+          dsimp only [C]
+          rw [if_neg h5, h6]
+        refine ⟨2 * k + 1, Finset.mem_image.mpr ⟨k, hk, rfl⟩, ?_⟩
+        rw [h_eq] at *
+        exact hy
+    rw [h2, h3]
 
 lemma memFiniteUnion.biUnion_finset' {s : Finset ℕ} {A : ℕ → Set 𝓧} (hs : ∀ n ∈ s, A n ∈ p) :
     (⋃ n ∈ s, A n) ∈ memFiniteUnion p := ⟨s, A, hs, rfl⟩
@@ -106,8 +296,26 @@ lemma memFiniteUnion.biUnion_finset' {s : Finset ℕ} {A : ℕ → Set 𝓧} (hs
 lemma memFiniteUnion.biUnion_finset {s : Finset ℕ} {A : ℕ → Set 𝓧}
     (hs : ∀ n ∈ s, A n ∈ memFiniteUnion p) :
     (⋃ n ∈ s, A n) ∈ memFiniteUnion p := by
-  choose S B hA using hs
-  sorry
+  classical
+  induction s using Finset.induction_on with
+  | empty =>
+    refine ⟨(∅ : Finset ℕ), fun _ ↦ (∅ : Set 𝓧), by simp, by simp⟩
+  | @insert a s ha ih =>
+    have h' : A a ∈ memFiniteUnion p := hs a (Finset.mem_insert_self a s)
+    have h_ih' : (⋃ n ∈ s, A n) ∈ memFiniteUnion p := ih fun n hn ↦ hs n (Finset.mem_insert_of_mem hn)
+    have h_main : (⋃ n ∈ (insert a s), A n) = (A a) ∪ (⋃ n ∈ s, A n) := by
+      apply Set.ext
+      intro x
+      simp only [Finset.mem_insert, Set.mem_iUnion, Set.mem_union]
+      <;> constructor
+      · rintro ⟨i, rfl | h, hx⟩ <;> tauto
+      · rintro (hx | ⟨i, hi, hx⟩)
+        · exact ⟨a, Or.inl rfl, hx⟩
+        · exact ⟨i, Or.inr hi, hx⟩
+    have h_goal : (⋃ n ∈ (insert a s), A n) ∈ memFiniteUnion p := by
+      have : (A a) ∪ (⋃ n ∈ s, A n) ∈ memFiniteUnion p := memFiniteUnion.union h' h_ih'
+      exact h_main ▸ this
+    exact h_goal
 
 lemma _root_.InfClosed.memProd (hp_inter : InfClosed p) (hq_inter : InfClosed q) :
     InfClosed (memProd p q) := by
